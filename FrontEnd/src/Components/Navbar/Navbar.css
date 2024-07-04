@@ -1,0 +1,43 @@
+.navMainBox {
+  width: 100% !important;
+  position: sticky !important;
+  top: 0;
+  z-index: 999;
+  padding: 12px !important;
+  background-color: #4d8733 !important;
+}
+
+.toolName {
+  /* font-size: 32px !important; */
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  line-height: 43.65px !important;
+  letter-spacing: 0.58px !important;
+  color: #ffffff !important;
+}
+
+.pageNameBtn {
+  color: #ffffff !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 31.29px !important;
+}
+.pageNameBtn:hover {
+  background-color: none !important;
+}
+
+.addBtn {
+  text-transform: none !important;
+  box-shadow: none !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 21.82px !important;
+  border-radius: 7px !important;
+  border: 1px solid #fff !important;
+}
+
+.addBtn:hover {
+  background-color: none !important;
+}

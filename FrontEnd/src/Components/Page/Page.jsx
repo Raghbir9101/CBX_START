@@ -1,58 +1,52 @@
-
-
-// Page.js
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Button, IconButton, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Calculator from '../Calculator/Calculator';
-import TextEditor from '../TextEditor/TextEditor';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import TextEditorWithSave from '../TextEditor/TextEditorWithSave';
-import Clock from '../Clock/Clock';
-import Todo from '../Todo/Todo';
-import Bookmark from '../Bookmark/Bookmark';
-import Embed from '../Embed/Embed';
-import CurrencyConverter from '../CurrencyConverter/CurrencyConverter';
-import { v4 as uid } from 'uuid';
-import { Context } from '../Context/Context';
-import { useNavigate, useParams } from 'react-router-dom';
-import CreatePageModal from './CreateNewPage';
-import HTTP from '../../HTTP';
-import SettingsIcon from '@mui/icons-material/Settings';
-import EditPageModal from './EditNewPage';
-
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import AddIcon from "@mui/icons-material/Add";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Calculator from "../Calculator/Calculator";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import TextEditorWithSave from "../TextEditor/TextEditorWithSave";
+import Clock from "../Clock/Clock";
+import Todo from "../Todo/Todo";
+import Bookmark from "../Bookmark/Bookmark";
+import Embed from "../Embed/Embed";
+import CurrencyConverter from "../CurrencyConverter/CurrencyConverter";
+import { Context } from "../Context/Context";
+import { useNavigate, useParams } from "react-router-dom";
+import CreatePageModal from "./CreateNewPage";
+import HTTP from "../../HTTP";
+import SettingsIcon from "@mui/icons-material/Settings";
+import EditPageModal from "./EditNewPage";
+import Navbar from "../Navbar/Navbar";
 
 function findByID(arr = [], id) {
   for (let i of arr) {
     if (i._id == id) {
-      return i
+      return i;
     }
   }
-  return null
+  return null;
 }
 
 function Page() {
-  const { loginUser, token } = useContext(Context)
-  const { pageID } = useParams()
+  const { loginUser, token } = useContext(Context);
+  const { pageID } = useParams();
 
-  const [bgImage, setBgImage] = useState("https://static.start.me/f_auto,q_auto/backgrounds/iifsjzygnlokefem069v");
+  const [bgImage, setBgImage] = useState(
+    "https://static.start.me/f_auto,q_auto/backgrounds/iifsjzygnlokefem069v"
+  );
 
-  const { pages } = useContext(Context)
-  const [pageData, setPageData] = useState([])
-  console.log(pages)
+  const { pages } = useContext(Context);
+  const [pageData, setPageData] = useState([]);
+  console.log(pages);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
-    // If there's no destination, return early
     if (!destination) {
       return;
     }
 
-    // If the item is moved within the same droppable
     if (source.droppableId === destination.droppableId) {
       const items = Array.from(pageData[parseInt(source.droppableId)].items);
       const [reorderedItem] = items.splice(source.index, 1);
@@ -63,10 +57,13 @@ function Page() {
 
       setPageData(newPageData);
     } else {
-      // If the item is moved to a different droppable
-      const sourceItems = Array.from(pageData[parseInt(source.droppableId)].items);
+      const sourceItems = Array.from(
+        pageData[parseInt(source.droppableId)].items
+      );
       const [movedItem] = sourceItems.splice(source.index, 1);
-      const destinationItems = Array.from(pageData[parseInt(destination.droppableId)].items);
+      const destinationItems = Array.from(
+        pageData[parseInt(destination.droppableId)].items
+      );
       destinationItems.splice(destination.index, 0, movedItem);
 
       const newPageData = Array.from(pageData);
@@ -77,37 +74,30 @@ function Page() {
     }
   };
 
-
   useEffect(() => {
     // if (!loginUser) return;
 
     let tempPageData = findByID(pages, pageID);
     let tempPage = tempPageData?.data || [];
     if (tempPage.length == 0 || loginUser == null) {
-      HTTP.get(`getPageData/${pageID}`).then(async res => {
+      HTTP.get(`getPageData/${pageID}`).then(async (res) => {
         if (res.data.error) {
           if (res.data.errorCode == "ENTER_PASSWORD") {
             let pass = prompt("Please enter page password");
-            let { data: tempPage } = await HTTP.get(`getPageData/${pageID}?password=${pass}`);
-            return setPageData(tempPage.data)
+            let { data: tempPage } = await HTTP.get(
+              `getPageData/${pageID}?password=${pass}`
+            );
+            return setPageData(tempPage.data);
           }
 
-          return alert(res.data.error)
+          return alert(res.data.error);
         }
-        setPageData(res.data.data)
-      })
+        setPageData(res.data.data);
+      });
+    } else {
+      setPageData(tempPage);
     }
-    else {
-      setPageData(tempPage)
-    }
-  }, [loginUser, pageID])
-
-  // useEffect(()=>{
-  //   HTTP.put(`pages/${pageID}`, {
-  //     data:pageData
-  //   })
-  //   console.log(pageData)
-  // }, [pageData])
+  }, [loginUser, pageID]);
 
   const controllerRef = useRef(null);
 
@@ -117,7 +107,7 @@ function Page() {
     if (loginUser) {
       if (tempPageData.role != "EDITOR" && tempPageData.role != "OWNER") return;
     }
-    console.log(tempPageData.role)
+    console.log(tempPageData.role);
     const debounceTimeout = setTimeout(() => {
       if (controllerRef.current) {
         controllerRef.current.abort(); // Cancel the previous request
@@ -126,15 +116,16 @@ function Page() {
       const controller = new AbortController();
       controllerRef.current = controller;
 
-      HTTP.put(`pages/${pageID}`, { data: pageData }, { signal: controller.signal })
-        .then(response => {
-
-        })
-        .catch(error => {
+      HTTP.put(
+        `pages/${pageID}`,
+        { data: pageData },
+        { signal: controller.signal }
+      )
+        .then((response) => {})
+        .catch((error) => {
           if (axios.isCancel(error)) {
-            // console.log('Request canceled', error.message);
           } else {
-            console.error('Something went wrong: ', error);
+            console.error("Something went wrong: ", error);
           }
         });
     }, 300); // Adjust the debounce delay as needed
@@ -148,231 +139,338 @@ function Page() {
   }, [pageData]);
 
   return (
-    // <Box minHeight={"100vh"} p={"10px"} width={"100%"} gap={"40px"} display={"flex"} flexDirection={"column"} sx={{ backgroundRepeat: "no-repeat", backgroundAttachment: "fixed", backgroundImage: `url(${bgImage})`, backgroundSize: "cover" }}>
-    <Box minHeight={"100vh"} p={"10px"} width={"100%"} gap={"40px"} display={"flex"} flexDirection={"column"} sx={{ bgcolor: "#1b1b1b" }}>
+    <Box>
       <Navbar />
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Box display={"flex"} minHeight={"50vh"} justifyContent={"space-evenly"} gap={"20px"}>
-          {pageData.map((box, boxIndex) => (
-            <Droppable droppableId={`${boxIndex}`} key={boxIndex}>
-              {(provided) => (
-                <Box
-                  maxWidth={pageData.length == 5 ? "19%" : pageData.length == 3 ? "33.33%" : "50%"}
-                  width={pageData.length == 5 ? "19%" : pageData.length == 3 ? "33.33%" : "50%"}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  bgcolor={"#0000001f"}
-                  // height={"100%"}
-                  minHeight={"50vh"}
-                  // flex={1}
-                  display={"flex"}
-                  flexDirection={"column"}
-                  gap={"10px"}
-                >
-                  {box.items.map((item, itemIndex) => {
-                    return (
-                      <Draggable key={itemIndex} draggableId={`${boxIndex}-${itemIndex}`} index={itemIndex}>
-                        {(provided) => (
-                          <Box
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            // {...provided.dragHandleProps}
-                            bgcolor={"white"}
-                            // minHeight={"100px"}
-                            display={"flex"}
-                            alignItems={"center"}
-                            justifyContent={"center"}
-                            sx={{ margin: "10px 0", cursor: "move" }}
-                          >
-                            {/* <Calculator/> */}
-                            <ElementWrapper item={item} provided={provided}>
-                              {(() => {
-                                if (item.type == "Calculator") {
-                                  return <Calculator data={item.data} />
-                                }
-                                else if (item.type == "Note") {
-                                  return <TextEditorWithSave onChange={(newData) => {
-                                    setPageData(p => {
-                                      let temp = [...p];
-                                      temp[boxIndex].items[itemIndex].data = newData;
-                                      return temp;
-                                    })
-                                  }} data={item.data} />
-                                }
-                                else if (item.type == "Clock") {
-                                  return <Clock data={item.data} />
-                                }
-                                else if (item.type == "Todo") {
-                                  return <Todo onChange={(newData) => {
-                                    setPageData(p => {
-                                      let temp = [...p];
-                                      temp[boxIndex].items[itemIndex].data = newData;
-                                      return temp;
-                                    })
-                                  }} data={item.data} />
-                                }
-                                else if (item.type == "Bookmark") {
-                                  return <Bookmark onChange={(newData) => {
-                                    setPageData(p => {
-                                      let temp = [...p];
-                                      temp[boxIndex].items[itemIndex].data = newData;
-                                      return temp;
-                                    })
-                                  }} data={item.data} />
-                                }
-                                else if (item.type == "Embed") {
-                                  return <Embed onChange={(newData) => {
-                                    setPageData(p => {
-                                      let temp = [...p];
-                                      temp[boxIndex].items[itemIndex].data = newData;
-                                      return temp;
-                                    })
-                                  }} url={item.data.url} data={item.data} />
-                                }
-                                else if (item.type == "Currency Converter") {
-                                  return <CurrencyConverter data={item.data} />
-                                }
-                              })()}
-                            </ElementWrapper>
-                          </Box>
-                        )}
-                      </Draggable>
-                    )
-                  })}
-                  {provided.placeholder}
-                </Box>
-              )}
-            </Droppable>
-          ))}
-        </Box>
-      </DragDropContext>
+      <Box
+        minHeight={"100vh"}
+        p={"10px"}
+        width={"100%"}
+        gap={"40px"}
+        display={"flex"}
+        flexDirection={"column"}
+        sx={{
+          // bgcolor: "#1b1b1b",
+          bgcolor: "#E0F7D240",
+        }}
+      >
+        {/* <Navbar /> */}
+
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Box
+            display={"flex"}
+            minHeight={"50vh"}
+            justifyContent={"space-evenly"}
+            gap={"20px"}
+          >
+            {pageData.map((box, boxIndex) => (
+              <Droppable droppableId={`${boxIndex}`} key={boxIndex}>
+                {(provided) => (
+                  <Box
+                    maxWidth={
+                      pageData.length == 5
+                        ? "19%"
+                        : pageData.length == 3
+                        ? "33.33%"
+                        : "50%"
+                    }
+                    width={
+                      pageData.length == 5
+                        ? "19%"
+                        : pageData.length == 3
+                        ? "33.33%"
+                        : "50%"
+                    }
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    bgcolor={"#0000001f"}
+                    minHeight={"50vh"}
+                    display={"flex"}
+                    flexDirection={"column"}
+                    gap={"10px"}
+                  >
+                    {box.items.map((item, itemIndex) => {
+                      return (
+                        <Draggable
+                          key={itemIndex}
+                          draggableId={`${boxIndex}-${itemIndex}`}
+                          index={itemIndex}
+                        >
+                          {(provided) => (
+                            <Box
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              // {...provided.dragHandleProps}
+                              bgcolor={"white"}
+                              // minHeight={"100px"}
+                              display={"flex"}
+                              alignItems={"center"}
+                              justifyContent={"center"}
+                              sx={{ margin: "10px 0", cursor: "move" }}
+                            >
+                              {/* <Calculator/> */}
+                              <ElementWrapper item={item} provided={provided}>
+                                {(() => {
+                                  if (item.type == "Calculator") {
+                                    return <Calculator data={item.data} />;
+                                  } else if (item.type == "Note") {
+                                    return (
+                                      <TextEditorWithSave
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (item.type == "Clock") {
+                                    return <Clock data={item.data} />;
+                                  } else if (item.type == "Todo") {
+                                    return (
+                                      <Todo
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (item.type == "Bookmark") {
+                                    return (
+                                      <Bookmark
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (item.type == "Embed") {
+                                    return (
+                                      <Embed
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        url={item.data.url}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (
+                                    item.type == "Currency Converter"
+                                  ) {
+                                    return (
+                                      <CurrencyConverter data={item.data} />
+                                    );
+                                  }
+                                })()}
+                              </ElementWrapper>
+                            </Box>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </Box>
+                )}
+              </Droppable>
+            ))}
+          </Box>
+        </DragDropContext>
+      </Box>
     </Box>
   );
 }
 
 export default Page;
 
-
 function ElementWrapper({ provided, item, children }) {
   const [open, setOpen] = useState(true);
-  return <Box display={"flex"} flexDirection={"column"} position={"relative"} width={"100%"}>
-    <Box {...provided.dragHandleProps} sx={{ cursor: "move", display: "flex", alignItems: "center", marginRight: "10px", padding: "10px", width: "100%" }} gap={"10px"}>
-      <Typography>{item?.data?.name || item.type}</Typography>
-      <IconButton size='small' onClick={() => setOpen(p => !p)}>
-        <KeyboardArrowDownIcon />
-      </IconButton>
-    </Box>
-    <Box sx={{ cursor: "default" }}>
-      {open && children}
-    </Box>
-  </Box>
-}
-
-
-function Navbar() {
-  const nav = useNavigate()
-  const { pageID } = useParams()
-  const { handleLogout, pages, setPages, token } = useContext(Context);
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
-
-  const handleCreatePage = async (pageData) => {
-    let { data: res } = await HTTP.post(`addNewPage`, pageData);
-    if (res.error) return alert(res.error || "Internal Server Error!")
-
-    setPages(p => [...p, res])
-  };
-
-  const [editModalOpen, setEditModalOpen] = useState(false);
-
-  const handleEditOpenModal = () => setEditModalOpen(true);
-  const handleEditCloseModal = () => setEditModalOpen(false);
-
-  const handleEditPage = async (pageData) => {
-    let { data: res } = await HTTP.put(`pages/${pageID}`, pageData);
-    if (res.error) return alert(res.error || "Internal Server Error!")
-
-    setPages(p => {
-      let temp = [...p];
-      for (let i = 0; i < temp.length; i++) {
-        if (temp[i]._id == pageID) {
-          temp[i] = res;
-        }
-      }
-      return temp
-    })
-  };
-
   return (
-    <Box display={"flex"} justifyContent={"space-between"}>
-      <Box display={"flex"} gap={"10px"}>
-        {token && <Sbutton startIcon={<MenuIcon sx={{ color: "black" }} />}>
-          <Typography>Pages</Typography>
-        </Sbutton>}
-
-        {token && pages.map(item => {
-          return <Sbutton onClick={() => {
-            nav("/page/" + item._id)
-          }}>
-            <Typography>{item.pageName || ""}</Typography>
-          </Sbutton>
-        })}
-        {token && <Sbutton title={"Add new Page"} onClick={handleOpenModal}>
-          <AddIcon />
-        </Sbutton>}
-
-        {/* <Sbutton >
-          <Typography>Page 2</Typography>
-        </Sbutton> */}
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      position={"relative"}
+      width={"100%"}
+    >
+      <Box
+        {...provided.dragHandleProps}
+        sx={{
+          cursor: "move",
+          display: "flex",
+          alignItems: "center",
+          marginRight: "10px",
+          padding: "10px",
+          width: "100%",
+        }}
+        gap={"10px"}
+      >
+        <Typography>{item?.data?.name || item.type}</Typography>
+        <IconButton size="small" onClick={() => setOpen((p) => !p)}>
+          <KeyboardArrowDownIcon />
+        </IconButton>
       </Box>
-
-      {modalOpen && <CreatePageModal
-        open={modalOpen}
-        handleClose={handleCloseModal}
-        handleCreatePage={handleCreatePage}
-      />}
-      {editModalOpen && <EditPageModal
-        open={editModalOpen}
-        handleClose={handleEditCloseModal}
-        handleEditPage={handleEditPage}
-      />}
-
-      <Box display={"flex"} gap={"10px"}>
-        {token && <Sbutton onClick={() => {
-          handleLogout()
-          nav("/login")
-        }}>
-          <Typography>Logout</Typography>
-        </Sbutton>}
-        {!token && <Sbutton onClick={() => nav("/login")}>
-          <Typography>Login</Typography>
-        </Sbutton>}
-        {token && <Sbutton >
-          <Typography>Share</Typography>
-        </Sbutton>}
-        {token && <Sbutton>
-          <AddIcon />
-        </Sbutton>}
-        {token && <Sbutton onClick={handleEditOpenModal}>
-          {/* <MoreVertIcon /> */}
-          <SettingsIcon />
-        </Sbutton>}
-        <Sbutton sx={{ borderRadius: "50%", padding: 0 }}>
-          <Box borderRadius={"50%"} height={"32px"} width={"32px"} overflow={"hidden"}>
-            <img draggable={false} style={{ width: "100%", height: "100%" }} src='https://lh3.googleusercontent.com/a/ACg8ocJT0qY5tWE0jbHJMnBF7ZcLWffYEqmfX665vNor9zabZNCUIek=s96-c' />
-          </Box>
-        </Sbutton>
-      </Box>
+      <Box sx={{ cursor: "default" }}>{open && children}</Box>
     </Box>
   );
 }
 
+// Navbar.jsx
 
-function Sbutton({ children, sx, ...props }) {
-  return <Button className='SButton' size='small' {...props} sx={{ textTransform: "none", minWidth: 0, ...sx }}>
-    {children}
-  </Button>
-}
+// function Navbar() {
+//   const nav = useNavigate();
+//   const { pageID } = useParams();
+//   const { handleLogout, pages, setPages, token } = useContext(Context);
+//   const [modalOpen, setModalOpen] = useState(false);
+//   const [editModalOpen, setEditModalOpen] = useState(false);
+//   const handleOpenModal = () => setModalOpen(true);
+//   const handleCloseModal = () => setModalOpen(false);
+//   const handleEditOpenModal = () => setEditModalOpen(true);
+//   const handleEditCloseModal = () => setEditModalOpen(false);
+
+//   const handleCreatePage = async (pageData) => {
+//     let { data: res } = await HTTP.post(`addNewPage`, pageData);
+//     if (res.error) return alert(res.error || "Internal Server Error!");
+//     setPages((p) => [...p, res]);
+//   };
+
+//   const handleEditPage = async (pageData) => {
+//     let { data: res } = await HTTP.put(`pages/${pageID}`, pageData);
+//     if (res.error) return alert(res.error || "Internal Server Error!");
+
+//     setPages((p) => {
+//       let temp = [...p];
+//       for (let i = 0; i < temp.length; i++) {
+//         if (temp[i]._id == pageID) {
+//           temp[i] = res;
+//         }
+//       }
+//       return temp;
+//     });
+//   };
+
+//   return (
+//     <Box display={"flex"} justifyContent={"space-between"}>
+//       <Box display={"flex"} gap={"10px"}>
+//         {token && (
+//           <Sbutton startIcon={<MenuIcon sx={{ color: "black" }} />}>
+//             <Typography>Pages</Typography>
+//           </Sbutton>
+//         )}
+
+//         {token &&
+//           pages.map((item) => {
+//             return (
+//               <Sbutton
+//                 onClick={() => {
+//                   nav("/page/" + item._id);
+//                 }}
+//               >
+//                 <Typography>{item.pageName || ""}</Typography>
+//               </Sbutton>
+//             );
+//           })}
+//         {token && (
+//           <Sbutton title={"Add new Page"} onClick={handleOpenModal}>
+//             <AddIcon />
+//           </Sbutton>
+//         )}
+//       </Box>
+
+//       {modalOpen && (
+//         <CreatePageModal
+//           open={modalOpen}
+//           handleClose={handleCloseModal}
+//           handleCreatePage={handleCreatePage}
+//         />
+//       )}
+//       {editModalOpen && (
+//         <EditPageModal
+//           open={editModalOpen}
+//           handleClose={handleEditCloseModal}
+//           handleEditPage={handleEditPage}
+//         />
+//       )}
+
+//       <Box display={"flex"} gap={"10px"}>
+//         {token && (
+//           <Sbutton
+//             onClick={() => {
+//               handleLogout();
+//               nav("/login");
+//             }}
+//           >
+//             <Typography>Logout</Typography>
+//           </Sbutton>
+//         )}
+//         {!token && (
+//           <Sbutton onClick={() => nav("/login")}>
+//             <Typography>Login</Typography>
+//           </Sbutton>
+//         )}
+//         {token && (
+//           <Sbutton>
+//             <Typography>Share</Typography>
+//           </Sbutton>
+//         )}
+//         {token && (
+//           <Sbutton>
+//             <AddIcon />
+//           </Sbutton>
+//         )}
+//         {token && (
+//           <Sbutton onClick={handleEditOpenModal}>
+//             {/* <MoreVertIcon /> */}
+//             <SettingsIcon />
+//           </Sbutton>
+//         )}
+//         <Sbutton sx={{ borderRadius: "50%", padding: 0 }}>
+//           <Box
+//             borderRadius={"50%"}
+//             height={"32px"}
+//             width={"32px"}
+//             overflow={"hidden"}
+//           >
+//             <img
+//               draggable={false}
+//               style={{ width: "100%", height: "100%" }}
+//               src="https://lh3.googleusercontent.com/a/ACg8ocJT0qY5tWE0jbHJMnBF7ZcLWffYEqmfX665vNor9zabZNCUIek=s96-c"
+//             />
+//           </Box>
+//         </Sbutton>
+//       </Box>
+//     </Box>
+//   );
+// }
+
+// function Sbutton({ children, sx, ...props }) {
+//   return (
+//     <Button
+//       className="SButton"
+//       size="small"
+//       {...props}
+//       sx={{ textTransform: "none", minWidth: 0, ...sx }}
+//     >
+//       {children}
+//     </Button>
+//   );
+// }
