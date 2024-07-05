@@ -41,3 +41,19 @@
 .addBtn:hover {
   background-color: none !important;
 }
+
+/* AddNewData.jsx */
+.text {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 24.55px !important;
+}
+.gridContainer {
+  display: flex !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 20px !important;
+  height: 400px !important;
+  overflow: auto !important;
+  scrollbar-width: thin;
+}

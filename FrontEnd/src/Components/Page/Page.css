@@ -1,0 +1,106 @@
+/* Page.jsx */
+.headingBtns {
+  text-transform: none !important;
+  border-radius: 43px !important;
+  opacity: 0px;
+  background: #fff !important ;
+  color: #4d8733 !important;
+  padding: 10px 30px !important;
+  font-size: 18px !important;
+}
+
+/* .headingBtns:hover {
+  background: #4d8733 !important ;
+  color: #fff !important;
+} */
+
+.isActive {
+  text-transform: none !important;
+  border-radius: 43px !important;
+  opacity: 0px;
+  background: #4d8733 !important ;
+  color: #fff !important;
+  padding: 10px 30px !important;
+}
+
+.iconBtns {
+  color: #fff !important;
+  background: #4d8733 !important;
+}
+
+.isActiveIcons {
+  background: #fff !important;
+  color: #4d8733 !important;
+}
+
+/* CreateNewPage.jsx */
+.createPageHeading {
+  text-align: center !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  color: #333333 !important;
+}
+
+.cancelBtn {
+  text-transform: none !important;
+  color: #4d8733 !important;
+  border: 1px solid #4d8733 !important;
+  border-radius: 5px !important;
+}
+
+.createPageBtn {
+  text-transform: none !important;
+  background: #4d8733 !important;
+  color: #fff !important;
+  border-radius: 5px !important;
+}
+
+.pageNameInput {
+  border-radius: 9px;
+  width: 100%;
+  border: 1px solid #ccc;
+  outline: none;
+  background-color: #4d873305;
+  height: 50px;
+  /* cursor: pointer; */
+  padding: 10px;
+  margin-top: 10px;
+}
+.pageNameInput::placeholder {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24.55px;
+  color: #e3e2e2;
+}
+.pageNameInput:hover {
+  border: 1px solid #4d8733 !important;
+}
+
+.pageNameInput:focus {
+  border: 1px solid #4d8733 !important;
+}
+
+.description {
+  border-radius: 9px;
+  width: 100%;
+  border: 1px solid #ccc;
+  outline: none;
+  background-color: #4d873305;
+  height: 100px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.description::placeholder {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24.55px;
+  color: #e3e2e2;
+}
+.description:hover {
+  border: 1px solid #4d8733 !important;
+}
+
+.description:focus {
+  border: 1px solid #4d8733 !important;
+}

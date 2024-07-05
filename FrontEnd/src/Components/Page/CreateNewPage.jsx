@@ -15,17 +15,20 @@ import {
 } from "@mui/material";
 import { Context } from "../Context/Context";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "./Page.css";
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 
 const modalStyle = {
   position: "absolute",
   top: "300px",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  minWidth: 400,
+  minWidth: 500,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  overflowY: "scroll",
+  borderRadius: "18px",
 };
 
 const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
@@ -102,16 +105,21 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
 
   return (
     <Modal
-      sx={{ overflowY: "scroll" }}
       open={open}
       onClose={handleClose}
       aria-labelledby="create-page-modal-title"
       aria-describedby="create-page-modal-description"
     >
       <Box sx={modalStyle}>
-        <h2 id="create-page-modal-title">Create Page</h2>
+        <Typography className="createPageHeading">Create a Page</Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
+          <input
+            type="text"
+            placeholder="Page Name"
+            className="pageNameInput"
+          />
+          <textarea placeholder="Description" className="description" />
+          {/* <TextField
             label="Page Name"
             name="pageName"
             value={formData.pageName}
@@ -120,8 +128,8 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
             size="small"
             margin="normal"
             required
-          />
-          <FormControl fullWidth margin="normal">
+          /> */}
+          {/* <FormControl fullWidth margin="normal">
             <InputLabel id="visibility-label">Visibility</InputLabel>
             <Select
               labelId="visibility-label"
@@ -200,21 +208,45 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
                 <DeleteIcon />
               </IconButton>
             </Box>
-          ))}
-          <Box mt={2}>
-            <Button type="submit" variant="contained" color="primary">
-              Create
-            </Button>
-            <Button
-              onClick={handleClose}
-              variant="outlined"
-              color="secondary"
-              sx={{ ml: 2 }}
-            >
-              Cancel
-            </Button>
-          </Box>
+          ))} */}
         </form>
+
+        {/* Footer */}
+        <Box
+          mt={3}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <IconButton>
+              <HttpsOutlinedIcon color="#989696" />
+            </IconButton>
+            <IconButton>
+              <PersonAddAltOutlinedIcon color="#989696" />
+            </IconButton>
+          </Box>
+          <Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                className="cancelBtn"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                className="createPageBtn"
+              >
+                Create page
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Modal>
   );

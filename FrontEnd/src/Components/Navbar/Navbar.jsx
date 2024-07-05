@@ -18,6 +18,7 @@ import "./Navbar.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import searchIcon from "../../Icons/search.svg";
 import plus from "../../Icons/add.svg";
+import pluss from "../../Icons/plusGreen.svg";
 import share from "../../Icons/share.svg";
 import AddNewData from "./AddNewData";
 
@@ -187,7 +188,13 @@ const Navbar = () => {
                   color: "inherit",
                 },
               }}
-              startIcon={<img src={plus} alt="add" />}
+              startIcon={
+                popoverAnchorEl ? (
+                  <img src={pluss} alt="add" />
+                ) : (
+                  <img src={plus} alt="add" />
+                )
+              }
               variant="outlined"
               onClick={handlePopoverOpen}
             >

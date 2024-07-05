@@ -18,6 +18,11 @@ import HTTP from "../../HTTP";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EditPageModal from "./EditNewPage";
 import Navbar from "../Navbar/Navbar";
+import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
+import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
+import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
+import LinkOffOutlinedIcon from "@mui/icons-material/LinkOffOutlined";
+import "./Page.css";
 
 function findByID(arr = [], id) {
   for (let i of arr) {
@@ -38,7 +43,6 @@ function Page() {
 
   const { pages } = useContext(Context);
   const [pageData, setPageData] = useState([]);
-  console.log(pages);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -141,6 +145,67 @@ function Page() {
   return (
     <Box>
       <Navbar />
+
+      <Box
+        sx={{
+          bgcolor: "#E0F7D240",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "25px",
+          p: 4,
+        }}
+      >
+        <Button
+          className="headingBtns"
+          sx={{ boxShadow: 1 }}
+          startIcon={
+            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
+              <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
+            </IconButton>
+          }
+        >
+          Notes
+        </Button>
+
+        <Button
+          sx={{ boxShadow: 1 }}
+          className="headingBtns"
+          startIcon={
+            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
+              <FormatListBulletedOutlinedIcon
+                sx={{ width: "16px", height: "16px" }}
+              />
+            </IconButton>
+          }
+        >
+          To do List
+        </Button>
+
+        <Button
+          sx={{ boxShadow: 1 }}
+          className="headingBtns"
+          startIcon={
+            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
+              <ChecklistOutlinedIcon sx={{ width: "16px", height: "16px" }} />
+            </IconButton>
+          }
+        >
+          Task List
+        </Button>
+
+        <Button
+          sx={{ boxShadow: 1 }}
+          className="headingBtns"
+          startIcon={
+            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
+              <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />
+            </IconButton>
+          }
+        >
+          Links
+        </Button>
+      </Box>
       <Box
         minHeight={"100vh"}
         p={"10px"}
@@ -149,7 +214,6 @@ function Page() {
         display={"flex"}
         flexDirection={"column"}
         sx={{
-          // bgcolor: "#1b1b1b",
           bgcolor: "#E0F7D240",
         }}
       >
@@ -182,11 +246,11 @@ function Page() {
                     }
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    bgcolor={"#0000001f"}
+                    // bgcolor={"#0000001f"}
                     minHeight={"50vh"}
                     display={"flex"}
                     flexDirection={"column"}
-                    gap={"10px"}
+                    gap={"20px"}
                   >
                     {box.items.map((item, itemIndex) => {
                       return (
