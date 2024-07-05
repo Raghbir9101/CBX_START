@@ -39,8 +39,13 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
       onClose={handlePopoverClose}
       disableRestoreFocus
     >
-      <Box sx={{ p: "24px 18px 24px 24px" }}>
-        <Box className="gridContainer">
+      <Box sx={{ p: "24px 10px 24px 24px" }}>
+        <Box
+          className="gridContainer"
+          sx={{
+            pr: 2,
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -48,6 +53,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -66,6 +77,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -84,6 +101,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -102,6 +125,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -120,6 +149,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -138,6 +173,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -156,6 +197,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -164,7 +211,10 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               </IconButton>
             </Box>
 
-            <Typography className="text" sx={{ width: "50px" }}>
+            <Typography
+              className="text"
+              sx={{ whiteSpace: "wrap", textAlign: "center", width: "100%" }}
+            >
               Currency Convertor
             </Typography>
           </Box>
@@ -176,6 +226,13 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                // background: "#f2f5f7",
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -184,7 +241,10 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               </IconButton>
             </Box>
 
-            <Typography className="text" sx={{ width: "50px" }}>
+            <Typography
+              className="text"
+              sx={{ whiteSpace: "wrap", textAlign: "center", width: "100%" }}
+            >
               Analog Clock
             </Typography>
           </Box>
@@ -196,6 +256,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -204,7 +270,10 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               </IconButton>
             </Box>
 
-            <Typography className="text" sx={{ width: "50px" }}>
+            <Typography
+              className="text"
+              sx={{ whiteSpace: "nowrap", textAlign: "center", width: "100%" }}
+            >
               World clock
             </Typography>
           </Box>
@@ -216,6 +285,12 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               gap: "20px",
               alignItems: "center",
               width: "100px",
+              borderRadius: "16px",
+              p: 1,
+              cursor: "pointer",
+              "&:hover": {
+                background: "#f2f5f7",
+              },
             }}
           >
             <Box>
@@ -224,9 +299,7 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose }) => {
               </IconButton>
             </Box>
 
-            <Typography className="text" sx={{ width: "50px" }}>
-              Weather
-            </Typography>
+            <Typography className="text">Weather</Typography>
           </Box>
         </Box>
       </Box>

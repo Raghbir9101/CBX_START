@@ -17,17 +17,19 @@ import {
 import { Context } from "../Context/Context";
 import { useParams } from "react-router-dom";
 import Delete from "@mui/icons-material/Delete";
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 
 const modalStyle = {
   position: "absolute",
   top: "300px",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  minWidth: 400,
+  minWidth: 500,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  overflowY: "scroll",
+  borderRadius: "18px",
 };
 
 function findByID(arr = [], id) {
@@ -106,120 +108,175 @@ const EditPageModal = ({ open, handleClose, handleEditPage }) => {
   };
 
   return (
+    // <Modal
+    //   sx={{ overflowY: "scroll" }}
+    //   open={open}
+    //   onClose={handleClose}
+    //   aria-labelledby="create-page-modal-title"
+    //   aria-describedby="create-page-modal-description"
+    // >
+    //   <Box sx={modalStyle}>
+    //     <h2 id="create-page-modal-title">Edit Page</h2>
+    //     <form onSubmit={handleSubmit}>
+    //       <TextField
+    //         label="Page Name"
+    //         name="pageName"
+    //         value={formData.pageName}
+    //         onChange={handleChange}
+    //         fullWidth
+    //         size="small"
+    //         margin="normal"
+    //         required
+    //       />
+    //       <FormControl fullWidth margin="normal">
+    //         <InputLabel id="visibility-label">Visibility</InputLabel>
+    //         <Select
+    //           labelId="visibility-label"
+    //           name="visibility"
+    //           label="Visibility"
+    //           value={formData.visibility}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           size="small"
+    //         >
+    //           <MenuItem value="PRIVATE">Private</MenuItem>
+    //           <MenuItem value="PUBLIC">Public</MenuItem>
+    //         </Select>
+    //       </FormControl>
+    //       <FormControlLabel
+    //         control={
+    //           <Checkbox
+    //             name="isPasswordProtected"
+    //             checked={formData.isPasswordProtected}
+    //             onChange={handleChange}
+    //           />
+    //         }
+    //         label="Password Protected"
+    //       />
+    //       {formData.isPasswordProtected && (
+    //         <TextField
+    //           size="small"
+    //           label="Password"
+    //           name="password"
+    //           type="password"
+    //           value={formData.password}
+    //           onChange={handleChange}
+    //           fullWidth
+    //           margin="normal"
+    //         />
+    //       )}
+    //       <Box display="flex" alignItems="center" gap="10px" mt={2}>
+    //         <TextField
+    //           type="email"
+    //           sx={{ flex: 1 }}
+    //           onChange={(e) => setNewCollabEmail(e.target.value)}
+    //           size="small"
+    //           label="Add new Collaborator"
+    //           // placeholder="Collaborators"
+    //           value={newCollabEmail}
+    //           error={!!emailError}
+    //           helperText={emailError}
+    //         />
+    //         <Button onClick={handleAddCollaborator} variant="contained">
+    //           Add
+    //         </Button>
+    //       </Box>
+    //       {formData.collaborators.map((collaborator, index) => (
+    //         <Box
+    //           display="flex"
+    //           gap="10px"
+    //           alignItems="center"
+    //           mt={2}
+    //           key={index}
+    //         >
+    //           <Typography flex={2}>{collaborator.email}</Typography>
+    //           <FormControl sx={{ flex: 1 }} margin="normal">
+    //             <InputLabel>Role</InputLabel>
+    //             <Select
+    //               labelId={`role-label-${index}`}
+    //               value={collaborator.role}
+    //               onChange={(e) => handleRoleChange(index, e.target.value)}
+    //               size="small"
+    //               label="Role"
+    //             >
+    //               <MenuItem value="VIEWER">Viewer</MenuItem>
+    //               <MenuItem value="EDITOR">Editor</MenuItem>
+    //             </Select>
+    //           </FormControl>
+    //           <IconButton onClick={() => handleDeleteCollaborator(index)}>
+    //             <Delete />
+    //           </IconButton>
+    //         </Box>
+    //       ))}
+    //       <Box mt={2}>
+    //         <Button type="submit" variant="contained" color="primary">
+    //           Save
+    //         </Button>
+    //         <Button
+    //           onClick={handleClose}
+    //           variant="outlined"
+    //           color="secondary"
+    //           sx={{ ml: 2 }}
+    //         >
+    //           Cancel
+    //         </Button>
+    //       </Box>
+    //     </form>
+    //   </Box>
+    // </Modal>
     <Modal
-      sx={{ overflowY: "scroll" }}
       open={open}
       onClose={handleClose}
       aria-labelledby="create-page-modal-title"
       aria-describedby="create-page-modal-description"
     >
       <Box sx={modalStyle}>
-        <h2 id="create-page-modal-title">Edit Page</h2>
+        <Typography className="createPageHeading">Edit Page</Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
-            label="Page Name"
-            name="pageName"
-            value={formData.pageName}
-            onChange={handleChange}
-            fullWidth
-            size="small"
-            margin="normal"
-            required
+          <input
+            type="text"
+            placeholder="Page Name"
+            className="pageNameInput"
           />
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="visibility-label">Visibility</InputLabel>
-            <Select
-              labelId="visibility-label"
-              name="visibility"
-              label="Visibility"
-              value={formData.visibility}
-              onChange={handleChange}
-              fullWidth
-              size="small"
-            >
-              <MenuItem value="PRIVATE">Private</MenuItem>
-              <MenuItem value="PUBLIC">Public</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="isPasswordProtected"
-                checked={formData.isPasswordProtected}
-                onChange={handleChange}
-              />
-            }
-            label="Password Protected"
-          />
-          {formData.isPasswordProtected && (
-            <TextField
-              size="small"
-              label="Password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
-          )}
-          <Box display="flex" alignItems="center" gap="10px" mt={2}>
-            <TextField
-              type="email"
-              sx={{ flex: 1 }}
-              onChange={(e) => setNewCollabEmail(e.target.value)}
-              size="small"
-              label="Add new Collaborator"
-              // placeholder="Collaborators"
-              value={newCollabEmail}
-              error={!!emailError}
-              helperText={emailError}
-            />
-            <Button onClick={handleAddCollaborator} variant="contained">
-              Add
-            </Button>
-          </Box>
-          {formData.collaborators.map((collaborator, index) => (
-            <Box
-              display="flex"
-              gap="10px"
-              alignItems="center"
-              mt={2}
-              key={index}
-            >
-              <Typography flex={2}>{collaborator.email}</Typography>
-              <FormControl sx={{ flex: 1 }} margin="normal">
-                <InputLabel>Role</InputLabel>
-                <Select
-                  labelId={`role-label-${index}`}
-                  value={collaborator.role}
-                  onChange={(e) => handleRoleChange(index, e.target.value)}
-                  size="small"
-                  label="Role"
-                >
-                  <MenuItem value="VIEWER">Viewer</MenuItem>
-                  <MenuItem value="EDITOR">Editor</MenuItem>
-                </Select>
-              </FormControl>
-              <IconButton onClick={() => handleDeleteCollaborator(index)}>
-                <Delete />
-              </IconButton>
-            </Box>
-          ))}
-          <Box mt={2}>
-            <Button type="submit" variant="contained" color="primary">
-              Save
-            </Button>
-            <Button
-              onClick={handleClose}
-              variant="outlined"
-              color="secondary"
-              sx={{ ml: 2 }}
-            >
-              Cancel
-            </Button>
-          </Box>
+          <textarea placeholder="Description" className="description" />
         </form>
+
+        {/* Footer */}
+        <Box
+          mt={3}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <IconButton>
+              <HttpsOutlinedIcon color="#989696" />
+            </IconButton>
+            <IconButton>
+              <PersonAddAltOutlinedIcon color="#989696" />
+            </IconButton>
+          </Box>
+          <Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                className="cancelBtn"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                className="createPageBtn"
+              >
+                Create page
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Modal>
   );

@@ -18,6 +18,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "./Page.css";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
+import AddPasswordModal from "./AddPasswordModal";
+import AddCollaboratorModal from "./AddCollaboratorModal";
 
 const modalStyle = {
   position: "absolute",
@@ -43,6 +45,14 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
   });
   const [newCollabEmail, setNewCollabEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [openPasswordModal, setOpenPaswordModal] = useState(false);
+  const [openCollaboratorModal, setOpenCollaboratorModal] = useState(false);
+
+  const handleOpenPasswordModal = () => setOpenPaswordModal(true);
+  const handleClosePasswordModal = () => setOpenPaswordModal(false);
+
+  const handleOpenCollaboratorModal = () => setOpenCollaboratorModal(true);
+  const handleCloseCollaboratorModal = () => setOpenCollaboratorModal(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -104,22 +114,23 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
   };
 
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="create-page-modal-title"
-      aria-describedby="create-page-modal-description"
-    >
-      <Box sx={modalStyle}>
-        <Typography className="createPageHeading">Create a Page</Typography>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Page Name"
-            className="pageNameInput"
-          />
-          <textarea placeholder="Description" className="description" />
-          {/* <TextField
+    <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="create-page-modal-title"
+        aria-describedby="create-page-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Typography className="createPageHeading">Create a Page</Typography>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Page Name"
+              className="pageNameInput"
+            />
+            <textarea placeholder="Description" className="description" />
+            {/* <TextField
             label="Page Name"
             name="pageName"
             value={formData.pageName}
@@ -129,7 +140,7 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
             margin="normal"
             required
           /> */}
-          {/* <FormControl fullWidth margin="normal">
+            {/* <FormControl fullWidth margin="normal">
             <InputLabel id="visibility-label">Visibility</InputLabel>
             <Select
               labelId="visibility-label"
@@ -209,46 +220,58 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
               </IconButton>
             </Box>
           ))} */}
-        </form>
+          </form>
 
-        {/* Footer */}
-        <Box
-          mt={3}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <IconButton>
-              <HttpsOutlinedIcon color="#989696" />
-            </IconButton>
-            <IconButton>
-              <PersonAddAltOutlinedIcon color="#989696" />
-            </IconButton>
-          </Box>
-          <Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <Button
-                onClick={handleClose}
-                variant="outlined"
-                className="cancelBtn"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                className="createPageBtn"
-              >
-                Create page
-              </Button>
+          {/* Footer */}
+          <Box
+            mt={3}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <IconButton onClick={handleOpenPasswordModal}>
+                <HttpsOutlinedIcon color="#989696" />
+              </IconButton>
+              <IconButton onClick={handleOpenCollaboratorModal}>
+                <PersonAddAltOutlinedIcon color="#989696" />
+              </IconButton>
+            </Box>
+            <Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                <Button
+                  onClick={handleClose}
+                  variant="outlined"
+                  className="cancelBtn"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className="createPageBtn"
+                >
+                  Create page
+                </Button>
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
+
+      {/* Add password modal */}
+      <AddPasswordModal
+        open={openPasswordModal}
+        handleClose={handleClosePasswordModal}
+      />
+      {/* Add collaborator modal */}
+      <AddCollaboratorModal
+        open={openCollaboratorModal}
+        handleClose={handleCloseCollaboratorModal}
+      />
+    </>
   );
 };
 

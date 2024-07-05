@@ -37,7 +37,7 @@
 .createPageHeading {
   text-align: center !important;
   font-size: 28px !important;
-  font-weight: 700 !important;
+  font-weight: 500 !important;
   color: #333333 !important;
 }
 
@@ -60,17 +60,16 @@
   width: 100%;
   border: 1px solid #ccc;
   outline: none;
-  background-color: #4d873305;
+  /* background-color: #4d873305; */
+  background-color: #fbfcfd;
   height: 50px;
-  /* cursor: pointer; */
-  padding: 10px;
+  padding: 20px;
   margin-top: 10px;
 }
 .pageNameInput::placeholder {
   font-size: 16px;
-  font-weight: 500;
   line-height: 24.55px;
-  color: #e3e2e2;
+  color: #ccc;
 }
 .pageNameInput:hover {
   border: 1px solid #4d8733 !important;
@@ -85,17 +84,16 @@
   width: 100%;
   border: 1px solid #ccc;
   outline: none;
-  background-color: #4d873305;
+  background-color: #fbfcfd;
   height: 100px;
-  padding: 10px;
+  padding: 20px;
   margin-top: 10px;
 }
 
 .description::placeholder {
   font-size: 16px;
-  font-weight: 500;
   line-height: 24.55px;
-  color: #e3e2e2;
+  color: #ccc;
 }
 .description:hover {
   border: 1px solid #4d8733 !important;
@@ -103,4 +101,51 @@
 
 .description:focus {
   border: 1px solid #4d8733 !important;
+}
+
+/* ShowAllPageModal.jsx */
+.createNewPageBtn {
+  width: 100% !important;
+  height: 38px !important;
+  text-transform: none !important;
+  background: #4d8733 !important;
+  color: #fff !important;
+  border-radius: 5px !important;
+  font-weight: 400 !important;
+  line-height: 21px !important;
+  font-size: 16px !important;
+}
+
+.searchInput {
+  background-color: #fbfcfd;
+  border: none;
+  outline: none;
+  height: 38px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+}
+.searchInput::placeholder {
+  color: #acb1c6;
+  font-size: 16px;
+}
+
+.searchIcon {
+  position: absolute !important;
+  right: 0;
+}
+
+/* AddPasswordModal.jsx */
+.passwordInput {
+  background-color: #fbfcfd;
+  border: none;
+  outline: none;
+  height: 38px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+}
+.passwordInput::placeholder {
+  color: #acb1c6;
+  font-size: 12px;
 }

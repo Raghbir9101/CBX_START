@@ -21,6 +21,7 @@ import plus from "../../Icons/add.svg";
 import pluss from "../../Icons/plusGreen.svg";
 import share from "../../Icons/share.svg";
 import AddNewData from "./AddNewData";
+import ShowAllPageModal from "../Page/ShowAllPageModal";
 
 const Navbar = () => {
   const nav = useNavigate();
@@ -30,8 +31,14 @@ const Navbar = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [isShowModalOpen, setIsShowModalOpen] = useState(false);
 
-  const handleOpenModal = () => setModalOpen(true);
+  const handleOpenAllPagesModal = () => setIsShowModalOpen(true);
+  const handleCloseAllPagesModal = () => setIsShowModalOpen(false);
+  const handleOpenModal = () => {
+    setIsShowModalOpen(false);
+    setModalOpen(true);
+  };
   const handleCloseModal = () => setModalOpen(false);
   const handleEditOpenModal = () => setEditModalOpen(true);
   const handleEditCloseModal = () => setEditModalOpen(false);
@@ -166,7 +173,8 @@ const Navbar = () => {
 
         <Box>
           <Button
-            onClick={handleOpenModal}
+            // onClick={handleOpenModal}
+            onClick={handleOpenAllPagesModal}
             className="pageNameBtn"
             endIcon={<KeyboardArrowDownIcon />}
           >
@@ -261,6 +269,14 @@ const Navbar = () => {
           handleEditPage={handleEditPage}
         />
       )}
+
+      {/*Show all pages*/}
+      <ShowAllPageModal
+        open={isShowModalOpen}
+        handleClose={handleCloseAllPagesModal}
+        handleOpenModal={handleOpenModal}
+        handleEditOpenModal={handleEditOpenModal}
+      />
 
       {/* Add New Data Popover */}
       <AddNewData
