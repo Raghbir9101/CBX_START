@@ -1,0 +1,22 @@
+.text-editor {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 20px;
+  }
+  
+  .toolbar {
+    margin-bottom: 10px;
+  }
+  
+  .toolbar button,
+  .toolbar select,
+  .toolbar input {
+    margin-right: 5px;
+  }
+  
+  .editor {
+    min-height: 200px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  

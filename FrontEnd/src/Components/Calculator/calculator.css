@@ -23,7 +23,7 @@
     gap: 1px;
   }
   
-  button {
+  .calculator button {
     background-color: #f0f0f0;
     border: none;
     padding: 20px;
@@ -32,28 +32,28 @@
     transition: background-color 0.3s;
   }
   
-  button:hover {
+  .calculator button:hover {
     background-color: #e0e0e0;
   }
   
-  button:active {
+  .calculator button:active {
     background-color: #d0d0d0;
   }
   
-  button:nth-child(4n) {
+  .calculator button:nth-child(4n) {
     background-color: #ff8c00;
     color: #fff;
   }
   
-  button:nth-child(4n):hover {
+  .calculator button:nth-child(4n):hover {
     background-color: #ff7b00;
   }
   
-  button:nth-child(4n):active {
+  .calculatorbutton:nth-child(4n):active {
     background-color: #ff6a00;
   }
   
-  button.zero {
+  .calculator button.zero {
     grid-column: span 2;
   }
   
