@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import "./calculator.css";
 import { ElementWrapper } from "../Page/Page";
@@ -40,14 +38,22 @@ const App = ({ provided, item }) => {
   };
 
   return (
-    <ElementWrapper provided={provided} item={item}>
+    <ElementWrapper provided={provided} item={item} >
       <div className="calculator">
         <div className="display">{input || "0"}</div>
         <div className="buttons">
-          <button onClick={handleClear}>C</button>
-          <button onClick={handlePercentage}>%</button>
-          <button onClick={handleSqrt}>√</button>
-          <button onClick={() => handleClick("/")}>/</button>
+          <button className="clearBtn" onClick={handleClear}>
+            C
+          </button>
+          <button className="cBtn" onClick={handlePercentage}>
+            %
+          </button>
+          <button className="cBtn" onClick={handleSqrt}>
+            √
+          </button>
+          <button className="cBtn" onClick={() => handleClick("/")}>
+            /
+          </button>
           <button onClick={() => handleClick("7")}>7</button>
           <button onClick={() => handleClick("8")}>8</button>
           <button onClick={() => handleClick("9")}>9</button>
@@ -64,7 +70,9 @@ const App = ({ provided, item }) => {
             0
           </button>
           <button onClick={() => handleClick(".")}>.</button>
-          <button onClick={handleEqual}>=</button>
+          <button className="cBtn" onClick={handleEqual}>
+            =
+          </button>
         </div>
       </div>
     </ElementWrapper>
