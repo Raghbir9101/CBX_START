@@ -168,9 +168,52 @@ function LinkComponent({ item, setLinks }) {
           </Typography>
         </Box>
         <IconButton size="small">
-          <DeleteOutlineOutlinedIcon
+          {/* <DeleteOutlineOutlinedIcon
             sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
-          />
+          /> */}
+          <svg
+            width="16"
+            height="17"
+            viewBox="0 0 16 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.884277 3.70605H14.6343"
+              stroke="#616161"
+              strokeWidth="0.900086"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M13.1066 3.70605V14.4005C13.1066 15.1644 12.3427 15.9283 11.5788 15.9283H3.93989C3.176 15.9283 2.41211 15.1644 2.41211 14.4005V3.70605"
+              stroke="#616161"
+              strokeWidth="0.900086"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M4.70361 3.70595V2.17817C4.70361 1.41428 5.4675 0.650391 6.23139 0.650391H9.28695C10.0508 0.650391 10.8147 1.41428 10.8147 2.17817V3.70595"
+              stroke="#616161"
+              strokeWidth="0.900086"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M6.23145 7.52539V12.1087"
+              stroke="#616161"
+              strokeWidth="0.900086"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M9.28711 7.52539V12.1087"
+              stroke="#616161"
+              strokeWidth="0.900086"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </IconButton>
       </Box>
     </Link>
