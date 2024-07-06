@@ -164,8 +164,9 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { v4 as uid } from "uuid";
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { ElementWrapper } from '../Page/Page';
 
-function Todo({ data, onChange }) {
+function Todo({ data, onChange, provided, item }) {
     const [tasks, setTasks] = useState(data.tasks || []);
     const [newTask, setNewTask] = useState("");
     const [completePercentage, setCompletePercentage] = useState(0);
@@ -203,37 +204,16 @@ function Todo({ data, onChange }) {
         const [readOnly, setReadOnly] = useState(true);
         const ref = useRef(null)
         return <>
-            {/* {readOnly ? (
-                <Typography
-                    onDoubleClick={() => setReadOnly(false)}
-                    style={{ textDecoration: completed ? "line-through" : "none" }}
-                    whiteSpace={"wrap"}
-                    maxWidth={"70%"}
-                    sx={{ textWrap: "wrap", overflowWrap: "break-word" }}
-                    flex={1}
-                >
-                    {value || ""}
-                </Typography>
-            ) : (
-                <input
-                    ref={ref}
-                    defaultValue={value}
-                    onBlur={(e) => {
-                        setReadOnly(true);
-                        onChange(e.target.value);
-                    }}
-                    style={{ all: "unset", paddingTop: "1px",width:"100%"}}
-                />
-            )} */}
             <Typography
                 onDoubleClick={() => setReadOnly(false)}
                 contentEditable={!readOnly}
-                style={{ textDecoration: completed ? "line-through" : "none",  }}
+                style={{ textDecoration: completed ? "line-through" : "none", }}
                 whiteSpace={"wrap"}
                 maxWidth={"70%"}
-                sx={{ textWrap: "wrap", overflowWrap: "break-word", outline:"none", cursor:readOnly ? "drag" : "text" }}
+                sx={{ textWrap: "nowrap", outline: "none", cursor: readOnly ? "drag" : "text", overflow: "hidden" }}
                 flex={1}
                 ref={ref}
+                title={value || ""}
             >
                 {value || ""}
             </Typography>
@@ -246,7 +226,7 @@ function Todo({ data, onChange }) {
                     }
                     else {
                         setReadOnly(true);
-                        if(ref.current) {
+                        if (ref.current) {
                             onChange(ref.current.textContent)
                         }
                     }
@@ -270,106 +250,168 @@ function Todo({ data, onChange }) {
         </>
     }
 
-    return (
-        <Box minHeight={"50px"} p={"10px"} width={"100%"} >
-            <Box display={"flex"} gap={"10px"} alignItems={"center"}>
-                <Box flex={1} height={"30px"} bgcolor={"rgba(240,240,240)"} borderRadius={"30px"} position={"relative"}>
-                    <Typography style={{ mixBlendMode: "difference" }} width={"100%"} height={"100%"} position={"absolute"} color={"#65772a"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                        {completePercentage.toFixed(2)}%
-                    </Typography>
-                    <Box sx={{ transition: ".3s" }} overflow={"hidden"} height={"100%"} borderRadius={"30px"} width={`${completePercentage}%`} bgcolor={"#B4D33B"}>
+    function ActionButtons() {
+        return <>
+            <IconButton size="small">
+                <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M16.4522 5.14722C16.891 4.70855 17.1376 4.11353 17.1376 3.49307C17.1377 2.87261 16.8913 2.27753 16.4526 1.83874C16.014 1.39995 15.419 1.1534 14.7985 1.15332C14.178 1.15324 13.583 1.39965 13.1442 1.83832L2.06819 12.917C1.8755 13.1091 1.733 13.3456 1.65324 13.6058L0.556925 17.2176C0.535476 17.2894 0.533856 17.3656 0.552236 17.4383C0.570617 17.5109 0.608313 17.5772 0.661324 17.6301C0.714336 17.683 0.780686 17.7206 0.853334 17.7389C0.925983 17.7571 1.00222 17.7554 1.07396 17.7338L4.68656 16.6383C4.94647 16.5593 5.183 16.4177 5.37539 16.2259L16.4522 5.14722Z"
+                        stroke="#79797E"
+                        stroke-width="1.03738"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                    <path
+                        d="M11.3276 3.64355L14.6473 6.96325"
+                        stroke="#79797E"
+                        stroke-width="1.03738"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </IconButton>
+            <IconButton size="small">
+                <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 20 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M9.99636 3.4898C10.5693 3.4898 11.0337 3.02535 11.0337 2.45242C11.0337 1.87949 10.5693 1.41504 9.99636 1.41504C9.42344 1.41504 8.95898 1.87949 8.95898 2.45242C8.95898 3.02535 9.42344 3.4898 9.99636 3.4898Z"
+                        stroke="#79797E"
+                        stroke-width="2.07476"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                    <path
+                        d="M17.2595 3.4898C17.8325 3.4898 18.2969 3.02535 18.2969 2.45242C18.2969 1.87949 17.8325 1.41504 17.2595 1.41504C16.6866 1.41504 16.2222 1.87949 16.2222 2.45242C16.2222 3.02535 16.6866 3.4898 17.2595 3.4898Z"
+                        stroke="#79797E"
+                        stroke-width="2.07476"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                    <path
+                        d="M2.73562 3.4898C3.30855 3.4898 3.773 3.02535 3.773 2.45242C3.773 1.87949 3.30855 1.41504 2.73562 1.41504C2.16269 1.41504 1.69824 1.87949 1.69824 2.45242C1.69824 3.02535 2.16269 3.4898 2.73562 3.4898Z"
+                        stroke="#79797E"
+                        stroke-width="2.07476"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </IconButton>
+        </>
+    }
 
+    return (
+        <ElementWrapper provided={provided} item={item} ActionButtons={ActionButtons}>
+            <Box minHeight={"50px"} p={"10px"} width={"100%"} >
+                <Box display={"flex"} gap={"10px"} alignItems={"center"}>
+                    <Box flex={1} height={"30px"} bgcolor={"rgba(240,240,240)"} borderRadius={"30px"} position={"relative"}>
+                        <Typography style={{ mixBlendMode: "difference" }} width={"100%"} height={"100%"} position={"absolute"} color={"#65772a"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                            {completePercentage.toFixed(2)}%
+                        </Typography>
+                        <Box sx={{ transition: ".3s" }} overflow={"hidden"} height={"100%"} borderRadius={"30px"} width={`${completePercentage}%`} bgcolor={"#B4D33B"}>
+
+                        </Box>
                     </Box>
                 </Box>
-            </Box>
-            <Box mt={"20px"}>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="tasks">
-                        {(provided) => (
-                            <Box {...provided.droppableProps} ref={provided.innerRef} sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                                {tasks.map((item, index) => (
-                                    <Draggable key={item._id} draggableId={item._id} index={index}>
-                                        {(provided) => (
-                                            <Box
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                display={"flex"}
-                                                alignItems={"center"}
-                                                justifyContent={"space-between"}
-                                                maxWidth={"100%"}
-                                            >
-                                                <Box width={"15%"}>
-                                                    <IconButton
-                                                        onClick={() => {
+                <Box mt={"20px"}>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="tasks">
+                            {(provided) => (
+                                <Box {...provided.droppableProps} ref={provided.innerRef} sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                                    {tasks.map((item, index) => (
+                                        <Draggable key={item._id} draggableId={item._id} index={index}>
+                                            {(provided) => (
+                                                <Box
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    display={"flex"}
+                                                    alignItems={"center"}
+                                                    justifyContent={"space-between"}
+                                                    maxWidth={"100%"}
+                                                >
+                                                    <Box width={"15%"}>
+                                                        <IconButton
+                                                            onClick={() => {
+                                                                setTasks(prev => {
+                                                                    let temp = [...prev];
+                                                                    for (let i = 0; i < temp.length; i++) {
+                                                                        if (temp[i]._id === item._id) {
+                                                                            temp[i].completed = !temp[i].completed;
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    return temp.sort((a, b) => a.completed - b.completed);
+                                                                });
+                                                            }}
+                                                        >
+                                                            {
+                                                                item.completed ?
+                                                                    <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <rect x="0.314453" y="0.827148" width="16.2963" height="16.2963" rx="3.05556" fill="#B4D33B" />
+                                                                    </svg>
+                                                                    : <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <rect x="0.823712" y="1.28074" width="15.2778" height="15.2778" rx="2.5463" stroke="#989696" strokeWidth="1.01852" />
+                                                                    </svg>
+                                                            }
+                                                        </IconButton>
+                                                    </Box>
+                                                    <EditableNote
+                                                        onChange={(newValue) => {
                                                             setTasks(prev => {
                                                                 let temp = [...prev];
                                                                 for (let i = 0; i < temp.length; i++) {
                                                                     if (temp[i]._id === item._id) {
-                                                                        temp[i].completed = !temp[i].completed;
+                                                                        temp[i].task = newValue;
                                                                         break;
                                                                     }
                                                                 }
-                                                                return temp.sort((a, b) => a.completed - b.completed);
+                                                                return temp;
                                                             });
                                                         }}
-                                                    >
-                                                        {
-                                                            item.completed ?
-                                                                <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <rect x="0.314453" y="0.827148" width="16.2963" height="16.2963" rx="3.05556" fill="#B4D33B" />
-                                                                </svg>
-                                                                : <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <rect x="0.823712" y="1.28074" width="15.2778" height="15.2778" rx="2.5463" stroke="#989696" strokeWidth="1.01852" />
-                                                                </svg>
-                                                        }
-                                                    </IconButton>
-                                                </Box>
-                                                <EditableNote
-                                                    onChange={(newValue) => {
-                                                        setTasks(prev => {
-                                                            let temp = [...prev];
-                                                            for (let i = 0; i < temp.length; i++) {
-                                                                if (temp[i]._id === item._id) {
-                                                                    temp[i].task = newValue;
-                                                                    break;
-                                                                }
-                                                            }
-                                                            return temp;
-                                                        });
-                                                    }}
-                                                    item={item}
-                                                    completed={item.completed}
-                                                    value={item.task}
-                                                />
+                                                        item={item}
+                                                        completed={item.completed}
+                                                        value={item.task}
+                                                    />
 
-                                            </Box>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </Box>
-                        )}
-                    </Droppable>
-                </DragDropContext>
+                                                </Box>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </Box>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                </Box>
+                <TextField
+                    size='small'
+                    placeholder='Add new Task'
+                    sx={{ width: "100%", mt: "10px" }}
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleAddTask} size='small'>
+                                    <AddIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
             </Box>
-            <TextField
-                size='small'
-                placeholder='Add new Task'
-                sx={{ width: "100%", mt: "10px" }}
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton onClick={handleAddTask} size='small'>
-                                <AddIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
-        </Box>
+        </ElementWrapper>
     );
 }
 

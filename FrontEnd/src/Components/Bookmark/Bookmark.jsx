@@ -12,20 +12,21 @@ import { v4 as uid } from "uuid";
 import HTTP from "../../HTTP";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { ElementWrapper } from "../Page/Page";
 
 function isValidURL(url) {
   const regex = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
-      "((([a-zA-Z0-9$-_@.&+!*'(),]|(\\:[0-9]+))+\\.)+[a-zA-Z]{2,})" + // domain name and extension
-      "(\\/[a-zA-Z0-9$-_@.&+!*'(),]*)*" + // path
-      "(\\?[a-zA-Z0-9$-_@.&+!*'(),]*)?" + // query string
-      "(\\#[a-zA-Z0-9$-_@.&+!*'(),]*)?$" // fragment locator
+    "((([a-zA-Z0-9$-_@.&+!*'(),]|(\\:[0-9]+))+\\.)+[a-zA-Z]{2,})" + // domain name and extension
+    "(\\/[a-zA-Z0-9$-_@.&+!*'(),]*)*" + // path
+    "(\\?[a-zA-Z0-9$-_@.&+!*'(),]*)?" + // query string
+    "(\\#[a-zA-Z0-9$-_@.&+!*'(),]*)?$" // fragment locator
   );
 
   return regex.test(url);
 }
 
-function Bookmark({ data, onChange }) {
+function Bookmark({ data, onChange , provided, item}) {
   const [links, setLinks] = useState(data.URLs || []);
   const [newLink, setNewLink] = useState("");
 
@@ -62,48 +63,50 @@ function Bookmark({ data, onChange }) {
   }, [links]);
 
   return (
-    <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="links">
-          {(provided) => (
-            <Box {...provided.droppableProps} ref={provided.innerRef}>
-              {links.map((item, index) => (
-                <Draggable key={item._id} draggableId={item._id} index={index}>
-                  {(provided) => (
-                    <Box
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <LinkComponent item={item} setLinks={setLinks} />
-                    </Box>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </Box>
-          )}
-        </Droppable>
-      </DragDropContext>
+    <ElementWrapper provided={provided} item={item} >
+      <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="links">
+            {(provided) => (
+              <Box {...provided.droppableProps} ref={provided.innerRef}>
+                {links.map((item, index) => (
+                  <Draggable key={item._id} draggableId={item._id} index={index}>
+                    {(provided) => (
+                      <Box
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <LinkComponent item={item} setLinks={setLinks} />
+                      </Box>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
+        </DragDropContext>
 
-      <TextField
-        size="small"
-        placeholder="Add URL or web address"
-        type="url"
-        sx={{ width: "100%", mt: 2 }}
-        value={newLink}
-        onChange={(e) => setNewLink(e.target.value)}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={handleAddLink} size="small">
-                <AddIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-    </Box>
+        <TextField
+          size="small"
+          placeholder="Add URL or web address"
+          type="url"
+          sx={{ width: "100%", mt: 2 }}
+          value={newLink}
+          onChange={(e) => setNewLink(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleAddLink} size="small">
+                  <AddIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+    </ElementWrapper>
   );
 }
 

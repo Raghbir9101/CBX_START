@@ -571,10 +571,10 @@ const FormattingOptions = () => {
 export { FormattingOptions };
 
 
-export default function TextEditor({value}) {
-    return <Box padding={"10px"}>
-        <Box className="textEditor" contentEditable="true" sx={{ bgcolor: "rgba(77, 135, 51, 0.1)", outline: "none", minHeight: "100px", padding: "10px" }}>
-            {value}
+export default function TextEditor({ data, setData }) {
+    return <Box  padding={"10px"}>
+        <Box onMouseUp={(e)=>setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px" }}>
+
         </Box>
         <FormattingOptions />
     </Box>
