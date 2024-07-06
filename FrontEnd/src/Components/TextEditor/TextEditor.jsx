@@ -71,7 +71,7 @@ import FormatSizeIcon from '@mui/icons-material/FormatSize';
 import zIndex from "@mui/material/styles/zIndex";
 
 
-const FormattingOptions = () => {
+const FormattingOptions = ({handleHTMLChange}) => {
     const colorRef = useRef(null);
     const fontFamilyRef = useRef(null);
     const fontSizeRef = useRef(null);
@@ -96,14 +96,17 @@ const FormattingOptions = () => {
         allBoxes.forEach((e) => {
             e.dispatchEvent(event);
         });
+        handleHTMLChange()
         // editorRef.current.focus();
     };
 
     const handleColorChange = (event) => {
         executeCommand("foreColor", event.target.value);
+        handleHTMLChange()
     };
     const applyFormat = (command, value = null) => {
         document.execCommand(command, false, value);
+        handleHTMLChange()
     };
     const insertLink = () => {
         const url = prompt("Enter the URL:");
@@ -144,15 +147,18 @@ const FormattingOptions = () => {
         // Set a placeholder size using execCommand
         document.execCommand('fontSize', false, val);
         setFontSize(val)
+        handleHTMLChange()
     };
     // Function to change font family
     const handleFontFamilyChange = (event) => {
         executeCommand("fontName", event.target.value);
         setFontFamily(event.target.value);
+        handleHTMLChange()
     };
     const handleAlignChange = (event) => {
         executeCommand(event.target.value);
         setAlign(event.target.value);
+        handleHTMLChange()
     };
     return (
         <Box
@@ -164,7 +170,7 @@ const FormattingOptions = () => {
             gap={"5px"}
             flexWrap={"wrap"}
         >
-            <Box>
+            {/* <Box>
                 <IconButton
                     size="small"
                     onClick={() => {
@@ -209,15 +215,11 @@ const FormattingOptions = () => {
                     <MenuItem value="Copperplate">Copperplate</MenuItem>
                     <MenuItem value="Papyrus">Papyrus</MenuItem>
                 </CustomSelect>
-            </Box>
+            </Box> */}
             <Box>
                 <IconButton size="small"
-                    onMouseOver={() => {
-                        fontSizeRef.current.click();
-                    }}
                 >
                     <FormatSizeIcon sx={{ fontSize: "14px" }} />
-                </IconButton>
                 <CustomSelect
                     ref={fontSizeRef}
                     onChange={(e) => {
@@ -235,6 +237,7 @@ const FormattingOptions = () => {
                     <MenuItem value="6">6</MenuItem>
                     <MenuItem value="7">7</MenuItem>
                 </CustomSelect>
+                </IconButton>
             </Box>
             <IconButton size="small"
                 sx={{ color: "rgb(46, 45, 45)" }}
@@ -572,11 +575,17 @@ export { FormattingOptions };
 
 
 export default function TextEditor({ data, setData }) {
-    return <Box  padding={"10px"}>
-        <Box onMouseUp={(e)=>setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px" }}>
+    const ref = useRef(null)
+    const handleHTMLChange = () => {
+        if(ref.current) {
+            setData(ref.current.innerHTML || "")
+        }
+    }
+    return <Box padding={"10px"}>
+        <Box ref={ref} onKeyUp={(e) => setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px" }}>
 
         </Box>
-        <FormattingOptions />
+        <FormattingOptions handleHTMLChange={handleHTMLChange}/>
     </Box>
 
 }

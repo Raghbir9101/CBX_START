@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import TextEditor from './TextEditor';
 import { Box, Button, IconButton } from '@mui/material';
 import { ElementWrapper } from '../Page/Page';
@@ -14,8 +14,8 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item }) {
     }, [editing])
     function ActionButtons() {
         return <>
-            <IconButton onClick={()=>{
-                setEditing(p=>!p)
+            <IconButton onClick={() => {
+                setEditing(p => !p)
             }} size="small">
                 {!editing ? <svg
                     width="14"
@@ -73,11 +73,17 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item }) {
             </IconButton>
         </>
     }
+
+    const texteditor = useMemo(() => {
+        return <TextEditor data={data} setData={(val) => {
+            setData(val)
+        }} provided={provided} item={item} />
+    }, [parentData])
     return (
         <ElementWrapper provided={provided} item={item} ActionButtons={ActionButtons}>
             <div>
-                {editing && <TextEditor data={data} setData={setData} provided={provided} item={item} />}
-                {!editing && <Box sx={{ cursor: "default", padding: "10px", wordWrap: "break-word", overflowWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
+                {editing && texteditor}
+                {!editing && <Box className="textEditor" sx={{ cursor: "default", padding: "10px", wordWrap: "break-word", overflowWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
             </div>
         </ElementWrapper>
     )
