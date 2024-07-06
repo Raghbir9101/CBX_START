@@ -31,7 +31,6 @@ function App() {
           return;
         }
         HTTP.get("getUserData").then(({ data: res }) => {
-          console.log(res);
           setLoginUser(res);
           setPages(res.pages || []);
           nav("/page/" + res.pages[0]._id);

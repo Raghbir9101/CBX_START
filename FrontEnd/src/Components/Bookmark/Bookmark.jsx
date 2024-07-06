@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { v4 as uid } from "uuid"
 import HTTP from '../../HTTP';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { ElementWrapper } from '../Page/Page';
 
 
 
@@ -21,7 +22,7 @@ function isValidURL(url) {
     return regex.test(url);
 }
 
-function Bookmark({ data, onChange }) {
+function Bookmark({ data, onChange, provided, item }) {
     const [links, setLinks] = useState(data.URLs || []);
     const [newLink, setNewLink] = useState("");
 
@@ -56,47 +57,49 @@ function Bookmark({ data, onChange }) {
     }, [links])
 
     return (
-        <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="links">
-                    {(provided) => (
-                        <Box {...provided.droppableProps} ref={provided.innerRef}>
-                            {links.map((item, index) => (
-                                <Draggable key={item._id} draggableId={item._id} index={index}>
-                                    {(provided) => (
-                                        <Box
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                        >
-                                            <LinkComponent item={item} setLinks={setLinks} />
-                                        </Box>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </Box>
-                    )}
-                </Droppable>
-            </DragDropContext>
-            <TextField
-                size='small'
-                placeholder='Add URL or web address'
-                type='url'
-                sx={{ width: "100%" }}
-                value={newLink}
-                onChange={(e) => setNewLink(e.target.value)}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton onClick={handleAddLink} size='small'>
-                                <AddIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
-        </Box>
+        <ElementWrapper provided={provided} item={item}>
+            <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="links">
+                        {(provided) => (
+                            <Box {...provided.droppableProps} ref={provided.innerRef}>
+                                {links.map((item, index) => (
+                                    <Draggable key={item._id} draggableId={item._id} index={index}>
+                                        {(provided) => (
+                                            <Box
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <LinkComponent item={item} setLinks={setLinks} />
+                                            </Box>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </Box>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+                <TextField
+                    size='small'
+                    placeholder='Add URL or web address'
+                    type='url'
+                    sx={{ width: "100%" }}
+                    value={newLink}
+                    onChange={(e) => setNewLink(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleAddLink} size='small'>
+                                    <AddIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+            </Box>
+        </ElementWrapper>
     );
 }
 

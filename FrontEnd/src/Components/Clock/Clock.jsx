@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import AnalogClock from "analog-clock-react";
+import { ElementWrapper } from "../Page/Page";
 
-const MyClock = () => {
+const MyClock = ({ provided, item }) => {
   const options = {
     width: "100%",
     border: true,
@@ -20,28 +21,30 @@ const MyClock = () => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "200px",
-        margin: "auto",
-      }}
-    >
+    <ElementWrapper provided={provided} item={item}>
       <div
         style={{
           width: "100%",
-          paddingTop: "100%",
-          position: "relative",
-          top: "25px",
+          maxWidth: "200px",
+          margin: "auto",
         }}
       >
         <div
-          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+          style={{
+            width: "100%",
+            paddingTop: "100%",
+            position: "relative",
+            top: "25px",
+          }}
         >
-          <AnalogClock {...options} />
+          <div
+            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+          >
+            <AnalogClock {...options} />
+          </div>
         </div>
       </div>
-    </div>
+    </ElementWrapper>
   );
 };
 

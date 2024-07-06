@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './CurrencyConverter.css'; // Import CSS file for styling
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { IconButton } from '@mui/material';
+import { ElementWrapper } from '../Page/Page';
 
-const CurrencyConverter = () => {
+const CurrencyConverter = ({provided, item}) => {
     const [inputCurrency, setInputCurrency] = useState('EUR');
     const [outputCurrency, setOutputCurrency] = useState('USD');
     const [inputAmount, setInputAmount] = useState(1);
@@ -40,49 +41,51 @@ const CurrencyConverter = () => {
     };
 
     return (
-        <div className="currency-converter">
-            <div className="currency">
-                <select
-                    value={inputCurrency}
-                    onChange={e => setInputCurrency(e.target.value)}
-                    className="currency-select"
-                >
-                    {currencyOptions.map(option => (
-                        <option key={option} value={option}>{option}</option>
-                    ))}
-                </select>
-                <input
-                    type="number"
-                    value={inputAmount}
-                    onChange={e => setInputAmount(e.target.value)}
-                    className="amount-input"
-                />
-            </div>
-            <IconButton className="swap-button" onClick={handleSwapCurrencies}><SwapVertIcon/></IconButton>
-            <br />
-            <div className="currency">
-                <select
-                    value={outputCurrency}
-                    onChange={e => setOutputCurrency(e.target.value)}
-                    className="currency-select"
-                >
-                    {currencyOptions.map(option => (
-                        <option key={option} value={option}>{option}</option>
-                    ))}
-                </select>
-                <input
-                    type="number"
-                    value={outputAmount}
-                    readOnly
-                    className="amount-input"
-                />
-            </div>
-            <div className="result">
-                <div className="rate">
-                    1 {inputCurrency} = {exchangeRate} {outputCurrency}
+        <ElementWrapper provided={provided} item={item}>
+            <div className="currency-converter">
+                <div className="currency">
+                    <select
+                        value={inputCurrency}
+                        onChange={e => setInputCurrency(e.target.value)}
+                        className="currency-select"
+                    >
+                        {currencyOptions.map(option => (
+                            <option key={option} value={option}>{option}</option>
+                        ))}
+                    </select>
+                    <input
+                        type="number"
+                        value={inputAmount}
+                        onChange={e => setInputAmount(e.target.value)}
+                        className="amount-input"
+                    />
+                </div>
+                <IconButton className="swap-button" onClick={handleSwapCurrencies}><SwapVertIcon /></IconButton>
+                <br />
+                <div className="currency">
+                    <select
+                        value={outputCurrency}
+                        onChange={e => setOutputCurrency(e.target.value)}
+                        className="currency-select"
+                    >
+                        {currencyOptions.map(option => (
+                            <option key={option} value={option}>{option}</option>
+                        ))}
+                    </select>
+                    <input
+                        type="number"
+                        value={outputAmount}
+                        readOnly
+                        className="amount-input"
+                    />
+                </div>
+                <div className="result">
+                    <div className="rate">
+                        1 {inputCurrency} = {exchangeRate} {outputCurrency}
+                    </div>
                 </div>
             </div>
-        </div>
+        </ElementWrapper>
     );
 };
 
