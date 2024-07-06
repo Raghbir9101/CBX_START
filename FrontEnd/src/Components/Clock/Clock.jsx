@@ -13,16 +13,31 @@ const MyClock = () => {
     handColors: {
       second: "#ff0000",
       minute: "#000000",
-      hour: "#000000"
+      hour: "#000000",
     },
     showNumbers: true,
-    numbersColor: "#000000"
+    numbersColor: "#000000",
   };
 
   return (
-    <div style={{ width: "100%", maxWidth: "400px", margin: "auto" }}>
-      <div style={{ width: "100%", paddingTop: "100%", position: "relative" }}>
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "200px",
+        margin: "auto",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          paddingTop: "100%",
+          position: "relative",
+          top: "25px",
+        }}
+      >
+        <div
+          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+        >
           <AnalogClock {...options} />
         </div>
       </div>
@@ -30,4 +45,4 @@ const MyClock = () => {
   );
 };
 
-export default MyClock
+export default MyClock;

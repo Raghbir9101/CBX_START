@@ -42,12 +42,17 @@ const AddCollaboratorModal = ({ open, handleClose }) => {
             </Typography>
           </Box>
           <Box sx={{ mt: 2 }}>
+            <Typography sx={{ color: "#9A9898", fontSize: "14px", mb: 1 }}>
+              Invite by e-mail
+            </Typography>
             <input
-              type="text"
-              placeholder="Enter Password"
+              type="email"
+              placeholder="Enter E-mail Address"
               className="passwordInput"
             />
           </Box>
+
+          <Box sx={{ mt: 2 }}></Box>
 
           <Box
             sx={{
