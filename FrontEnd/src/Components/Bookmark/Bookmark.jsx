@@ -17,16 +17,16 @@ import { ElementWrapper } from "../Page/Page";
 function isValidURL(url) {
   const regex = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
-    "((([a-zA-Z0-9$-_@.&+!*'(),]|(\\:[0-9]+))+\\.)+[a-zA-Z]{2,})" + // domain name and extension
-    "(\\/[a-zA-Z0-9$-_@.&+!*'(),]*)*" + // path
-    "(\\?[a-zA-Z0-9$-_@.&+!*'(),]*)?" + // query string
-    "(\\#[a-zA-Z0-9$-_@.&+!*'(),]*)?$" // fragment locator
+      "((([a-zA-Z0-9$-_@.&+!*'(),]|(\\:[0-9]+))+\\.)+[a-zA-Z]{2,})" + // domain name and extension
+      "(\\/[a-zA-Z0-9$-_@.&+!*'(),]*)*" + // path
+      "(\\?[a-zA-Z0-9$-_@.&+!*'(),]*)?" + // query string
+      "(\\#[a-zA-Z0-9$-_@.&+!*'(),]*)?$" // fragment locator
   );
 
   return regex.test(url);
 }
 
-function Bookmark({ data, onChange , provided, item}) {
+function Bookmark({ data, onChange, provided, item }) {
   const [links, setLinks] = useState(data.URLs || []);
   const [newLink, setNewLink] = useState("");
 
@@ -63,14 +63,18 @@ function Bookmark({ data, onChange , provided, item}) {
   }, [links]);
 
   return (
-    <ElementWrapper provided={provided} item={item} >
+    <ElementWrapper provided={provided} item={item}>
       <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="links">
             {(provided) => (
               <Box {...provided.droppableProps} ref={provided.innerRef}>
                 {links.map((item, index) => (
-                  <Draggable key={item._id} draggableId={item._id} index={index}>
+                  <Draggable
+                    key={item._id}
+                    draggableId={item._id}
+                    index={index}
+                  >
                     {(provided) => (
                       <Box
                         ref={provided.innerRef}
