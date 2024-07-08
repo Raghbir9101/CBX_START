@@ -20,8 +20,10 @@ import searchIcon from "../../Icons/search.svg";
 import plus from "../../Icons/add.svg";
 import pluss from "../../Icons/plusGreen.svg";
 import share from "../../Icons/share.svg";
+import logo from "../../Icons/cbxLogo.svg";
 import AddNewData from "./AddNewData";
 import ShowAllPageModal from "../Page/ShowAllPageModal";
+import SharePageModal from "./SharePageModal";
 
 const Navbar = () => {
   const nav = useNavigate();
@@ -32,6 +34,7 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [isShowModalOpen, setIsShowModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   const handleOpenAllPagesModal = () => setIsShowModalOpen(true);
   const handleCloseAllPagesModal = () => setIsShowModalOpen(false);
@@ -42,6 +45,8 @@ const Navbar = () => {
   const handleCloseModal = () => setModalOpen(false);
   const handleEditOpenModal = () => setEditModalOpen(true);
   const handleEditCloseModal = () => setEditModalOpen(false);
+  const handleOpenShareModal = () => setIsShareModalOpen(true);
+  const handleCloseShareModal = () => setIsShareModalOpen(false);
 
   const handleCreatePage = async (pageData) => {
     let { data: res } = await HTTP.post(`addNewPage`, pageData);
@@ -168,6 +173,7 @@ const Navbar = () => {
         </Box> */}
 
         <Box>
+          {/* <img src={logo} alt="Logo" loading="lazy" /> */}
           <Typography className="toolName">CBX START</Typography>
         </Box>
 
@@ -213,8 +219,12 @@ const Navbar = () => {
               <img src={searchIcon} alt="search" />
             </Box>
 
-            <Box sx={{ cursor: "pointer" }}>
-              <img src={share} alt="share" />
+            <Box sx={{ cursor: "pointer" }} onClick={handleOpenShareModal}>
+              <img
+                style={{ width: "28px", height: "28px" }}
+                src={share}
+                alt="share"
+              />
             </Box>
 
             <Box onClick={handleClickMenu}>
@@ -283,6 +293,12 @@ const Navbar = () => {
         open={isPopoverOpen}
         anchorEl={popoverAnchorEl}
         handlePopoverClose={handlePopoverClose}
+      />
+
+      {/* Share Modal */}
+      <SharePageModal
+        open={isShareModalOpen}
+        handleClose={handleCloseShareModal}
       />
     </Box>
   );

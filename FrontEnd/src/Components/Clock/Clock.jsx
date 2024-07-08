@@ -7,14 +7,16 @@ const MyClock = ({ provided, item }) => {
   const options = {
     width: "100%",
     border: true,
-    borderColor: "#2e2e2e",
+    // borderColor: "#2e2e2e",
+    borderColor: "#BAC3CF",
     baseColor: "#f0f0f0",
     centerColor: "#ffffff",
     centerBorderColor: "#000000",
+
     handColors: {
       second: "#ff0000",
-      minute: "#000000",
-      hour: "#000000",
+      minute: "#646E82",
+      hour: "#646E82",
     },
     showNumbers: true,
     numbersColor: "#000000",
@@ -38,7 +40,13 @@ const MyClock = ({ provided, item }) => {
           }}
         >
           <div
-            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
           >
             <AnalogClock {...options} />
           </div>

@@ -1,60 +1,72 @@
 .currency-converter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 400px;
-    /* margin: 0 auto; */
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 14px;
+  max-width: 400px;
+  background-color: #4d873305;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  margin-top: 10px;
 }
 
 .currency {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .currency-select {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 10px;
+  padding: 8px;
+  font-size: 16px;
+  /* border: 1px solid #d9d9d9;
+  outline: #d9d9d9; */
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  color: #4d8733;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .amount-input {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #d9d9d9;
+  outline: #d9d9d9;
+  border-radius: 4px;
+  width: 100px;
+  /* text-align: end; */
 }
 
 .swap-button {
-    font-size: 20px;
-    padding: 8px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 4px;
+  font-size: 20px;
+  padding: 8px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .swap-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .result {
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
 }
 
 .rate {
-    font-style: italic;
-    color: #666;
+  font-style: italic;
+  color: #666;
+}
+
+.currency-flag {
+  width: 39px;
+  height: 22px;
 }

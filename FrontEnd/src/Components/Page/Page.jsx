@@ -17,12 +17,9 @@ import CreatePageModal from "./CreateNewPage";
 import HTTP from "../../HTTP";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EditPageModal from "./EditNewPage";
-import Navbar from "../Navbar/Navbar";
-import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
-import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
-import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
-import LinkOffOutlinedIcon from "@mui/icons-material/LinkOffOutlined";
+
 import "./Page.css";
+import TabButtons from "./TabButtons";
 
 function findByID(arr = [], id) {
   for (let i of arr) {
@@ -124,7 +121,7 @@ function Page() {
         { data: pageData },
         { signal: controller.signal }
       )
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -143,69 +140,7 @@ function Page() {
 
   return (
     <Box sx={{ bgcolor: "#f4f4f4" }}>
-      <Navbar />
-
-      <Box
-        sx={{
-          // bgcolor: "#E0F7D240",
-          // bgcolor: "#f4f4f4",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "25px",
-          p: 4,
-        }}
-      >
-        <Button
-          className="headingBtns"
-          sx={{ boxShadow: 1 }}
-          startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-              <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-            </IconButton>
-          }
-        >
-          Notes
-        </Button>
-
-        <Button
-          sx={{ boxShadow: 1 }}
-          className="headingBtns"
-          startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-              <FormatListBulletedOutlinedIcon
-                sx={{ width: "16px", height: "16px" }}
-              />
-            </IconButton>
-          }
-        >
-          To do List
-        </Button>
-
-        <Button
-          sx={{ boxShadow: 1 }}
-          className="headingBtns"
-          startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-              <ChecklistOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-            </IconButton>
-          }
-        >
-          Task List
-        </Button>
-
-        <Button
-          sx={{ boxShadow: 1 }}
-          className="headingBtns"
-          startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-              <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-            </IconButton>
-          }
-        >
-          Links
-        </Button>
-      </Box>
+      <TabButtons />
       <Box
         minHeight={"100vh"}
         p={"10px"}
@@ -213,14 +148,7 @@ function Page() {
         gap={"40px"}
         display={"flex"}
         flexDirection={"column"}
-        sx={
-          {
-            // bgcolor: "transparent",
-          }
-        }
       >
-        {/* <Navbar /> */}
-
         <DragDropContext onDragEnd={onDragEnd}>
           <Box
             display={"flex"}
@@ -236,15 +164,15 @@ function Page() {
                       pageData.length == 5
                         ? "19%"
                         : pageData.length == 3
-                          ? "33.33%"
-                          : "50%"
+                        ? "33.33%"
+                        : "50%"
                     }
                     width={
                       pageData.length == 5
                         ? "19%"
                         : pageData.length == 3
-                          ? "33.33%"
-                          : "50%"
+                        ? "33.33%"
+                        : "50%"
                     }
                     {...provided.droppableProps}
                     ref={provided.innerRef}
@@ -277,16 +205,23 @@ function Page() {
                               {/* <ElementWrapper item={item} provided={provided}> */}
                               {(() => {
                                 if (item.type == "Calculator") {
-                                  return <Calculator data={item.data} provided={provided} item={item} />;
+                                  return (
+                                    <Calculator
+                                      data={item.data}
+                                      provided={provided}
+                                      item={item}
+                                    />
+                                  );
                                 } else if (item.type == "Note") {
                                   return (
-                                    <TextEditorWithSave provided={provided} item={item}
+                                    <TextEditorWithSave
+                                      provided={provided}
+                                      item={item}
                                       onChange={(newData) => {
                                         setPageData((p) => {
                                           let temp = [...p];
-                                          temp[boxIndex].items[
-                                            itemIndex
-                                          ].data = newData;
+                                          temp[boxIndex].items[itemIndex].data =
+                                            newData;
                                           return temp;
                                         });
                                       }}
@@ -294,17 +229,23 @@ function Page() {
                                     />
                                   );
                                 } else if (item.type == "Clock") {
-                                  return <Clock data={item.data} provided={provided} item={item} />;
+                                  return (
+                                    <Clock
+                                      data={item.data}
+                                      provided={provided}
+                                      item={item}
+                                    />
+                                  );
                                 } else if (item.type == "Todo") {
                                   return (
                                     <Todo
-                                      provided={provided} item={item}
+                                      provided={provided}
+                                      item={item}
                                       onChange={(newData) => {
                                         setPageData((p) => {
                                           let temp = [...p];
-                                          temp[boxIndex].items[
-                                            itemIndex
-                                          ].data = newData;
+                                          temp[boxIndex].items[itemIndex].data =
+                                            newData;
                                           return temp;
                                         });
                                       }}
@@ -313,13 +254,14 @@ function Page() {
                                   );
                                 } else if (item.type == "Bookmark") {
                                   return (
-                                    <Bookmark provided={provided} item={item}
+                                    <Bookmark
+                                      provided={provided}
+                                      item={item}
                                       onChange={(newData) => {
                                         setPageData((p) => {
                                           let temp = [...p];
-                                          temp[boxIndex].items[
-                                            itemIndex
-                                          ].data = newData;
+                                          temp[boxIndex].items[itemIndex].data =
+                                            newData;
                                           return temp;
                                         });
                                       }}
@@ -328,13 +270,14 @@ function Page() {
                                   );
                                 } else if (item.type == "Embed") {
                                   return (
-                                    <Embed provided={provided} item={item}
+                                    <Embed
+                                      provided={provided}
+                                      item={item}
                                       onChange={(newData) => {
                                         setPageData((p) => {
                                           let temp = [...p];
-                                          temp[boxIndex].items[
-                                            itemIndex
-                                          ].data = newData;
+                                          temp[boxIndex].items[itemIndex].data =
+                                            newData;
                                           return temp;
                                         });
                                       }}
@@ -342,11 +285,13 @@ function Page() {
                                       data={item.data}
                                     />
                                   );
-                                } else if (
-                                  item.type == "Currency Converter"
-                                ) {
+                                } else if (item.type == "Currency Converter") {
                                   return (
-                                    <CurrencyConverter data={item.data} provided={provided} item={item} />
+                                    <CurrencyConverter
+                                      data={item.data}
+                                      provided={provided}
+                                      item={item}
+                                    />
                                   );
                                 }
                               })()}
@@ -375,7 +320,6 @@ export function ElementWrapper({ provided, item, children, ActionButtons }) {
   const contentRef = useRef(null);
 
   useEffect(() => {
-
     if (open && contentRef.current) {
       contentRef.current.style.minHeight = `${contentRef.current.scrollHeight}px`;
     } else {
@@ -438,7 +382,6 @@ export function ElementWrapper({ provided, item, children, ActionButtons }) {
 }
 
 // Navbar.jsx
-
 // function Navbar() {
 //   const nav = useNavigate();
 //   const { pageID } = useParams();
