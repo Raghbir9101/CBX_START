@@ -39,8 +39,6 @@ const ShowAllPageModal = ({
 
 
   const nav = useNavigate()
-
-  console.log(pages)
   return (
     <>
       <Modal
@@ -87,7 +85,7 @@ const ShowAllPageModal = ({
                     <Box
                       sx={{
                         display: "flex",
-                        alignItems: "center",
+                        alignItems: "center", 
                         gap: "10px",
                       }}
                     >

@@ -40,6 +40,8 @@ function Page() {
 
   const { pages } = useContext(Context);
   const [pageData, setPageData] = useState([]);
+  const [filteredPageData, setFilteredPageData] = useState([]);
+  const [filters, setFilters] = useState({});
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -78,26 +80,26 @@ function Page() {
   useEffect(() => {
     // if (!loginUser) return;
 
-    let tempPageData = findByID(pages, pageID);
-    let tempPage = tempPageData?.data || [];
-    if (tempPage.length == 0 || loginUser == null) {
-      HTTP.get(`getPageData/${pageID}`).then(async (res) => {
-        if (res.data.error) {
-          if (res.data.errorCode == "ENTER_PASSWORD") {
-            let pass = prompt("Please enter page password");
-            let { data: tempPage } = await HTTP.get(
-              `getPageData/${pageID}?password=${pass}`
-            );
-            return setPageData(tempPage.data);
-          }
-
-          return alert(res.data.error);
+    // let tempPageData = findByID(pages, pageID);
+    // let tempPage = tempPageData?.data || [];
+    // if (tempPage.length == 0 || loginUser == null) {
+    HTTP.get(`getPageData/${pageID}`).then(async (res) => {
+      if (res.data.error) {
+        if (res.data.errorCode == "ENTER_PASSWORD") {
+          let pass = prompt("Please enter page password");
+          let { data: tempPage } = await HTTP.get(
+            `getPageData/${pageID}?password=${pass}`
+          );
+          setFilteredPageData(tempPage.data);
+          return setPageData(tempPage.data);
         }
-        setPageData(res.data.data);
-      });
-    } else {
-      setPageData(tempPage);
-    }
+
+        return alert(res.data.error);
+      }
+
+      setFilteredPageData(res.data.data);
+      setPageData(res.data.data);
+    });
   }, [loginUser, pageID]);
 
   const controllerRef = useRef(null);
@@ -138,10 +140,36 @@ function Page() {
     };
   }, [pageData]);
 
+  function filterData(data, filterObject) {
+    if (Object.keys(filterObject).length == 0) return data;
+    // Create a new array to hold the filtered data
+    const filteredData = data.map((page) => {
+      // Create a new page object with the same structure but empty items arrays
+      return {
+        ...page,
+        items: page.items.filter((item) => filterObject[item.type] === 1),
+      };
+    });
+
+    // Return the filtered data array
+    return filteredData;
+  }
+
+  useEffect(() => {
+    let tempFilteredObj = filterData(pageData, filters);
+    setFilteredPageData(tempFilteredObj);
+  }, [pageData, filters]);
+
   return (
     <Box>
+      <Navbar setPageData={setPageData} />
       <Box sx={{ bgcolor: "#f4f4f4" }}>
-        <TabButtons />
+        <TabButtons
+          setPageData={setPageData}
+          setFilteredPageData={setFilteredPageData}
+          filters={filters}
+          setFilters={setFilters}
+        />
         <Box
           minHeight={"100vh"}
           p={"10px"}
@@ -157,7 +185,7 @@ function Page() {
               justifyContent={"space-evenly"}
               gap={"20px"}
             >
-              {pageData.map((box, boxIndex) => (
+              {filteredPageData.map((box, boxIndex) => (
                 <Droppable droppableId={`${boxIndex}`} key={boxIndex}>
                   {(provided) => (
                     <Box

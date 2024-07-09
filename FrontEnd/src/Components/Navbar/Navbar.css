@@ -49,9 +49,11 @@
   line-height: 24.55px !important;
 }
 .gridContainer {
-  display: flex !important;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* display: flex !important;
   justify-content: space-between !important;
-  flex-wrap: wrap !important;
+  flex-wrap: wrap !important; */
   gap: 20px !important;
   height: 400px !important;
   overflow: auto !important;
