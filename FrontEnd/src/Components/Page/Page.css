@@ -150,3 +150,42 @@
   color: #acb1c6;
   font-size: 12px;
 }
+
+/* TabButtons.jsx */
+.googleSearchInput {
+  width: 600px;
+  height: 50px;
+  padding: 17px 24px 17px 40px;
+  gap: 13px;
+  border-radius: 12px;
+  opacity: 0px;
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+}
+
+.googleSearchInput::placeholder {
+  color: #79797e99;
+  font-size: 16px;
+}
+
+.gsearchIcon {
+  position: absolute;
+  left: 11px;
+  top: 13px;
+}
+.closeIcon {
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 668px) {
+  .inputBox {
+    width: 90% !important;
+  }
+  .googleSearchInput {
+    width: 100% !important;
+  }
+}

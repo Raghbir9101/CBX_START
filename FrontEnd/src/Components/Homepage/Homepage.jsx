@@ -1,23 +1,31 @@
-// src/App.js
-import React from 'react';
-import { AppBar, Toolbar, Typography, Box, Grid, Paper, Container, CssBaseline } from '@mui/material';
+import React from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Grid,
+  Paper,
+  Container,
+  CssBaseline,
+} from "@mui/material";
 
 const HomePage = () => {
   const styles = {
     header: {
-      backgroundColor: '#4CAF50',
-      color: 'white',
-      padding: '15px 0',
-      textAlign: 'center'
+      backgroundColor: "#4CAF50",
+      color: "white",
+      padding: "15px 0",
+      textAlign: "center",
     },
     container: {
-      marginTop: '20px',
+      marginTop: "20px",
     },
     paper: {
-      padding: '20px',
-      textAlign: 'center',
-      color: '#333'
-    }
+      padding: "20px",
+      textAlign: "center",
+      color: "#333",
+    },
   };
 
   return (

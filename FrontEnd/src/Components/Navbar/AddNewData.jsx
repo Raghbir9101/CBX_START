@@ -24,7 +24,7 @@ const items = [
     label: "Bookmarks",
   },
   { icon: <CodeOffOutlinedIcon sx={{ color: "#4D8733" }} />, label: "Embed" },
-  { icon: <FeedOutlinedIcon sx={{ color: "#4D8733" }} />, label: "Newsfeed" },
+  // { icon: <FeedOutlinedIcon sx={{ color: "#4D8733" }} />, label: "Newsfeed" },
   {
     icon: <CalendarMonthOutlinedIcon sx={{ color: "#4D8733" }} />,
     label: "Calendar",
@@ -37,11 +37,11 @@ const items = [
     icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
     label: "Analog Clock",
   },
-  {
-    icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
-    label: "World Clock",
-  },
-  { icon: <CloudOutlinedIcon sx={{ color: "#4D8733" }} />, label: "Weather" },
+  // {
+  //   icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
+  //   label: "World Clock",
+  // },
+  // { icon: <CloudOutlinedIcon sx={{ color: "#4D8733" }} />, label: "Weather" },
 ];
 
 // Sort items alphabetically by label

@@ -5,12 +5,14 @@ import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBullet
 import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
 import LinkOffOutlinedIcon from "@mui/icons-material/LinkOffOutlined";
 import { Link, useLocation } from "react-router-dom";
+import search from "../../Icons/gsearch.svg";
+import clear from "../../Icons/cross.svg";
 
 const TabButtons = () => {
   const location = useLocation();
 
   return (
-    <>
+    <Box>
       <Box
         sx={{
           display: "flex",
@@ -18,6 +20,7 @@ const TabButtons = () => {
           alignItems: "center",
           gap: "25px",
           p: 4,
+          flexWrap: "wrap",
         }}
       >
         <Button
@@ -57,7 +60,7 @@ const TabButtons = () => {
           </Button>
         </Link>
 
-        <Button
+        {/* <Button
           sx={{ boxShadow: 1 }}
           className="headingBtns"
           startIcon={
@@ -67,7 +70,7 @@ const TabButtons = () => {
           }
         >
           Task List
-        </Button>
+        </Button> */}
 
         <Button
           sx={{ boxShadow: 1 }}
@@ -81,7 +84,25 @@ const TabButtons = () => {
           Links
         </Button>
       </Box>
-    </>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Box className="inputBox" sx={{ position: "relative" }}>
+          <input
+            className="googleSearchInput"
+            type="text"
+            placeholder="Google Search"
+          />
+          <img className="gsearchIcon" src={search} alt="search" />
+          <img className="closeIcon" src={clear} alt="close" />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

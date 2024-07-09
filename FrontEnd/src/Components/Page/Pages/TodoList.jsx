@@ -8,7 +8,7 @@ const TodoList = () => {
       <Box sx={{ background: "#F4F4F4", minHeight: "100vh", width: "100%" }}>
         <TabButtons />
 
-        <Box sx={{ border: "1px solid teal" }}>All Todos</Box>
+        <Box>All Todos</Box>
       </Box>
     </>
   );

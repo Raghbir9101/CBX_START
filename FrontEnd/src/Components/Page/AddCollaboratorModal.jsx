@@ -62,7 +62,8 @@ const AddCollaboratorModal = ({ open, handleClose }) => {
               alignItems: "center",
             }}
           >
-            <Button
+            <Box></Box>
+            {/* <Button
               sx={{ textTransform: "none", color: "#4d8733" }}
               startIcon={
                 <LinkOffOutlinedIcon
@@ -71,7 +72,7 @@ const AddCollaboratorModal = ({ open, handleClose }) => {
               }
             >
               Copy Link
-            </Button>
+            </Button> */}
             <Box
               sx={{
                 display: "flex",

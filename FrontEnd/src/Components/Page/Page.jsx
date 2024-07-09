@@ -352,9 +352,11 @@ export function ElementWrapper({ provided, item, children, ActionButtons }) {
         gap={"10px"}
       >
         <Box display={"flex"} gap={"10px"}>
-          <Typography>{item?.data?.name || item.type}</Typography>
+          <Typography sx={{ color: "#333333", fontWeight: 520 }}>
+            {item?.data?.name || item.type}
+          </Typography>
           <IconButton size="small" onClick={() => setOpen((p) => !p)}>
-            <KeyboardArrowDownIcon sx={{ fontSize: "14px" }} />
+            <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton>
         </Box>
         <Box display={"flex"} gap={"5px"}>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -10,7 +10,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Context } from "../Context/Context";
 import CreatePageModal from "../Page/CreateNewPage";
 import EditPageModal from "../Page/EditNewPage";
@@ -21,9 +21,12 @@ import plus from "../../Icons/add.svg";
 import pluss from "../../Icons/plusGreen.svg";
 import share from "../../Icons/share.svg";
 import logo from "../../Icons/cbxLogo.svg";
+import search from "../../Icons/searchIcon.svg";
+import clear from "../../Icons/cross.svg";
 import AddNewData from "./AddNewData";
 import ShowAllPageModal from "../Page/ShowAllPageModal";
 import SharePageModal from "./SharePageModal";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const Navbar = () => {
   const nav = useNavigate();
@@ -35,6 +38,29 @@ const Navbar = () => {
   const open = Boolean(anchorEl);
   const [isShowModalOpen, setIsShowModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target)
+      ) {
+        setSearchVisible(false);
+      }
+    };
+
+    if (searchVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchVisible]);
 
   const handleOpenAllPagesModal = () => setIsShowModalOpen(true);
   const handleCloseAllPagesModal = () => setIsShowModalOpen(false);
@@ -98,8 +124,28 @@ const Navbar = () => {
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        sx={{ width: "100%" }}
       >
-        {/* <Box display={"flex"} gap={"10px"}>
+        {searchVisible && (
+          <Box
+            className={`pageInputBox ${searchVisible ? "visible" : ""}`}
+            ref={searchInputRef}
+          >
+            <input
+              className="pageSearchInput"
+              type="text"
+              placeholder="Seach on your page"
+            />
+            <img className="pSearchIcon" src={search} alt="search" />
+
+            <CloseOutlinedIcon
+              className="pCloseIcon"
+              onClick={() => setSearchVisible(false)}
+              sx={{ width: "16px", height: "16px" }}
+            />
+          </Box>
+        )}
+        {/* <Box display={"flex"} gap={"10px"}> 
           {token && (
             <Sbutton startIcon={<MenuIcon sx={{ color: "black" }} />}>
               <Typography>Pages</Typography>
@@ -173,8 +219,15 @@ const Navbar = () => {
         </Box> */}
 
         <Box>
+          <div className="group">
+            <img
+              className="image"
+              alt="Image"
+              src="https://c.animaapp.com/YKPFj7gL/img/image-8@2x.png"
+            />
+          </div>
           {/* <img src={logo} alt="Logo" loading="lazy" /> */}
-          <Typography className="toolName">CBX START</Typography>
+          {/* <Typography className="toolName">CBX START</Typography> */}
         </Box>
 
         <Box>
@@ -189,37 +242,55 @@ const Navbar = () => {
         </Box>
 
         {token && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: "30px" }}>
-            <Button
-              className="addBtn"
-              sx={{
-                color: popoverAnchorEl
-                  ? "#4D8733 !important"
-                  : "#fff !important",
-                background: popoverAnchorEl ? "#fff" : "",
-                "&:hover": {
-                  background: popoverAnchorEl ? "none" : "none",
-                  color: "inherit",
-                },
-              }}
-              startIcon={
-                popoverAnchorEl ? (
-                  <img src={pluss} alt="add" />
-                ) : (
-                  <img src={plus} alt="add" />
-                )
-              }
-              variant="outlined"
-              onClick={handlePopoverOpen}
-            >
-              Add
-            </Button>
-
-            <Box sx={{ cursor: "pointer" }}>
-              <img src={searchIcon} alt="search" />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "30px",
+            }}
+          >
+            <Box>
+              <Button
+                className="addBtn"
+                sx={{
+                  color: popoverAnchorEl
+                    ? "#4D8733 !important"
+                    : "#fff !important",
+                  background: popoverAnchorEl ? "#fff" : "",
+                  "&:hover": {
+                    background: popoverAnchorEl ? "none" : "none",
+                    color: "inherit",
+                  },
+                }}
+                startIcon={
+                  popoverAnchorEl ? (
+                    <img src={pluss} alt="add" />
+                  ) : (
+                    <img src={plus} alt="add" />
+                  )
+                }
+                variant="outlined"
+                onClick={handlePopoverOpen}
+              >
+                Add
+              </Button>
             </Box>
 
-            <Box sx={{ cursor: "pointer" }} onClick={handleOpenShareModal}>
+            <Box
+              onClick={() => setSearchVisible(!searchVisible)}
+              sx={{ cursor: "pointer", mt: "5px" }}
+            >
+              <img
+                // style={{ width: "28px", height: "28px" }}
+                src={searchIcon}
+                alt="search"
+              />
+            </Box>
+
+            <Box
+              sx={{ cursor: "pointer", mt: "5px" }}
+              onClick={handleOpenShareModal}
+            >
               <img
                 style={{ width: "28px", height: "28px" }}
                 src={share}
@@ -249,6 +320,11 @@ const Navbar = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleCloseMenu}
+        sx={{
+          ".MuiPaper-root": {
+            borderRadius: "16px",
+          },
+        }}
       >
         <MenuItem>Raghbir Singh</MenuItem>
         <MenuItem>raghbir786@gmail.com</MenuItem>
