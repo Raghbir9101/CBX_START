@@ -28,7 +28,7 @@ import ShowAllPageModal from "../Page/ShowAllPageModal";
 import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HTTP from "../../HTTP"
-const Navbar = () => {
+const Navbar = ({setPageData}) => {
   const nav = useNavigate();
   const { pageID } = useParams();
   const { handleLogout, pages, setPages, token } = useContext(Context);
@@ -386,6 +386,7 @@ const Navbar = () => {
 
       {/* Add New Data Popover */}
       <AddNewData
+      setPageData={setPageData}
         open={isPopoverOpen}
         anchorEl={popoverAnchorEl}
         handlePopoverClose={handlePopoverClose}
