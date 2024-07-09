@@ -43,8 +43,13 @@ function findByID(arr = [], id) {
   return null;
 }
 
-const EditPageModal = ({ open, handleClose, handleEditPage, selectedPage,
-  setSelectedPage }) => {
+const EditPageModal = ({
+  open,
+  handleClose,
+  handleEditPage,
+  selectedPage,
+  setSelectedPage,
+}) => {
   const { pageID } = useParams();
   const { loginUser, pages } = useContext(Context);
   const [formData, setFormData] = useState(selectedPage);
@@ -58,8 +63,6 @@ const EditPageModal = ({ open, handleClose, handleEditPage, selectedPage,
 
   const handleOpenCollaboratorModal = () => setOpenCollaboratorModal(true);
   const handleCloseCollaboratorModal = () => setOpenCollaboratorModal(false);
-
-
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -115,11 +118,11 @@ const EditPageModal = ({ open, handleClose, handleEditPage, selectedPage,
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(formData)
+    e.preventDefault();
+    console.log(formData);
     handleEditPage(formData);
     handleClose();
-    setSelectedPage(null)
+    setSelectedPage(null);
   };
 
   return (
@@ -256,18 +259,35 @@ const EditPageModal = ({ open, handleClose, handleEditPage, selectedPage,
               name="pageName"
               defaultValue={selectedPage?.pageName || ""}
               onChange={(e) => {
-                setFormData(p => {
-                  return { ...p, pageName: e.target.value }
-                })
+                setFormData((p) => {
+                  return { ...p, pageName: e.target.value };
+                });
               }}
             />
-            <textarea onChange={(e) => {
-              setFormData(p => {
-                return { ...p, description: e.target.value }
-              })
-            }} defaultValue={selectedPage?.description || ""} placeholder="Description" className="description" />
+            <textarea
+              onChange={(e) => {
+                setFormData((p) => {
+                  return { ...p, description: e.target.value };
+                });
+              }}
+              defaultValue={selectedPage?.description || ""}
+              placeholder="Description"
+              className="description"
+            />
 
-
+            <Box>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    size="small"
+                    name="isPasswordProtected"
+                    checked={formData.isPasswordProtected}
+                    onChange={handleChange}
+                  />
+                }
+                label="Password Protected"
+              />
+            </Box>
             {/* Footer */}
             <Box
               mt={3}
@@ -284,23 +304,15 @@ const EditPageModal = ({ open, handleClose, handleEditPage, selectedPage,
                 <IconButton onClick={handleOpenCollaboratorModal}>
                   <PersonAddAltOutlinedIcon color="#989696" />
                 </IconButton>
-                <FormControlLabel
-                control={
-                  <Checkbox
-                    name="isPasswordProtected"
-                    checked={formData.isPasswordProtected}
-                    onChange={handleChange}
-                  />
-                }
-                label="Password Protected"
-              />
               </Box>
               <Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: "20px" }}
+                >
                   <Button
                     onClick={() => {
                       handleClose();
-                      setSelectedPage(null)
+                      setSelectedPage(null);
                     }}
                     variant="outlined"
                     className="cancelBtn"
@@ -320,21 +332,25 @@ const EditPageModal = ({ open, handleClose, handleEditPage, selectedPage,
           </form>
         </Box>
       </Modal>
-      
+
       {/* Add password modal */}
-      {openPasswordModal && <AddPasswordModal
-        formData={formData}
-        setFormData={setFormData}
-        open={openPasswordModal}
-        handleClose={handleClosePasswordModal}
-      />}
+      {openPasswordModal && (
+        <AddPasswordModal
+          formData={formData}
+          setFormData={setFormData}
+          open={openPasswordModal}
+          handleClose={handleClosePasswordModal}
+        />
+      )}
       {/* Add collaborator modal */}
-      {openCollaboratorModal && <AddCollaboratorModal
-        formData={formData}
-        setFormData={setFormData}
-        open={openCollaboratorModal}
-        handleClose={handleCloseCollaboratorModal}
-      />}
+      {openCollaboratorModal && (
+        <AddCollaboratorModal
+          formData={formData}
+          setFormData={setFormData}
+          open={openCollaboratorModal}
+          handleClose={handleCloseCollaboratorModal}
+        />
+      )}
     </>
   );
 };

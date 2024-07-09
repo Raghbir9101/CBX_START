@@ -127,19 +127,23 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
           <form onSubmit={handleSubmit}>
             <input
               onChange={(e) => {
-                setFormData(p => {
-                  return { ...p, pageName: e.target.value }
-                })
+                setFormData((p) => {
+                  return { ...p, pageName: e.target.value };
+                });
               }}
               type="text"
               placeholder="Page Name"
               className="pageNameInput"
             />
-            <textarea onChange={(e) => {
-              setFormData(p => {
-                return { ...p, description: e.target.value }
-              })
-            }} placeholder="Description" className="description" />
+            <textarea
+              onChange={(e) => {
+                setFormData((p) => {
+                  return { ...p, description: e.target.value };
+                });
+              }}
+              placeholder="Description"
+              className="description"
+            />
             {/* <TextField
             label="Page Name"
             name="pageName"
@@ -230,7 +234,19 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
               </IconButton>
             </Box>
           ))} */}
-
+            <Box>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    size="small"
+                    name="isPasswordProtected"
+                    checked={formData.isPasswordProtected}
+                    onChange={handleChange}
+                  />
+                }
+                label="Password Protected"
+              />
+            </Box>
 
             {/* Footer */}
             <Box
@@ -249,18 +265,11 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
                   <PersonAddAltOutlinedIcon color="#989696" />
                 </IconButton>
               </Box>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="isPasswordProtected"
-                    checked={formData.isPasswordProtected}
-                    onChange={handleChange}
-                  />
-                }
-                label="Password Protected"
-              />
+
               <Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: "20px" }}
+                >
                   <Button
                     onClick={handleClose}
                     variant="outlined"
@@ -283,19 +292,23 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
       </Modal>
 
       {/* Add password modal */}
-      {openPasswordModal && <AddPasswordModal
-        formData={formData}
-        setFormData={setFormData}
-        open={openPasswordModal}
-        handleClose={handleClosePasswordModal}
-      />}
+      {openPasswordModal && (
+        <AddPasswordModal
+          formData={formData}
+          setFormData={setFormData}
+          open={openPasswordModal}
+          handleClose={handleClosePasswordModal}
+        />
+      )}
       {/* Add collaborator modal */}
-      {openCollaboratorModal && <AddCollaboratorModal
-        formData={formData}
-        setFormData={setFormData}
-        open={openCollaboratorModal}
-        handleClose={handleCloseCollaboratorModal}
-      />}
+      {openCollaboratorModal && (
+        <AddCollaboratorModal
+          formData={formData}
+          setFormData={setFormData}
+          open={openCollaboratorModal}
+          handleClose={handleCloseCollaboratorModal}
+        />
+      )}
     </>
   );
 };

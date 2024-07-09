@@ -20,7 +20,6 @@ import EditPageModal from "./EditNewPage";
 
 import "./Page.css";
 import TabButtons from "./TabButtons";
-import Navbar from "../Navbar/Navbar";
 
 function findByID(arr = [], id) {
   for (let i of arr) {
@@ -141,7 +140,6 @@ function Page() {
 
   return (
     <Box>
-      <Navbar />
       <Box sx={{ bgcolor: "#f4f4f4" }}>
         <TabButtons />
         <Box

@@ -56,7 +56,7 @@ const SharePageModal = ({ open, handleClose }) => {
               className="passwordInput"
             />
             <Button
-              sx={{ position: "absolute", right: 0, p: "5px 20px" }}
+              sx={{ position: "absolute", right: 0, top: "1px", p: "5px 20px" }}
               type="submit"
               variant="contained"
               className="createPageBtn"

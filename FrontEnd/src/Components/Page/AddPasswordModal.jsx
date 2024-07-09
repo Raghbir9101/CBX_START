@@ -21,8 +21,8 @@ const AddPasswordModal = ({ open, handleClose, formData, setFormData }) => {
   const [showRePassword, setShowRePassword] = useState(false);
   const [passwords, setPasswords] = useState({
     pass: formData?.password || "",
-    conPass: formData?.password || ""
-  })
+    conPass: formData?.password || "",
+  });
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -64,14 +64,14 @@ const AddPasswordModal = ({ open, handleClose, formData, setFormData }) => {
                 className="passwordInput"
                 defaultValue={passwords?.pass || ""}
                 onChange={(e) => {
-                  setPasswords(p => {
-                    return { ...p, pass: e.target.value }
-                  })
+                  setPasswords((p) => {
+                    return { ...p, pass: e.target.value };
+                  });
                 }}
               />
               <IconButton
                 onClick={handleShowPassword}
-                sx={{ position: "absolute", right: "10px", mt: "1px" }}
+                sx={{ position: "absolute", right: "10px", mt: "2px" }}
               >
                 {showPassword ? (
                   <VisibilityOutlinedIcon
@@ -84,21 +84,21 @@ const AddPasswordModal = ({ open, handleClose, formData, setFormData }) => {
                 )}
               </IconButton>
             </Box>
-            <Box sx={{ mt: 1, position: "relative" }}>
+            <Box sx={{ mt: 2, position: "relative" }}>
               <input
                 type={showRePassword ? "text" : "password"}
                 placeholder="Re-enter Password"
                 className="passwordInput"
                 defaultValue={passwords?.conPass || ""}
                 onChange={(e) => {
-                  setPasswords(p => {
-                    return { ...p, conPass: e.target.value }
-                  })
+                  setPasswords((p) => {
+                    return { ...p, conPass: e.target.value };
+                  });
                 }}
               />
               <IconButton
                 onClick={handleShowRePassword}
-                sx={{ position: "absolute", right: "10px", mt: "1px" }}
+                sx={{ position: "absolute", right: "10px", mt: "2px" }}
               >
                 {showRePassword ? (
                   <VisibilityOutlinedIcon
@@ -124,8 +124,8 @@ const AddPasswordModal = ({ open, handleClose, formData, setFormData }) => {
               }}
             >
               <Button
-                onClick={()=>{
-                  handleClose()
+                onClick={() => {
+                  handleClose();
                 }}
                 variant="outlined"
                 className="cancelBtn"
@@ -137,11 +137,14 @@ const AddPasswordModal = ({ open, handleClose, formData, setFormData }) => {
                 variant="contained"
                 className="createPageBtn"
                 onClick={() => {
-                  if (passwords.conPass != passwords.pass) return alert("Password and Confirm Password does not match!");
-                  setFormData(p => {
-                    return { ...p, password: passwords.pass }
-                  })
-                  handleClose()
+                  if (passwords.conPass != passwords.pass)
+                    return alert(
+                      "Password and Confirm Password does not match!"
+                    );
+                  setFormData((p) => {
+                    return { ...p, password: passwords.pass };
+                  });
+                  handleClose();
                 }}
               >
                 Save

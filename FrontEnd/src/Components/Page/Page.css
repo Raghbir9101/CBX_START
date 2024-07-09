@@ -139,7 +139,7 @@
 /* AddPasswordModal.jsx */
 .passwordInput {
   background-color: #fbfcfd;
-  border: none;
+  border: 1px solid #ccc;
   outline: none;
   height: 38px;
   width: 100%;

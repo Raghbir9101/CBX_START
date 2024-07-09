@@ -43,22 +43,6 @@ const App = () => {
 
   return (
     <>
-      {/* <Container style={styles.container}>
-        <Box style={styles.box}>
-          <Typography variant="h5" component="div">
-            Sign in with Google
-          </Typography>
-          <Button
-            variant="contained"
-            style={styles.button}
-            onClick={() =>
-              (window.location.href = "http://localhost/auth/google")
-            }
-          >
-            Sign in with Google
-          </Button>
-        </Box>
-      </Container> */}
       <Box
         sx={{
           minHeight: "100vh",
@@ -86,8 +70,14 @@ const App = () => {
             />
           </Box>
 
-          <Typography variant="h3">Welcome Back!</Typography>
-          <Typography>Please login to your account.</Typography>
+          <Typography variant="h3" sx={{ color: "#2E2D2D" }}>
+            Welcome Back!
+          </Typography>
+          <Typography
+            sx={{ color: "#777171", fontSize: "18px", fontWeight: 500 }}
+          >
+            Please login to your account.
+          </Typography>
           <Box sx={{ mt: 2 }}>
             <Button
               onClick={() =>
