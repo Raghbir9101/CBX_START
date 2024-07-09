@@ -29,6 +29,7 @@ PagesRouter.post("/addNewPage", async (req, res) => {
 
         let postData = {
             pageName: req.body.pageName || "New Page",
+            description: req.body.description || "",
             data: defaultData,
             userID: req.body.userID,
             visibility: req.body.visibility,

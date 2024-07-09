@@ -19,6 +19,8 @@ import { useParams } from "react-router-dom";
 import Delete from "@mui/icons-material/Delete";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
+import AddPasswordModal from "./AddPasswordModal";
+import AddCollaboratorModal from "./AddCollaboratorModal";
 
 const modalStyle = {
   position: "absolute",
@@ -41,12 +43,23 @@ function findByID(arr = [], id) {
   return null;
 }
 
-const EditPageModal = ({ open, handleClose, handleEditPage }) => {
+const EditPageModal = ({ open, handleClose, handleEditPage, selectedPage,
+  setSelectedPage }) => {
   const { pageID } = useParams();
   const { loginUser, pages } = useContext(Context);
-  const [formData, setFormData] = useState(findByID(pages, pageID));
+  const [formData, setFormData] = useState(selectedPage);
   const [newCollabEmail, setNewCollabEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [openPasswordModal, setOpenPaswordModal] = useState(false);
+  const [openCollaboratorModal, setOpenCollaboratorModal] = useState(false);
+
+  const handleOpenPasswordModal = () => setOpenPaswordModal(true);
+  const handleClosePasswordModal = () => setOpenPaswordModal(false);
+
+  const handleOpenCollaboratorModal = () => setOpenCollaboratorModal(true);
+  const handleCloseCollaboratorModal = () => setOpenCollaboratorModal(false);
+
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -102,9 +115,11 @@ const EditPageModal = ({ open, handleClose, handleEditPage }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    console.log(formData)
     handleEditPage(formData);
     handleClose();
+    setSelectedPage(null)
   };
 
   return (
@@ -224,61 +239,103 @@ const EditPageModal = ({ open, handleClose, handleEditPage }) => {
     //     </form>
     //   </Box>
     // </Modal>
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="create-page-modal-title"
-      aria-describedby="create-page-modal-description"
-    >
-      <Box sx={modalStyle}>
-        <Typography className="createPageHeading">Edit Page</Typography>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Page Name"
-            className="pageNameInput"
-          />
-          <textarea placeholder="Description" className="description" />
-        </form>
+    <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="create-page-modal-title"
+        aria-describedby="create-page-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Typography className="createPageHeading">Edit Page</Typography>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Page Name"
+              className="pageNameInput"
+              name="pageName"
+              defaultValue={selectedPage?.pageName || ""}
+              onChange={(e) => {
+                setFormData(p => {
+                  return { ...p, pageName: e.target.value }
+                })
+              }}
+            />
+            <textarea onChange={(e) => {
+              setFormData(p => {
+                return { ...p, description: e.target.value }
+              })
+            }} defaultValue={selectedPage?.description || ""} placeholder="Description" className="description" />
 
-        {/* Footer */}
-        <Box
-          mt={3}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <IconButton>
-              <HttpsOutlinedIcon color="#989696" />
-            </IconButton>
-            <IconButton>
-              <PersonAddAltOutlinedIcon color="#989696" />
-            </IconButton>
-          </Box>
-          <Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <Button
-                onClick={handleClose}
-                variant="outlined"
-                className="cancelBtn"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                className="createPageBtn"
-              >
-                Create page
-              </Button>
+
+            {/* Footer */}
+            <Box
+              mt={3}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <IconButton onClick={handleOpenPasswordModal}>
+                  <HttpsOutlinedIcon color="#989696" />
+                </IconButton>
+                <IconButton onClick={handleOpenCollaboratorModal}>
+                  <PersonAddAltOutlinedIcon color="#989696" />
+                </IconButton>
+                <FormControlLabel
+                control={
+                  <Checkbox
+                    name="isPasswordProtected"
+                    checked={formData.isPasswordProtected}
+                    onChange={handleChange}
+                  />
+                }
+                label="Password Protected"
+              />
+              </Box>
+              <Box>
+                <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                  <Button
+                    onClick={() => {
+                      handleClose();
+                      setSelectedPage(null)
+                    }}
+                    variant="outlined"
+                    className="cancelBtn"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="createPageBtn"
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </Box>
             </Box>
-          </Box>
+          </form>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
+      
+      {/* Add password modal */}
+      {openPasswordModal && <AddPasswordModal
+        formData={formData}
+        setFormData={setFormData}
+        open={openPasswordModal}
+        handleClose={handleClosePasswordModal}
+      />}
+      {/* Add collaborator modal */}
+      {openCollaboratorModal && <AddCollaboratorModal
+        formData={formData}
+        setFormData={setFormData}
+        open={openCollaboratorModal}
+        handleClose={handleCloseCollaboratorModal}
+      />}
+    </>
   );
 };
 

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, Typography, Box, Button, IconButton } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DeleteModal from "./DeleteModal";
+import { Context } from "../Context/Context";
+import { useNavigate } from "react-router-dom";
 
 const modalStyle = {
   position: "absolute",
@@ -23,12 +25,22 @@ const ShowAllPageModal = ({
   handleClose,
   handleOpenModal,
   handleEditOpenModal,
+  selectedPage,
+  setSelectedPage
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const { pages } = useContext(Context)
+  const handleOpenDeleteModal = () => {
+    setOpenDeleteModal(true)
+  };
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteModal(false)
+  };
 
-  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
-  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
+  const nav = useNavigate()
+
+  console.log(pages)
   return (
     <>
       <Modal
@@ -58,68 +70,54 @@ const ShowAllPageModal = ({
               <Typography sx={{ fontSize: "14px", color: "#8B8888" }}>
                 Your Pages
               </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mt: 1,
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <ChevronRightRoundedIcon />
-                  <Typography>Page Start</Typography>
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <IconButton onClick={handleEditOpenModal}>
-                    <EditOutlinedIcon
-                      sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
-                    />
-                  </IconButton>
-                  <IconButton onClick={handleOpenDeleteModal}>
-                    <DeleteOutlineOutlinedIcon
-                      sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
-                    />
-                  </IconButton>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mt: 1,
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <ChevronRightRoundedIcon />
-                  <Typography>Page Start</Typography>
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <IconButton onClick={handleEditOpenModal}>
-                    <EditOutlinedIcon
-                      sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
-                    />
-                  </IconButton>
-                  <IconButton handleOpenDeleteModal>
-                    <DeleteOutlineOutlinedIcon
-                      sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
-                    />
-                  </IconButton>
-                </Box>
-              </Box>
+              {pages.map((item) => {
+                return (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mt: 1,
+                      cursor: "pointer"
+                    }}
+                    onClick={() => {
+                      nav("/page/" + item._id);
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <ChevronRightRoundedIcon />
+                      <Typography>{item.pageName || ""}</Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <IconButton onClick={(e) => {
+                        e.stopPropagation()
+                        handleEditOpenModal(e);
+                        setSelectedPage(item)
+
+                      }}>
+                        <EditOutlinedIcon
+                          sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
+                        />
+                      </IconButton>
+                      <IconButton onClick={(e) => {
+                        e.stopPropagation()
+                        handleOpenDeleteModal(e);
+                        setSelectedPage(item)
+                      }}>
+                        <DeleteOutlineOutlinedIcon
+                          sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
+                        />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                );
+              })}
             </Box>
           </Box>
 

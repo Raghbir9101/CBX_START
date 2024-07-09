@@ -109,6 +109,7 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log(formData)
     handleCreatePage(formData);
     handleClose();
   };
@@ -125,11 +126,20 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
           <Typography className="createPageHeading">Create a Page</Typography>
           <form onSubmit={handleSubmit}>
             <input
+              onChange={(e) => {
+                setFormData(p => {
+                  return { ...p, pageName: e.target.value }
+                })
+              }}
               type="text"
               placeholder="Page Name"
               className="pageNameInput"
             />
-            <textarea placeholder="Description" className="description" />
+            <textarea onChange={(e) => {
+              setFormData(p => {
+                return { ...p, description: e.target.value }
+              })
+            }} placeholder="Description" className="description" />
             {/* <TextField
             label="Page Name"
             name="pageName"
@@ -220,57 +230,72 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
               </IconButton>
             </Box>
           ))} */}
-          </form>
 
-          {/* Footer */}
-          <Box
-            mt={3}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <IconButton onClick={handleOpenPasswordModal}>
-                <HttpsOutlinedIcon color="#989696" />
-              </IconButton>
-              <IconButton onClick={handleOpenCollaboratorModal}>
-                <PersonAddAltOutlinedIcon color="#989696" />
-              </IconButton>
-            </Box>
-            <Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                <Button
-                  onClick={handleClose}
-                  variant="outlined"
-                  className="cancelBtn"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  className="createPageBtn"
-                >
-                  Create page
-                </Button>
+
+            {/* Footer */}
+            <Box
+              mt={3}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <IconButton onClick={handleOpenPasswordModal}>
+                  <HttpsOutlinedIcon color="#989696" />
+                </IconButton>
+                <IconButton onClick={handleOpenCollaboratorModal}>
+                  <PersonAddAltOutlinedIcon color="#989696" />
+                </IconButton>
+              </Box>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="isPasswordProtected"
+                    checked={formData.isPasswordProtected}
+                    onChange={handleChange}
+                  />
+                }
+                label="Password Protected"
+              />
+              <Box>
+                <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                  <Button
+                    onClick={handleClose}
+                    variant="outlined"
+                    className="cancelBtn"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="createPageBtn"
+                  >
+                    Create page
+                  </Button>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          </form>
         </Box>
       </Modal>
 
       {/* Add password modal */}
-      <AddPasswordModal
+      {openPasswordModal && <AddPasswordModal
+        formData={formData}
+        setFormData={setFormData}
         open={openPasswordModal}
         handleClose={handleClosePasswordModal}
-      />
+      />}
       {/* Add collaborator modal */}
-      <AddCollaboratorModal
+      {openCollaboratorModal && <AddCollaboratorModal
+        formData={formData}
+        setFormData={setFormData}
         open={openCollaboratorModal}
         handleClose={handleCloseCollaboratorModal}
-      />
+      />}
     </>
   );
 };
