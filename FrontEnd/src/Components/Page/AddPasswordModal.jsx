@@ -16,10 +16,13 @@ const modalStyle = {
   borderRadius: "18px",
 };
 
-const AddPasswordModal = ({ open, handleClose }) => {
+const AddPasswordModal = ({ open, handleClose, formData, setFormData }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-
+  const [passwords, setPasswords] = useState({
+    pass: formData?.password || "",
+    conPass: formData?.password || ""
+  })
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -59,6 +62,12 @@ const AddPasswordModal = ({ open, handleClose }) => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
                 className="passwordInput"
+                defaultValue={passwords?.pass || ""}
+                onChange={(e) => {
+                  setPasswords(p => {
+                    return { ...p, pass: e.target.value }
+                  })
+                }}
               />
               <IconButton
                 onClick={handleShowPassword}
@@ -80,6 +89,12 @@ const AddPasswordModal = ({ open, handleClose }) => {
                 type={showRePassword ? "text" : "password"}
                 placeholder="Re-enter Password"
                 className="passwordInput"
+                defaultValue={passwords?.conPass || ""}
+                onChange={(e) => {
+                  setPasswords(p => {
+                    return { ...p, conPass: e.target.value }
+                  })
+                }}
               />
               <IconButton
                 onClick={handleShowRePassword}
@@ -109,7 +124,9 @@ const AddPasswordModal = ({ open, handleClose }) => {
               }}
             >
               <Button
-                onClick={handleClose}
+                onClick={()=>{
+                  handleClose()
+                }}
                 variant="outlined"
                 className="cancelBtn"
               >
@@ -119,6 +136,13 @@ const AddPasswordModal = ({ open, handleClose }) => {
                 type="submit"
                 variant="contained"
                 className="createPageBtn"
+                onClick={() => {
+                  if (passwords.conPass != passwords.pass) return alert("Password and Confirm Password does not match!");
+                  setFormData(p => {
+                    return { ...p, password: passwords.pass }
+                  })
+                  handleClose()
+                }}
               >
                 Save
               </Button>

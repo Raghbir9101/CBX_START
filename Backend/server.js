@@ -118,6 +118,41 @@ import { authenticateToken, authenticateTokenAndReturnUser } from './Authorizati
 //     return res.send({ ...req.user, pages })
 // })
 
+// app.get("/api/getUserData", authenticateToken, async (req, res) => {
+//     try {
+//         // Find pages owned by the user
+//         const ownedPages = await PagesModel.find({ userID: req.user._id });
+
+//         // Find pages where the user is a collaborator
+//         const collaboratedPages = await PagesModel.find({ "collaborators.email": req.user.email });
+
+//         // Add role key to collaborated pages
+//         const collaboratedPagesWithRole = collaboratedPages.map(page => {
+//             const collaborator = page.collaborators.find(c => c.email === req.user.email);
+//             return {
+//                 ...page.toObject(),
+//                 role: collaborator.role
+//             };
+//         });
+
+//         // Combine owned and collaborated pages
+//         const pages = [
+//             ...ownedPages.map(page => ({
+//                 ...page.toObject(),
+//                 role: 'OWNER' // Assuming the role for owned pages is 'OWNER'
+//             })),
+//             ...collaboratedPagesWithRole
+//         ];
+
+//         // Send response
+//         return res.send({ ...req.user, pages });
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).send("Internal Server Error");
+//     }
+// });
+
+
 app.get("/api/getUserData", authenticateToken, async (req, res) => {
     try {
         // Find pages owned by the user
@@ -135,14 +170,26 @@ app.get("/api/getUserData", authenticateToken, async (req, res) => {
             };
         });
 
-        // Combine owned and collaborated pages
-        const pages = [
-            ...ownedPages.map(page => ({
+        // Create a map to track unique pages
+        const pagesMap = new Map();
+
+        // Add owned pages to the map
+        ownedPages.forEach(page => {
+            pagesMap.set(page._id.toString(), {
                 ...page.toObject(),
                 role: 'OWNER' // Assuming the role for owned pages is 'OWNER'
-            })),
-            ...collaboratedPagesWithRole
-        ];
+            });
+        });
+
+        // Add collaborated pages to the map, only if they don't already exist
+        collaboratedPagesWithRole.forEach(page => {
+            if (!pagesMap.has(page._id.toString())) {
+                pagesMap.set(page._id.toString(), page);
+            }
+        });
+
+        // Convert map to array
+        const pages = Array.from(pagesMap.values());
 
         // Send response
         return res.send({ ...req.user, pages });

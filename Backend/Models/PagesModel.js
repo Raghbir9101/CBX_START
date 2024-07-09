@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 const pagesSchema = mongoose.Schema({
     pageName: { type: String },
+    description: { type: String },
     data: { type: Object },
-    userID: { type: String },
+    userID: { type: String }, 
     visibility: { type: String },
     isPasswordProtected: { type: Boolean },
     password: { type: String },

@@ -27,7 +27,7 @@ import AddNewData from "./AddNewData";
 import ShowAllPageModal from "../Page/ShowAllPageModal";
 import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
+import HTTP from "../../HTTP"
 const Navbar = () => {
   const nav = useNavigate();
   const { pageID } = useParams();
@@ -40,7 +40,7 @@ const Navbar = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
-
+  const [selectedPage, setSelectedPage] = useState(null)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -81,18 +81,33 @@ const Navbar = () => {
   };
 
   const handleEditPage = async (pageData) => {
-    let { data: res } = await HTTP.put(`pages/${pageID}`, pageData);
+    // console.log(pageData)
+    let { data: res } = await HTTP.put(`pages/${pageData._id}`, pageData);
     if (res.error) return alert(res.error || "Internal Server Error!");
 
     setPages((p) => {
       let temp = [...p];
       for (let i = 0; i < temp.length; i++) {
-        if (temp[i]._id == pageID) {
+        if (temp[i]._id == pageData._id) {
           temp[i] = res;
         }
       }
       return temp;
     });
+
+
+    // let { data: res } = await HTTP.put(`pages/${pageID}`, pageData);
+    // if (res.error) return alert(res.error || "Internal Server Error!");
+
+    // setPages((p) => {
+    //   let temp = [...p];
+    //   for (let i = 0; i < temp.length; i++) {
+    //     if (temp[i]._id == pageID) {
+    //       temp[i] = res;
+    //     }
+    //   }
+    //   return temp;
+    // });
   };
 
   // Menu
@@ -218,7 +233,7 @@ const Navbar = () => {
           </Sbutton>
         </Box> */}
 
-        <Box>
+        <Box width={"33%"}>
           <div className="group">
             <img
               className="image"
@@ -230,7 +245,7 @@ const Navbar = () => {
           {/* <Typography className="toolName">CBX START</Typography> */}
         </Box>
 
-        <Box>
+        <Box width={"33%"} display={"flex"} justifyContent={"center"}>
           <Button
             // onClick={handleOpenModal}
             onClick={handleOpenAllPagesModal}
@@ -242,9 +257,10 @@ const Navbar = () => {
         </Box>
 
         {token && (
-          <Box
+          <Box width={"33%"}
             sx={{
               display: "flex",
+              justifyContent: "flex-end",
               alignItems: "center",
               gap: "30px",
             }}
@@ -350,6 +366,8 @@ const Navbar = () => {
       {/* Edit Page Modal */}
       {editModalOpen && (
         <EditPageModal
+          selectedPage={selectedPage}
+          setSelectedPage={setSelectedPage}
           open={editModalOpen}
           handleClose={handleEditCloseModal}
           handleEditPage={handleEditPage}
@@ -358,6 +376,8 @@ const Navbar = () => {
 
       {/*Show all pages*/}
       <ShowAllPageModal
+        selectedPage={selectedPage}
+        setSelectedPage={setSelectedPage}
         open={isShowModalOpen}
         handleClose={handleCloseAllPagesModal}
         handleOpenModal={handleOpenModal}
