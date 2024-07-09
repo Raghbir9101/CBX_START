@@ -12,7 +12,7 @@ function AllRoutes() {
 
   return (
     <Box>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         {/* <Route path='/' element={!token ? <Navigate to={"/login"} /> : <></>} /> */}
         <Route path="/" element={<HomePage />} />

@@ -20,6 +20,7 @@ import EditPageModal from "./EditNewPage";
 
 import "./Page.css";
 import TabButtons from "./TabButtons";
+import Navbar from "../Navbar/Navbar";
 
 function findByID(arr = [], id) {
   for (let i of arr) {
