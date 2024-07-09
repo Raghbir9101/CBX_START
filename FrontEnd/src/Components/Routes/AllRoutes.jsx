@@ -5,14 +5,14 @@ import Login from "../Login/Login";
 import { Context } from "../Context/Context";
 import HomePage from "../Homepage/Homepage";
 import { Box } from "@mui/material";
-import Navbar from "../Navbar/Navbar";
+// import Navbar from "../Navbar/Navbar";
 import TodoList from "../Page/Pages/TodoList";
 function AllRoutes() {
   const { token, pages, isLoading } = useContext(Context);
 
   return (
     <Box>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         {/* <Route path='/' element={!token ? <Navigate to={"/login"} /> : <></>} /> */}
         <Route path="/" element={<HomePage />} />

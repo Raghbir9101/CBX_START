@@ -20,6 +20,7 @@ import EditPageModal from "./EditNewPage";
 
 import "./Page.css";
 import TabButtons from "./TabButtons";
+import Navbar from "../Navbar/Navbar";
 
 function findByID(arr = [], id) {
   for (let i of arr) {
@@ -139,175 +140,184 @@ function Page() {
   }, [pageData]);
 
   return (
-    <Box sx={{ bgcolor: "#f4f4f4" }}>
-      <TabButtons />
-      <Box
-        minHeight={"100vh"}
-        p={"10px"}
-        width={"100%"}
-        gap={"40px"}
-        display={"flex"}
-        flexDirection={"column"}
-      >
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Box
-            display={"flex"}
-            minHeight={"50vh"}
-            justifyContent={"space-evenly"}
-            gap={"20px"}
-          >
-            {pageData.map((box, boxIndex) => (
-              <Droppable droppableId={`${boxIndex}`} key={boxIndex}>
-                {(provided) => (
-                  <Box
-                    maxWidth={
-                      pageData.length == 5
-                        ? "19%"
-                        : pageData.length == 3
-                        ? "33.33%"
-                        : "50%"
-                    }
-                    width={
-                      pageData.length == 5
-                        ? "19%"
-                        : pageData.length == 3
-                        ? "33.33%"
-                        : "50%"
-                    }
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    // bgcolor={"#0000001f"}
-                    minHeight={"50vh"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    gap={"20px"}
-                  >
-                    {box.items.map((item, itemIndex) => {
-                      return (
-                        <Draggable
-                          key={itemIndex}
-                          draggableId={`${boxIndex}-${itemIndex}`}
-                          index={itemIndex}
-                        >
-                          {(provided) => (
-                            <Box
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              // {...provided.dragHandleProps}
-                              // bgcolor={"white"}
-                              // minHeight={"100px"}
-                              display={"flex"}
-                              alignItems={"center"}
-                              justifyContent={"center"}
-                              sx={{ margin: "10px 0", cursor: "move" }}
-                            >
-                              {/* <Calculator/> */}
-                              {/* <ElementWrapper item={item} provided={provided}> */}
-                              {(() => {
-                                if (item.type == "Calculator") {
-                                  return (
-                                    <Calculator
-                                      data={item.data}
-                                      provided={provided}
-                                      item={item}
-                                    />
-                                  );
-                                } else if (item.type == "Note") {
-                                  return (
-                                    <TextEditorWithSave
-                                      provided={provided}
-                                      item={item}
-                                      onChange={(newData) => {
-                                        setPageData((p) => {
-                                          let temp = [...p];
-                                          temp[boxIndex].items[itemIndex].data =
-                                            newData;
-                                          return temp;
-                                        });
-                                      }}
-                                      data={item.data}
-                                    />
-                                  );
-                                } else if (item.type == "Clock") {
-                                  return (
-                                    <Clock
-                                      data={item.data}
-                                      provided={provided}
-                                      item={item}
-                                    />
-                                  );
-                                } else if (item.type == "Todo") {
-                                  return (
-                                    <Todo
-                                      provided={provided}
-                                      item={item}
-                                      onChange={(newData) => {
-                                        setPageData((p) => {
-                                          let temp = [...p];
-                                          temp[boxIndex].items[itemIndex].data =
-                                            newData;
-                                          return temp;
-                                        });
-                                      }}
-                                      data={item.data}
-                                    />
-                                  );
-                                } else if (item.type == "Bookmark") {
-                                  return (
-                                    <Bookmark
-                                      provided={provided}
-                                      item={item}
-                                      onChange={(newData) => {
-                                        setPageData((p) => {
-                                          let temp = [...p];
-                                          temp[boxIndex].items[itemIndex].data =
-                                            newData;
-                                          return temp;
-                                        });
-                                      }}
-                                      data={item.data}
-                                    />
-                                  );
-                                } else if (item.type == "Embed") {
-                                  return (
-                                    <Embed
-                                      provided={provided}
-                                      item={item}
-                                      onChange={(newData) => {
-                                        setPageData((p) => {
-                                          let temp = [...p];
-                                          temp[boxIndex].items[itemIndex].data =
-                                            newData;
-                                          return temp;
-                                        });
-                                      }}
-                                      url={item.data.url}
-                                      data={item.data}
-                                    />
-                                  );
-                                } else if (item.type == "Currency Converter") {
-                                  return (
-                                    <CurrencyConverter
-                                      data={item.data}
-                                      provided={provided}
-                                      item={item}
-                                    />
-                                  );
-                                }
-                              })()}
-                              {/* </ElementWrapper> */}
-                            </Box>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </Box>
-                )}
-              </Droppable>
-            ))}
-          </Box>
-        </DragDropContext>
+    <Box>
+      <Navbar />
+      <Box sx={{ bgcolor: "#f4f4f4" }}>
+        <TabButtons />
+        <Box
+          minHeight={"100vh"}
+          p={"10px"}
+          width={"100%"}
+          gap={"40px"}
+          display={"flex"}
+          flexDirection={"column"}
+        >
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Box
+              display={"flex"}
+              minHeight={"50vh"}
+              justifyContent={"space-evenly"}
+              gap={"20px"}
+            >
+              {pageData.map((box, boxIndex) => (
+                <Droppable droppableId={`${boxIndex}`} key={boxIndex}>
+                  {(provided) => (
+                    <Box
+                      maxWidth={
+                        pageData.length == 5
+                          ? "19%"
+                          : pageData.length == 3
+                          ? "33.33%"
+                          : "50%"
+                      }
+                      width={
+                        pageData.length == 5
+                          ? "19%"
+                          : pageData.length == 3
+                          ? "33.33%"
+                          : "50%"
+                      }
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      // bgcolor={"#0000001f"}
+                      minHeight={"50vh"}
+                      display={"flex"}
+                      flexDirection={"column"}
+                      gap={"20px"}
+                    >
+                      {box.items.map((item, itemIndex) => {
+                        return (
+                          <Draggable
+                            key={itemIndex}
+                            draggableId={`${boxIndex}-${itemIndex}`}
+                            index={itemIndex}
+                          >
+                            {(provided) => (
+                              <Box
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                // {...provided.dragHandleProps}
+                                // bgcolor={"white"}
+                                // minHeight={"100px"}
+                                display={"flex"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                                sx={{ margin: "10px 0", cursor: "move" }}
+                              >
+                                {/* <Calculator/> */}
+                                {/* <ElementWrapper item={item} provided={provided}> */}
+                                {(() => {
+                                  if (item.type == "Calculator") {
+                                    return (
+                                      <Calculator
+                                        data={item.data}
+                                        provided={provided}
+                                        item={item}
+                                      />
+                                    );
+                                  } else if (item.type == "Note") {
+                                    return (
+                                      <TextEditorWithSave
+                                        provided={provided}
+                                        item={item}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (item.type == "Clock") {
+                                    return (
+                                      <Clock
+                                        data={item.data}
+                                        provided={provided}
+                                        item={item}
+                                      />
+                                    );
+                                  } else if (item.type == "Todo") {
+                                    return (
+                                      <Todo
+                                        provided={provided}
+                                        item={item}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (item.type == "Bookmark") {
+                                    return (
+                                      <Bookmark
+                                        provided={provided}
+                                        item={item}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (item.type == "Embed") {
+                                    return (
+                                      <Embed
+                                        provided={provided}
+                                        item={item}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        url={item.data.url}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } else if (
+                                    item.type == "Currency Converter"
+                                  ) {
+                                    return (
+                                      <CurrencyConverter
+                                        data={item.data}
+                                        provided={provided}
+                                        item={item}
+                                      />
+                                    );
+                                  }
+                                })()}
+                                {/* </ElementWrapper> */}
+                              </Box>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </Box>
+                  )}
+                </Droppable>
+              ))}
+            </Box>
+          </DragDropContext>
+        </Box>
       </Box>
     </Box>
   );
