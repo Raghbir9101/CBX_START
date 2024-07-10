@@ -132,7 +132,6 @@ const Navbar = ({ setPageData }) => {
     setPopoverAnchorEl(null);
   };
   const isPopoverOpen = Boolean(popoverAnchorEl);
-
   return (
     <Box className="navMainBox">
       <Box

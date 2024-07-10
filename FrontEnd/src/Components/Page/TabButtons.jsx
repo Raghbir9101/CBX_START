@@ -97,8 +97,9 @@ const TabButtons = ({
   };
 
   const handleReset = () => {
-    setFilters({})
+    setFilters({});
   };
+
   return (
     <Box>
       <Box
@@ -116,14 +117,14 @@ const TabButtons = ({
           onClick={() => {
             toggleFilter("Note");
           }}
-          className={filters["Note"]  ? "isActive" : "headingBtns"}
+          className={filters["Note"] ? "isActive" : "headingBtns"}
           sx={{
             boxShadow: 1,
             // transform: filters.Note ? "scale(110%)" : "none",
           }}
           startIcon={
             <IconButton
-              className={filters["Note"]  ? "isActiveIcons" : "iconBtns"}
+              className={filters["Note"] ? "isActiveIcons" : "iconBtns"}
               sx={{ p: "4px", mr: 1 }}
             >
               <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
@@ -145,7 +146,7 @@ const TabButtons = ({
             className={filters["Todo"] ? "isActive" : "headingBtns"}
             startIcon={
               <IconButton
-                className={ filters["Todo"]  ? "isActiveIcons" : "iconBtns"}
+                className={filters["Todo"] ? "isActiveIcons" : "iconBtns"}
                 sx={{ p: "4px", mr: 1 }}
               >
                 <FormatListBulletedOutlinedIcon
@@ -169,7 +170,7 @@ const TabButtons = ({
           className={filters["Bookmark"] ? "isActive" : "headingBtns"}
           startIcon={
             <IconButton
-              className={filters["Bookmark"]  ? "isActiveIcons" : "iconBtns"}
+              className={filters["Bookmark"] ? "isActiveIcons" : "iconBtns"}
               sx={{ p: "4px", mr: 1 }}
             >
               <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />
@@ -306,7 +307,10 @@ const TabButtons = ({
           }}
           ref={searchInputRef}
         >
-          <Box className="inputBox" sx={{ position: "relative" }}>
+          <Box
+            className="inputBox"
+            sx={{ position: "relative", boxShadow: 1, borderRadius: "12px" }}
+          >
             <input
               className="googleSearchInput"
               type="text"
