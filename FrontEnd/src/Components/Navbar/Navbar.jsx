@@ -20,7 +20,7 @@ import searchIcon from "../../Icons/search.svg";
 import plus from "../../Icons/add.svg";
 import pluss from "../../Icons/plusGreen.svg";
 import share from "../../Icons/share.svg";
-import logo from "../../Icons/navLogo.svg";
+import logo from "../../Icons/logooo.svg";
 import search from "../../Icons/searchIcon.svg";
 import AddNewData from "./AddNewData";
 import ShowAllPageModal from "../Page/ShowAllPageModal";
@@ -395,7 +395,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData }) => {
 
       {/* Share Modal */}
       <SharePageModal
-      setPageMetaData={setPageMetaData}
+        setPageMetaData={setPageMetaData}
         open={isShareModalOpen}
         handleClose={handleCloseShareModal}
         pageMetaData={pageMetaData}
