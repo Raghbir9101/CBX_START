@@ -144,96 +144,6 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
               placeholder="Description"
               className="description"
             />
-            {/* <TextField
-            label="Page Name"
-            name="pageName"
-            value={formData.pageName}
-            onChange={handleChange}
-            fullWidth
-            size="small"
-            margin="normal"
-            required
-          /> */}
-            {/* <FormControl fullWidth margin="normal">
-            <InputLabel id="visibility-label">Visibility</InputLabel>
-            <Select
-              labelId="visibility-label"
-              name="visibility"
-              label="Visibility"
-              value={formData.visibility}
-              onChange={handleChange}
-              fullWidth
-              size="small"
-            >
-              <MenuItem value="PRIVATE">Private</MenuItem>
-              <MenuItem value="PUBLIC">Public</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="isPasswordProtected"
-                checked={formData.isPasswordProtected}
-                onChange={handleChange}
-              />
-            }
-            label="Password Protected"
-          />
-          {formData.isPasswordProtected && (
-            <TextField
-              size="small"
-              label="Password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
-          )}
-          <Box display="flex" alignItems="center" gap="10px" mt={2}>
-            <TextField
-              type="email"
-              sx={{ flex: 1 }}
-              onChange={(e) => setNewCollabEmail(e.target.value)}
-              size="small"
-              label="Add new Collaborator"
-              // placeholder="Collaborators"
-              value={newCollabEmail}
-              error={!!emailError}
-              helperText={emailError}
-            />
-            <Button onClick={handleAddCollaborator} variant="contained">
-              Add
-            </Button>
-          </Box>
-          {formData.collaborators.map((collaborator, index) => (
-            <Box
-              display="flex"
-              gap="10px"
-              alignItems="center"
-              mt={2}
-              key={index}
-            >
-              <Typography flex={2}>{collaborator.email}</Typography>
-              <FormControl sx={{ flex: 1 }} margin="normal">
-                <InputLabel>Role</InputLabel>
-                <Select
-                  labelId={`role-label-${index}`}
-                  value={collaborator.role}
-                  onChange={(e) => handleRoleChange(index, e.target.value)}
-                  size="small"
-                  label="Role"
-                >
-                  <MenuItem value="VIEWER">Viewer</MenuItem>
-                  <MenuItem value="EDITOR">Editor</MenuItem>
-                </Select>
-              </FormControl>
-              <IconButton onClick={() => handleDeleteCollaborator(index)}>
-                <DeleteIcon />
-              </IconButton>
-            </Box>
-          ))} */}
             <Box>
               <FormControl fullWidth margin="normal">
                 <InputLabel id="visibility-label">Visibility</InputLabel>
@@ -248,9 +158,10 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
                 >
                   <MenuItem value="PRIVATE">Private</MenuItem>
                   <MenuItem value="PUBLIC">Public</MenuItem>
+                  <MenuItem value="PASSWORD_PROTECTED">Password Protected</MenuItem>
                 </Select>
               </FormControl>
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={
                   <Checkbox
                     size="small"
@@ -260,7 +171,7 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
                   />
                 }
                 label="Password Protected"
-              />
+              /> */}
             </Box>
 
             {/* Footer */}

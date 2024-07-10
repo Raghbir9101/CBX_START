@@ -25,7 +25,7 @@ const ShowAllPageModal = ({
   handleClose,
   handleOpenModal,
   handleEditOpenModal,
-  selectedPage,
+  pageMetaData,
   setSelectedPage,
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -74,7 +74,8 @@ const ShowAllPageModal = ({
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      mt: 1,
+                      mt: "5px",
+                      height:"40px",
                       cursor: "pointer",
                       "&:hover": {
                         background: "#f7fafc",
@@ -95,7 +96,7 @@ const ShowAllPageModal = ({
                       <Typography>{item.pageName || ""}</Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <IconButton
+                      {(item.role == "OWNER" || item.role == "EDITOR") && <IconButton size="small"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEditOpenModal(e);
@@ -109,8 +110,8 @@ const ShowAllPageModal = ({
                             height: "20px",
                           }}
                         />
-                      </IconButton>
-                      <IconButton
+                      </IconButton>}
+                      {(item.role == "OWNER" || item.role == "EDITOR") && <IconButton size="small"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleOpenDeleteModal(e);
@@ -124,7 +125,7 @@ const ShowAllPageModal = ({
                             height: "20px",
                           }}
                         />
-                      </IconButton>
+                      </IconButton>}
                     </Box>
                   </Box>
                 );

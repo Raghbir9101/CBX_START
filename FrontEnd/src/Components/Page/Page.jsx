@@ -54,6 +54,7 @@ function Page() {
 
   const { pages } = useContext(Context);
   const [pageData, setPageData] = useState([]);
+  const [pageMetaData, setPageMetaData] = useState([]);
   const [pass, setPass] = useState("");
   const [filteredPageData, setFilteredPageData] = useState([]);
   const [filters, setFilters] = useState({});
@@ -119,7 +120,7 @@ function Page() {
 
         return alert(res.data.error);
       }
-
+      setPageMetaData(res.data)
       setFilteredPageData(res.data.data);
       setPageData(res.data.data);
     });
@@ -203,6 +204,7 @@ function Page() {
               if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
                 return alert(tempPage.error);
               }
+              setPageMetaData(tempPage)
               setFilteredPageData(tempPage.data);
               setPageData(tempPage.data);
               return setPasswordModal(false)
@@ -210,7 +212,7 @@ function Page() {
           </Box>
         </Box>
       </Modal>
-      <Navbar setPageData={setPageData} />
+      <Navbar pageMetaData={pageMetaData} setPageData={setPageData} setPageMetaData={setPageMetaData}/>
       <Box sx={{ bgcolor: "#f4f4f4" }}>
         <TabButtons
           setPageData={setPageData}
@@ -445,6 +447,7 @@ export function ElementWrapper({ provided, item, children, ActionButtons }) {
         </Box>
         <Box display={"flex"} gap={"5px"}>
           {!!ActionButtons && <ActionButtons />}
+          
         </Box>
       </Box>
       {open && (

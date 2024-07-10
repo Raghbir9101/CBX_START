@@ -289,9 +289,10 @@ const EditPageModal = ({
                 >
                   <MenuItem value="PRIVATE">Private</MenuItem>
                   <MenuItem value="PUBLIC">Public</MenuItem>
+                  <MenuItem value="PASSWORD_PROTECTED">Password Protected</MenuItem>
                 </Select>
-                </FormControl>
-                <FormControlLabel
+              </FormControl>
+              {/* <FormControlLabel
                   control={
                     <Checkbox
                       size="small"
@@ -301,7 +302,7 @@ const EditPageModal = ({
                     />
                   }
                   label="Password Protected"
-                />
+                /> */}
             </Box>
             {/* Footer */}
             <Box
@@ -313,7 +314,7 @@ const EditPageModal = ({
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <IconButton onClick={handleOpenPasswordModal}>
+                <IconButton disabled={formData.visibility != "PASSWORD_PROTECTED"} onClick={handleOpenPasswordModal}>
                   <HttpsOutlinedIcon color="#989696" />
                 </IconButton>
                 <IconButton onClick={handleOpenCollaboratorModal}>

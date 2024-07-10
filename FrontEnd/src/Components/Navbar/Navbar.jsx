@@ -28,7 +28,7 @@ import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HTTP from "../../HTTP";
 
-const Navbar = ({ setPageData }) => {
+const Navbar = ({ setPageData, pageMetaData, setPageMetaData }) => {
   const nav = useNavigate();
   const { pageID } = useParams();
   const { handleLogout, pages, setPages, token } = useContext(Context);
@@ -90,7 +90,7 @@ const Navbar = ({ setPageData }) => {
       let temp = [...p];
       for (let i = 0; i < temp.length; i++) {
         if (temp[i]._id == pageData._id) {
-          temp[i] = res;
+          temp[i] = { ...temp[i], ...res };
         }
       }
       return temp;
@@ -252,7 +252,7 @@ const Navbar = ({ setPageData }) => {
             className="pageNameBtn"
             endIcon={<KeyboardArrowDownIcon />}
           >
-            Page Start
+            {pageMetaData?.pageName || ""}
           </Button>
         </Box>
 
@@ -383,6 +383,7 @@ const Navbar = ({ setPageData }) => {
         handleClose={handleCloseAllPagesModal}
         handleOpenModal={handleOpenModal}
         handleEditOpenModal={handleEditOpenModal}
+        pageMetaData={pageMetaData}
       />
 
       {/* Add New Data Popover */}
@@ -395,8 +396,10 @@ const Navbar = ({ setPageData }) => {
 
       {/* Share Modal */}
       <SharePageModal
+      setPageMetaData={setPageMetaData}
         open={isShareModalOpen}
         handleClose={handleCloseShareModal}
+        pageMetaData={pageMetaData}
       />
     </Box>
   );

@@ -37,9 +37,6 @@ const TabButtons = ({
 }) => {
   const location = useLocation();
   const [searchVisible, setSearchVisible] = useState(false);
-  const [isTodo, setIsTodo] = useState(false);
-  const [isNote, setIsNote] = useState(false);
-  const [isLink, setIsLink] = useState(false);
   const searchInputRef = useRef(null);
 
   const handleSearchClick = () => {
@@ -71,23 +68,6 @@ const TabButtons = ({
   };
 
   const toggleFilter = (filterName) => {
-    if (filterName === "Todo") {
-      setIsTodo(true);
-      setIsNote(false);
-      setIsLink(false);
-    }
-
-    if (filterName === "Note") {
-      setIsNote(true);
-      setIsTodo(false);
-      setIsLink(false);
-    }
-
-    if (filterName === "Bookmark") {
-      setIsLink(true);
-      setIsTodo(false);
-      setIsNote(false);
-    }
     setFilters((p) => {
       let temp = { ...p };
       if (temp[filterName]) delete temp[filterName];

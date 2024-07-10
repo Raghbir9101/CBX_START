@@ -225,46 +225,13 @@ app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, 
     let page = await PagesModel.findOne({ _id: req.params.pageID }).lean();
     let role = "NONE";
 
-    if (page.visibility == "PUBLIC" && !req.login) {
-        if (!page.isPasswordProtected) {
-            return res.send(page)
-        }
-        else {
-            console.log(page.password, req.query.password)
-            if (page.password == req.query.password) {
-                return res.send(page)
-            }
-            else if (page.password != req.query.password && req.query.password) {
-                return res.send({ error: "Incorrect Password.", errorCode: "INVALID_PASSWORD" })
-            }
-            return res.send({ error: "Please enter password", errorCode: "ENTER_PASSWORD" })
-        }
-    }
-    if(!req.login && page.visibility == "PRIVATE"){
-        return res.send({ error: "This page is PRIVATE !", errorCode: "PRIVATE_PAGE" })
-    }
-    for (let i of page.collaborators) {
-        if (req.user._id == page.userID) {
-            role = "OWNER";
-            break
-        }
-        if (i.email == req.user.email) {
-            role = i.role;
-            break
-        }
-    }
-
-    page = { ...page, role }
-
-    if ((req.login && req.user._id == page.userID) || role != "NONE") {
+    if (page.visibility == "PUBLIC") {
         return res.send(page)
     }
-
-    if (page.visibility == "PRIVATE") {
-        return res.send({ error: "This Page is private. Cannot access without permission.", errorCode: "PRIVATE_PAGE" })
+    if (!req.login && page.visibility == "PRIVATE") {
+        return res.send({ error: "This page is PRIVATE !", errorCode: "PRIVATE_PAGE" })
     }
-
-    if (page.isPasswordProtected) {
+    if (page.visibility == "PASSWORD_PROTECTED") {
         if (page.password == req.query.password) {
             return res.send(page)
         }
@@ -273,8 +240,27 @@ app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, 
         }
         return res.send({ error: "Please enter password", errorCode: "ENTER_PASSWORD" })
     }
-    if (page.visibility == "PUBLIC") {
+    else if (req.login && page.visibility == "PRIVATE") {
+        for (let i of page.collaborators) {
+            if (req.user._id == page.userID) {
+                role = "OWNER";
+                break
+            }
+            if (i.email == req.user.email) {
+                role = i.role;
+                break
+            }
+        }
+
+        page = { ...page, role }
+    }
+
+    if ((req.login && req.user._id == page.userID) || role != "NONE") {
         return res.send(page)
+    }
+
+    if (page.visibility == "PRIVATE") {
+        return res.send({ error: "This Page is private. Cannot access without permission.", errorCode: "PRIVATE_PAGE" })
     }
 
     return res.send(page)
@@ -340,8 +326,44 @@ app.get('/auth/google/callback', async (req, res) => {
                 googleRefreshToken: tokens.refresh_token,
                 // role: "ADMIN"
             });
-            const pages = await PagesModel.find({ userID: existingUser._id })
-            console.log(updatedUser)
+            // const pages = await PagesModel.find({ userID: existingUser._id })
+
+            const ownedPages = await PagesModel.find({ userID: existingUser._id });
+
+            // Find pages where the user is a collaborator
+            const collaboratedPages = await PagesModel.find({ "collaborators.email": existingUser.email });
+
+            // Add role key to collaborated pages
+            const collaboratedPagesWithRole = collaboratedPages.map(page => {
+                const collaborator = page.collaborators.find(c => c.email === existingUser.email);
+                return {
+                    ...page.toObject(),
+                    role: collaborator.role
+                };
+            });
+
+            // Create a map to track unique pages
+            const pagesMap = new Map();
+
+            // Add owned pages to the map
+            ownedPages.forEach(page => {
+                pagesMap.set(page._id.toString(), {
+                    ...page.toObject(),
+                    role: 'OWNER' // Assuming the role for owned pages is 'OWNER'
+                });
+            });
+
+            // Add collaborated pages to the map, only if they don't already exist
+            collaboratedPagesWithRole.forEach(page => {
+                if (!pagesMap.has(page._id.toString())) {
+                    pagesMap.set(page._id.toString(), page);
+                }
+            });
+
+            // Convert map to array
+            const pages = Array.from(pagesMap.values());
+
+
             const token = jwt.sign({ userId: existingUser._id }, secret);
             delete existingUser.password;
             delete existingUser.googleRefreshToken;
@@ -585,7 +607,7 @@ app.get('/auth/google/callback', async (req, res) => {
             })
         }
     } catch (error) {
-        console.error('Error retrieving access token:', error.message);
+        console.error('Error retrieving access token:', error);
         res.status(500).send('Error retrieving access token');
     }
 });

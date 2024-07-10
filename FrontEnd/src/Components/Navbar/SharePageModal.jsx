@@ -1,7 +1,10 @@
 import { Box, Modal, Typography, Button, MenuItem, Menu } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
+import SecurityIcon from '@mui/icons-material/Security';
+import PublicIcon from '@mui/icons-material/Public';
+import { Context } from "../Context/Context";
+import HTTP from "../../HTTP";
 const modalStyle = {
   position: "absolute",
   top: "300px",
@@ -14,10 +17,10 @@ const modalStyle = {
   borderRadius: "18px",
 };
 
-const SharePageModal = ({ open, handleClose }) => {
+const SharePageModal = ({ open, handleClose, pageMetaData, setPageMetaData }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [role, setRole] = useState("Viewer");
-
+  const { setPages } = useContext(Context)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -28,6 +31,26 @@ const SharePageModal = ({ open, handleClose }) => {
       setRole(selectedRole);
     }
   };
+
+  const handleVisibilityChange = async (val) => {
+    if(pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR" ) return alert("You don't have rights to edit.")
+    let { data: res } = await HTTP.put(`pages/${pageMetaData._id}`, {
+      visibility: val
+    });
+    if (res.error) return alert(res.error || "Internal Server Error!");
+    setPages((p) => {
+      let temp = [...p];
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i]._id == pageMetaData._id) {
+          temp[i] = { ...temp[i], ...res };
+        }
+      }
+      return temp;
+    });
+    setPageMetaData(p => {
+      return res
+    })
+  }
 
   return (
     <>
@@ -72,8 +95,8 @@ const SharePageModal = ({ open, handleClose }) => {
               value={window.location.href}
             />
             <Button
-              sx={{ position: "absolute", right: 0, p: "5px 20px", height:"100%" }}
-              onClick={()=>navigator.clipboard.writeText(window.location.href)}
+              sx={{ position: "absolute", right: 0, p: "5px 20px", height: "100%" }}
+              onClick={() => navigator.clipboard.writeText(window.location.href)}
               type="submit"
               variant="contained"
               className="createPageBtn"
@@ -82,7 +105,34 @@ const SharePageModal = ({ open, handleClose }) => {
             </Button>
           </Box>
 
-          <Box
+
+          <Box sx={{ padding: "10px 0px", display: "flex", flexDirection: "column", gap: "10px", }}>
+            <Box onClick={() => handleVisibilityChange("PRIVATE")} sx={{ cursor: "pointer" }} display={"flex"} alignItems={"center"} gap={"10px"} bgcolor={pageMetaData?.visibility == "PRIVATE" ? "#d1ffbc" : "#f4f4f4"} p={"5px 10px"} borderRadius={"10px"}>
+              <SecurityIcon />
+              <Box>
+                <Typography>Private Page</Typography>
+                <Typography fontSize={"12px"} color={"gray"}>Only Collaborators and owner can access the page.</Typography>
+              </Box>
+            </Box>
+            <Box onClick={() => handleVisibilityChange("PUBLIC")} sx={{ cursor: "pointer" }} display={"flex"} alignItems={"center"} gap={"10px"} bgcolor={pageMetaData?.visibility == "PUBLIC" ? "#d1ffbc" : "#f4f4f4"} p={"5px 10px"} borderRadius={"10px"}>
+              <PublicIcon />
+              <Box>
+                <Typography>Public Page</Typography>
+                <Typography fontSize={"12px"} color={"gray"}>Anyone with the link can view the page.</Typography>
+              </Box>
+            </Box>
+            <Box onClick={() => handleVisibilityChange("PASSWORD_PROTECTED")} sx={{ cursor: "pointer" }} display={"flex"} alignItems={"center"} gap={"10px"} bgcolor={pageMetaData?.visibility == "PASSWORD_PROTECTED" ? "#d1ffbc" : "#f4f4f4"} p={"5px 10px"} borderRadius={"10px"}>
+              <PublicIcon />
+              <Box>
+                <Typography>Password Protected Page</Typography>
+                <Typography fontSize={"12px"} color={"gray"}>Anyone with the link and password can view the page.</Typography>
+              </Box>
+            </Box>
+
+          </Box>
+
+
+          {/* <Box
             sx={{
               mt: 4,
               display: "flex",
@@ -104,10 +154,10 @@ const SharePageModal = ({ open, handleClose }) => {
               <Typography>Raghbir (You)</Typography>
             </Box>
             <Button sx={{ textTransform: "none" }}>Owner</Button>
-          </Box>
+          </Box> */}
 
           {/* When accepted */}
-          <Box
+          {/* <Box
             sx={{
               mt: 4,
               display: "flex",
@@ -136,9 +186,9 @@ const SharePageModal = ({ open, handleClose }) => {
               </Box>
             </Box>
             <Button sx={{ textTransform: "none" }}>Viewer</Button>
-          </Box>
+          </Box> */}
 
-          <Box
+          {/* <Box
             sx={{
               mt: 3,
               display: "flex",
@@ -186,7 +236,7 @@ const SharePageModal = ({ open, handleClose }) => {
                 </MenuItem>
               </Menu>{" "}
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </Modal>
     </>
