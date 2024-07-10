@@ -164,6 +164,7 @@ import {
   Checkbox,
   Typography,
   Input,
+  Tooltip,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -216,26 +217,37 @@ function Todo({ data, onChange, provided, item }) {
   function EditableNote({ value = "", completed, onChange, item }) {
     const [readOnly, setReadOnly] = useState(true);
     const ref = useRef(null);
+
+    // const truncateText = (text, charLimit) => {
+    //   if (text.length <= charLimit) return text;
+    //   return text.slice(0, charLimit) + "...";
+    // };
+
+    // const truncatedValue = truncateText(value, 14);
+
     return (
       <>
-        <Typography
-          onDoubleClick={() => setReadOnly(false)}
-          contentEditable={!readOnly}
-          style={{ textDecoration: completed ? "line-through" : "none" }}
-          whiteSpace={"wrap"}
-          maxWidth={"70%"}
-          sx={{
-            textWrap: "nowrap",
-            outline: "none",
-            cursor: readOnly ? "drag" : "text",
-            overflow: "hidden",
-          }}
-          flex={1}
-          ref={ref}
-          title={value || ""}
-        >
-          {value || ""}
-        </Typography>
+        <Tooltip title={value.length > 14 ? value : ""} arrow>
+          <Typography
+            onDoubleClick={() => setReadOnly(false)}
+            contentEditable={!readOnly}
+            style={{ textDecoration: completed ? "line-through" : "none" }}
+            whiteSpace={"wrap"}
+            maxWidth={"70%"}
+            sx={{
+              textWrap: "nowrap",
+              outline: "none",
+              cursor: readOnly ? "drag" : "text",
+              overflow: "hidden",
+            }}
+            flex={1}
+            ref={ref}
+            // title={value || ""}
+          >
+            {value || ""}
+            {/* {truncatedValue} */}
+          </Typography>
+        </Tooltip>
 
         <Box display={"flex"}>
           <IconButton
