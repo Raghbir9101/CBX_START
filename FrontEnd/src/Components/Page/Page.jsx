@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Box, Button, IconButton, Modal, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Modal,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -22,6 +30,7 @@ import "./Page.css";
 import TabButtons from "./TabButtons";
 import Navbar from "../Navbar/Navbar";
 import Delete from "@mui/icons-material/Delete";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 const modalStyle = {
   position: "absolute",
@@ -34,7 +43,6 @@ const modalStyle = {
   p: 4,
   borderRadius: "18px",
 };
-
 
 function findByID(arr = [], id) {
   for (let i of arr) {
@@ -101,12 +109,12 @@ function Page() {
     // let tempPageData = findByID(pages, pageID);
     // let tempPage = tempPageData?.data || [];
     if (pageData.length > 0 && loginUser == null) {
-      return
+      return;
     }
     HTTP.get(`getPageData/${pageID}`).then(async (res) => {
       if (res.data.error) {
         if (res.data.errorCode == "ENTER_PASSWORD") {
-          return setPasswordModal(true)
+          return setPasswordModal(true);
           // let pass = prompt("Please enter page password");
           // if (!pass) return alert("Invalid Password !");
           // let { data: tempPage } = await HTTP.get(
@@ -121,7 +129,7 @@ function Page() {
 
         return alert(res.data.error);
       }
-      setPageMetaData(res.data)
+      setPageMetaData(res.data);
       setFilteredPageData(res.data.data);
       setPageData(res.data.data);
     });
@@ -148,7 +156,7 @@ function Page() {
         { data: pageData },
         { signal: controller.signal }
       )
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -189,31 +197,45 @@ function Page() {
     <Box>
       <Modal
         open={passwordModal}
-        onClose={() => { }}
+        onClose={() => {}}
         aria-labelledby="create-page-modal-title"
         aria-describedby="create-page-modal-description"
       >
         <Box sx={modalStyle}>
-          <TextField value={pass} onChange={(e) => {
-            setPass(e.target.value || "")
-          }} fullWidth label="Enter Password" />
+          <TextField
+            value={pass}
+            onChange={(e) => {
+              setPass(e.target.value || "");
+            }}
+            fullWidth
+            label="Enter Password"
+          />
           <Box sx={{ mt: "10px", display: "flex", justifyContent: "center" }}>
-            <Button variant="contained" onClick={async () => {
-              let { data: tempPage } = await HTTP.get(
-                `getPageData/${pageID}?password=${pass}`
-              );
-              if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
-                return alert(tempPage.error);
-              }
-              setPageMetaData(tempPage)
-              setFilteredPageData(tempPage.data);
-              setPageData(tempPage.data);
-              return setPasswordModal(false)
-            }}>Submit</Button>
+            <Button
+              variant="contained"
+              onClick={async () => {
+                let { data: tempPage } = await HTTP.get(
+                  `getPageData/${pageID}?password=${pass}`
+                );
+                if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
+                  return alert(tempPage.error);
+                }
+                setPageMetaData(tempPage);
+                setFilteredPageData(tempPage.data);
+                setPageData(tempPage.data);
+                return setPasswordModal(false);
+              }}
+            >
+              Submit
+            </Button>
           </Box>
         </Box>
       </Modal>
-      <Navbar pageMetaData={pageMetaData} setPageData={setPageData} setPageMetaData={setPageMetaData} />
+      <Navbar
+        pageMetaData={pageMetaData}
+        setPageData={setPageData}
+        setPageMetaData={setPageMetaData}
+      />
       <Box sx={{ bgcolor: "#f4f4f4" }}>
         <TabButtons
           setPageData={setPageData}
@@ -244,15 +266,15 @@ function Page() {
                         pageData.length == 5
                           ? "19%"
                           : pageData.length == 3
-                            ? "33.33%"
-                            : "50%"
+                          ? "33.33%"
+                          : "50%"
                       }
                       width={
                         pageData.length == 5
                           ? "19%"
                           : pageData.length == 3
-                            ? "33.33%"
-                            : "50%"
+                          ? "33.33%"
+                          : "50%"
                       }
                       {...provided.droppableProps}
                       ref={provided.innerRef}
@@ -288,9 +310,19 @@ function Page() {
                                     return (
                                       <Calculator
                                         handleDelete={() => {
-                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
-                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
-                                          setPageData(newData)
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
                                         }}
                                         onChange={(newData) => {
                                           setPageData((p) => {
@@ -319,9 +351,19 @@ function Page() {
                                           });
                                         }}
                                         handleDelete={() => {
-                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
-                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
-                                          setPageData(newData)
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
                                         }}
                                         provided={provided}
                                         item={item}
@@ -341,9 +383,19 @@ function Page() {
                                           });
                                         }}
                                         handleDelete={() => {
-                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
-                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
-                                          setPageData(newData)
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
                                         }}
                                         data={item.data}
                                         provided={provided}
@@ -363,13 +415,22 @@ function Page() {
                                           });
                                         }}
                                         handleDelete={() => {
-                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
-                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
-                                          setPageData(newData)
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
                                         }}
                                         provided={provided}
                                         item={item}
-
                                         data={item.data}
                                       />
                                     );
@@ -386,9 +447,19 @@ function Page() {
                                           });
                                         }}
                                         handleDelete={() => {
-                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
-                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
-                                          setPageData(newData)
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
                                         }}
                                         provided={provided}
                                         item={item}
@@ -400,9 +471,19 @@ function Page() {
                                       <Embed
                                         setPageData={setPageData}
                                         handleDelete={() => {
-                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
-                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
-                                          setPageData(newData)
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
                                         }}
                                         provided={provided}
                                         item={item}
@@ -435,9 +516,19 @@ function Page() {
                                         }}
                                         data={item.data}
                                         handleDelete={() => {
-                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
-                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
-                                          setPageData(newData)
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
                                         }}
                                         provided={provided}
                                         item={item}
@@ -466,14 +557,14 @@ function Page() {
 
 export default Page;
 
-
 function deleteObject(data, pageIndex, objectIndex) {
   // Check if the provided indexes are valid
   if (
-    pageIndex >= 0 && pageIndex < data.length &&
-    objectIndex >= 0 && objectIndex < data[pageIndex].items.length
+    pageIndex >= 0 &&
+    pageIndex < data.length &&
+    objectIndex >= 0 &&
+    objectIndex < data[pageIndex].items.length
   ) {
-
     // Remove the object at the specified index
     data[pageIndex].items.splice(objectIndex, 1);
   } else {
@@ -482,8 +573,15 @@ function deleteObject(data, pageIndex, objectIndex) {
   return data;
 }
 
-
-export function ElementWrapper({ provided, item, children, ActionButtons, handleDelete, editing, handleTitleChange }) {
+export function ElementWrapper({
+  provided,
+  item,
+  children,
+  ActionButtons,
+  handleDelete,
+  editing,
+  handleTitleChange,
+}) {
   const [open, setOpen] = useState(true);
   const contentRef = useRef(null);
 
@@ -520,23 +618,47 @@ export function ElementWrapper({ provided, item, children, ActionButtons, handle
         gap={"10px"}
       >
         <Box display={"flex"} gap={"10px"}>
-          {!editing && <Typography sx={{ color: "#333333", fontWeight: 520 }}>
-            {item?.data?.name || item.type}
-          </Typography>}
-          {editing && <input onChange={(e)=>{
-            if(handleTitleChange) {
-              handleTitleChange(e.target.value)
-            }
-          }} defaultValue={item?.data?.name || item.type || ""} style={{ all: "unset", bgcolor:"gray", cursor:"text", width:"100%", fontWeight:"bold" }} />}
+          {!editing && (
+            <Typography sx={{ color: "#333333", fontWeight: 520 }}>
+              {item?.data?.name || item.type}
+            </Typography>
+          )}
+          {editing && (
+            <input
+              onChange={(e) => {
+                if (handleTitleChange) {
+                  handleTitleChange(e.target.value);
+                }
+              }}
+              defaultValue={item?.data?.name || item.type || ""}
+              style={{
+                all: "unset",
+                bgcolor: "gray",
+                cursor: "text",
+                width: "100%",
+                fontWeight: "bold",
+              }}
+            />
+          )}
           <IconButton size="small" onClick={() => setOpen((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton>
         </Box>
         <Box display={"flex"} gap={"5px"}>
           {!!ActionButtons && <ActionButtons />}
-          <IconButton size="small" onClick={() => {
-            handleDelete()
-          }}><Delete /></IconButton>
+          <Tooltip title="Delete" arrow>
+            <IconButton
+              size="small"
+              onClick={() => {
+                handleDelete();
+              }}
+            >
+              <DeleteOutlineOutlinedIcon
+                sx={{ width: "18px", height: "18px" }}
+              />
+              {/* <Delete sx={{ width: "16px", height: "16px" }} /> */}
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
       {open && (
