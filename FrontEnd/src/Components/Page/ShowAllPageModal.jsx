@@ -26,19 +26,18 @@ const ShowAllPageModal = ({
   handleOpenModal,
   handleEditOpenModal,
   selectedPage,
-  setSelectedPage
+  setSelectedPage,
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const { pages } = useContext(Context)
+  const { pages } = useContext(Context);
   const handleOpenDeleteModal = () => {
-    setOpenDeleteModal(true)
+    setOpenDeleteModal(true);
   };
   const handleCloseDeleteModal = () => {
-    setOpenDeleteModal(false)
+    setOpenDeleteModal(false);
   };
 
-
-  const nav = useNavigate()
+  const nav = useNavigate();
   return (
     <>
       <Modal
@@ -76,7 +75,10 @@ const ShowAllPageModal = ({
                       justifyContent: "space-between",
                       alignItems: "center",
                       mt: 1,
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      "&:hover": {
+                        background: "#f7fafc",
+                      },
                     }}
                     onClick={() => {
                       nav("/page/" + item._id);
@@ -85,7 +87,7 @@ const ShowAllPageModal = ({
                     <Box
                       sx={{
                         display: "flex",
-                        alignItems: "center", 
+                        alignItems: "center",
                         gap: "10px",
                       }}
                     >
@@ -93,23 +95,34 @@ const ShowAllPageModal = ({
                       <Typography>{item.pageName || ""}</Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <IconButton onClick={(e) => {
-                        e.stopPropagation()
-                        handleEditOpenModal(e);
-                        setSelectedPage(item)
-
-                      }}>
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditOpenModal(e);
+                          setSelectedPage(item);
+                        }}
+                      >
                         <EditOutlinedIcon
-                          sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
+                          sx={{
+                            color: "#B5B5B5",
+                            width: "20px",
+                            height: "20px",
+                          }}
                         />
                       </IconButton>
-                      <IconButton onClick={(e) => {
-                        e.stopPropagation()
-                        handleOpenDeleteModal(e);
-                        setSelectedPage(item)
-                      }}>
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenDeleteModal(e);
+                          setSelectedPage(item);
+                        }}
+                      >
                         <DeleteOutlineOutlinedIcon
-                          sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
+                          sx={{
+                            color: "#B5B5B5",
+                            width: "20px",
+                            height: "20px",
+                          }}
                         />
                       </IconButton>
                     </Box>

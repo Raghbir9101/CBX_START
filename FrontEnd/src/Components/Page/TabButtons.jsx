@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
 import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
@@ -8,30 +8,38 @@ import { Link, useLocation } from "react-router-dom";
 import search from "../../Icons/gsearch.svg";
 import clear from "../../Icons/cross.svg";
 import googleSearch from "../../Icons/googleSearchIcon.svg";
+import gImg from "../../Icons/gImage.svg";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 const clearedPageData = [
   {
-      "items": []
+    items: [],
   },
   {
-      "items": []
+    items: [],
   },
   {
-      "items": []
+    items: [],
   },
   {
-      "items": []
+    items: [],
   },
   {
-      "items": []
-  }
+    items: [],
+  },
 ];
 
-
-const TabButtons = ({ filters,
-  setFilters, setPageData, setFilteredPageData }) => {
+const TabButtons = ({
+  filters,
+  setFilters,
+  setPageData,
+  setFilteredPageData,
+}) => {
   const location = useLocation();
   const [searchVisible, setSearchVisible] = useState(false);
+  const [isTodo, setIsTodo] = useState(false);
+  const [isNote, setIsNote] = useState(false);
+  const [isLink, setIsLink] = useState(false);
   const searchInputRef = useRef(null);
 
   const handleSearchClick = () => {
@@ -63,13 +71,36 @@ const TabButtons = ({ filters,
   };
 
   const toggleFilter = (filterName) => {
-    setFilters(p => {
+    if (filterName === "Todo") {
+      setIsTodo(true);
+      setIsNote(false);
+      setIsLink(false);
+    }
+
+    if (filterName === "Note") {
+      setIsNote(true);
+      setIsTodo(false);
+      setIsLink(false);
+    }
+
+    if (filterName === "Bookmark") {
+      setIsLink(true);
+      setIsTodo(false);
+      setIsNote(false);
+    }
+    setFilters((p) => {
       let temp = { ...p };
-      if(temp[filterName]) delete temp[filterName]
-      else temp[filterName] = 1
-      return temp
-    })
-  }
+      if (temp[filterName]) delete temp[filterName];
+      else temp[filterName] = 1;
+      return temp;
+    });
+  };
+
+  const handleReset = () => {
+    setIsLink(false);
+    setIsTodo(false);
+    setIsNote(false);
+  };
   return (
     <Box>
       <Box
@@ -84,27 +115,19 @@ const TabButtons = ({ filters,
         }}
       >
         <Button
-          onClick={()=>{
-            setFilters([])
+          onClick={() => {
+            toggleFilter("Note");
           }}
-          className="headingBtns"
-          sx={{ boxShadow: 1}}
-          // startIcon={
-          //   <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-          //     <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-          //   </IconButton>
-          // }
-        >
-          Reset
-        </Button>
-        <Button
-          onClick={()=>{
-            toggleFilter("Note")
+          className={isNote ? "isActive" : "headingBtns"}
+          sx={{
+            boxShadow: 1,
+            // transform: filters.Note ? "scale(110%)" : "none",
           }}
-          className="headingBtns"
-          sx={{ boxShadow: 1, transform:filters.Note ? "scale(110%)" : "none"}}
           startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
+            <IconButton
+              className={isNote ? "isActiveIcons" : "iconBtns"}
+              sx={{ p: "4px", mr: 1 }}
+            >
               <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
             </IconButton>
           }
@@ -112,21 +135,19 @@ const TabButtons = ({ filters,
           Notes
         </Button>
 
-        <Link >
-          <Button onClick={()=>{
-            toggleFilter("Todo")
-          }}
-            sx={{ boxShadow: 1, transform:filters.Todo ? "scale(110%)" : "none" }}
-            className={
-              location.pathname === "/todo-list" ? "isActive" : "headingBtns"
-            }
+        <Link>
+          <Button
+            onClick={() => {
+              toggleFilter("Todo");
+            }}
+            sx={{
+              boxShadow: 1,
+              // transform: filters.Todo ? "scale(110%)" : "none",
+            }}
+            className={isTodo ? "isActive" : "headingBtns"}
             startIcon={
               <IconButton
-                className={
-                  location.pathname === "/todo-list"
-                    ? "isActiveIcons"
-                    : "iconBtns"
-                }
+                className={isTodo ? "isActiveIcons" : "iconBtns"}
                 sx={{ p: "4px", mr: 1 }}
               >
                 <FormatListBulletedOutlinedIcon
@@ -139,10 +160,32 @@ const TabButtons = ({ filters,
           </Button>
         </Link>
 
-        <Button onClick={()=>{
-            toggleFilter("Bookmark")
+        <Button
+          onClick={() => {
+            toggleFilter("Bookmark");
           }}
-          sx={{ boxShadow: 1, transform:filters.Bookmark ? "scale(110%)" : "none" }}
+          sx={{
+            boxShadow: 1,
+            // transform: filters.Bookmark ? "scale(110%)" : "none",
+          }}
+          className={isLink ? "isActive" : "headingBtns"}
+          startIcon={
+            <IconButton
+              className={isLink ? "isActiveIcons" : "iconBtns"}
+              sx={{ p: "4px", mr: 1 }}
+            >
+              <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />
+            </IconButton>
+          }
+        >
+          Links
+        </Button>
+        {/* <Button
+          onClick={() => {
+            setPageData(clearedPageData);
+            setFilteredPageData(clearedPageData);
+          }}
+          sx={{ boxShadow: 1 }}
           className="headingBtns"
           startIcon={
             <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
@@ -150,24 +193,36 @@ const TabButtons = ({ filters,
             </IconButton>
           }
         >
-          Links
-        </Button>
-        <Button onClick={()=>{
-            setPageData(clearedPageData)
-            setFilteredPageData(clearedPageData)
-          }}
-          sx={{ boxShadow: 1 }}
-          className="headingBtns"
-          // startIcon={
-          //   <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-          //     <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-          //   </IconButton>
-          // }
-        >
           Clear Page
-        </Button>
+        </Button> */}
+        {/* <Button
+          onClick={() => {
+            setFilters([]);
+          }}
+          className="headingBtns"
+          sx={{ boxShadow: 1 }}
+          startIcon={
+            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
+              <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
+            </IconButton>
+          }
+        >
+          Reset
+        </Button> */}
+        {/* <IconButton
+          sx={{
+            boxShadow: 1,
+            background: "#fff",
+            "&:hover": {
+              boxShadow: 2,
+              background: "#fff",
+            },
+          }}
+        >
+          <RestartAltIcon sx={{ color: "#4d8733" }} />
+        </IconButton> */}
 
-        {searchVisible && (
+        {/* {searchVisible && (
           <Box
             sx={{
               display: "flex",
@@ -192,25 +247,83 @@ const TabButtons = ({ filters,
               />
             </Box>
           </Box>
-        )}
+        )} */}
 
         {/* Search Icon */}
-        {!searchVisible && <Box sx={{ position: "absolute", right: 0, mr: "10px", zIndex: 999 }}>
-          <IconButton
-            onClick={handleSearchClick}
-            sx={{
-              background: "#fff",
-              boxShadow: 1,
-              "&:hover": {
-                boxShadow: 2,
+        <Box
+          sx={{
+            position: "absolute",
+            right: 0,
+            mr: "10px",
+            display: "flex",
+            alignItems: "center",
+            gap: "20px",
+          }}
+        >
+          <Tooltip title="Reset" arrow>
+            <IconButton
+              onClick={handleReset}
+              sx={{
+                boxShadow: 1,
                 background: "#fff",
-              },
-            }}
-          >
-            <img src={googleSearch} alt="search" />
-          </IconButton>
-        </Box>}
+                "&:hover": {
+                  boxShadow: 2,
+                  background: "#fff",
+                },
+              }}
+            >
+              <RestartAltIcon sx={{ color: "#4d8733" }} />
+            </IconButton>
+          </Tooltip>
+          {!searchVisible && (
+            <Tooltip title="Google Search" arrow>
+              <IconButton
+                onClick={handleSearchClick}
+                sx={{
+                  background: "#fff",
+                  boxShadow: 1,
+                  "&:hover": {
+                    boxShadow: 2,
+                    background: "#fff",
+                  },
+                }}
+              >
+                <img
+                  style={{ width: "25px", height: "25px" }}
+                  src={gImg}
+                  alt="search"
+                />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
       </Box>
+      {searchVisible && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+          ref={searchInputRef}
+        >
+          <Box className="inputBox" sx={{ position: "relative" }}>
+            <input
+              className="googleSearchInput"
+              type="text"
+              placeholder="Google Search"
+            />
+            <img className="gsearchIcon" src={search} alt="search" />
+            <img
+              className="closeIcon"
+              src={clear}
+              alt="close"
+              onClick={handleCloseClick}
+            />
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

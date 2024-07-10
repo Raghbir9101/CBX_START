@@ -20,15 +20,15 @@ import searchIcon from "../../Icons/search.svg";
 import plus from "../../Icons/add.svg";
 import pluss from "../../Icons/plusGreen.svg";
 import share from "../../Icons/share.svg";
-import logo from "../../Icons/cbxLogo.svg";
+import logo from "../../Icons/navLogo.svg";
 import search from "../../Icons/searchIcon.svg";
-import clear from "../../Icons/cross.svg";
 import AddNewData from "./AddNewData";
 import ShowAllPageModal from "../Page/ShowAllPageModal";
 import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import HTTP from "../../HTTP"
-const Navbar = ({setPageData}) => {
+import HTTP from "../../HTTP";
+
+const Navbar = ({ setPageData }) => {
   const nav = useNavigate();
   const { pageID } = useParams();
   const { handleLogout, pages, setPages, token } = useContext(Context);
@@ -40,7 +40,8 @@ const Navbar = ({setPageData}) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
-  const [selectedPage, setSelectedPage] = useState(null)
+  const [selectedPage, setSelectedPage] = useState(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -94,7 +95,6 @@ const Navbar = ({setPageData}) => {
       }
       return temp;
     });
-
 
     // let { data: res } = await HTTP.put(`pages/${pageID}`, pageData);
     // if (res.error) return alert(res.error || "Internal Server Error!");
@@ -257,7 +257,8 @@ const Navbar = ({setPageData}) => {
         </Box>
 
         {token && (
-          <Box width={"33%"}
+          <Box
+            width={"33%"}
             sx={{
               display: "flex",
               justifyContent: "flex-end",
@@ -386,7 +387,7 @@ const Navbar = ({setPageData}) => {
 
       {/* Add New Data Popover */}
       <AddNewData
-      setPageData={setPageData}
+        setPageData={setPageData}
         open={isPopoverOpen}
         anchorEl={popoverAnchorEl}
         handlePopoverClose={handlePopoverClose}
