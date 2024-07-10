@@ -43,13 +43,15 @@ const SharePageModal = ({ open, handleClose, pageMetaData, setPageMetaData }) =>
       for (let i = 0; i < temp.length; i++) {
         if (temp[i]._id == pageMetaData._id) {
           temp[i] = { ...temp[i], ...res };
+          setPageMetaData(p => {
+            return { ...temp[i], ...res }
+          })
+          return temp;
         }
       }
       return temp;
     });
-    setPageMetaData(p => {
-      return res
-    })
+    
   }
 
   return (

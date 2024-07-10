@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import AnalogClock from "analog-clock-react";
 import { ElementWrapper } from "../Page/Page";
 
-const MyClock = ({ provided, item }) => {
+const MyClock = ({ provided, item, handleDelete }) => {
   const options = {
     width: "100%",
     border: true,
@@ -23,7 +23,7 @@ const MyClock = ({ provided, item }) => {
   };
 
   return (
-    <ElementWrapper provided={provided} item={item}>
+    <ElementWrapper  handleDelete={handleDelete} provided={provided} item={item}>
       <div
         style={{
           width: "100%",

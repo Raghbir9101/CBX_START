@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./calculator.css";
 import { ElementWrapper } from "../Page/Page";
 
-const App = ({ provided, item }) => {
+const App = ({ provided, item, handleDelete }) => {
   const [input, setInput] = useState("");
 
   const handleClick = (value) => {
@@ -38,7 +38,7 @@ const App = ({ provided, item }) => {
   };
 
   return (
-    <ElementWrapper provided={provided} item={item} >
+    <ElementWrapper  handleDelete={handleDelete} provided={provided} item={item} >
       <div className="calculator">
         <div className="display">{input || "0"}</div>
         <div className="buttons">

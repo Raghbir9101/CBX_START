@@ -224,16 +224,18 @@ app.get("/api/getUserData", authenticateToken, async (req, res) => {
 app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, res) => {
     let page = await PagesModel.findOne({ _id: req.params.pageID }).lean();
     let role = "NONE";
-
+    if (req?.user?._id == page?.userID) {
+        role = "OWNER";
+    }
     if (page.visibility == "PUBLIC") {
-        return res.send(page)
+        return res.send({ ...page, role })
     }
     if (!req.login && page.visibility == "PRIVATE") {
         return res.send({ error: "This page is PRIVATE !", errorCode: "PRIVATE_PAGE" })
     }
     if (page.visibility == "PASSWORD_PROTECTED") {
         if (page.password == req.query.password) {
-            return res.send(page)
+            return res.send({ ...page, role })
         }
         else if (page.password != req.query.password && req.query.password) {
             return res.send({ error: "Incorrect Password.", errorCode: "INVALID_PASSWORD" })
@@ -256,14 +258,14 @@ app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, 
     }
 
     if ((req.login && req.user._id == page.userID) || role != "NONE") {
-        return res.send(page)
+        return res.send({ ...page, role })
     }
 
     if (page.visibility == "PRIVATE") {
         return res.send({ error: "This Page is private. Cannot access without permission.", errorCode: "PRIVATE_PAGE" })
     }
 
-    return res.send(page)
+    return res.send({ ...page, role })
 })
 
 
