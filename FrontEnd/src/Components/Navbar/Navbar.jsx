@@ -91,6 +91,10 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData }) => {
       for (let i = 0; i < temp.length; i++) {
         if (temp[i]._id == pageData._id) {
           temp[i] = { ...temp[i], ...res };
+          setPageMetaData(p => {
+            return { ...temp[i], ...res }
+          })
+          return temp;
         }
       }
       return temp;

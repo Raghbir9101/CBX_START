@@ -5,7 +5,7 @@ import { IconButton } from "@mui/material";
 import { ElementWrapper } from "../Page/Page";
 import Flag from "react-world-flags";
 
-const CurrencyConverter = ({ provided, item }) => {
+const CurrencyConverter = ({ provided, item, handleDelete }) => {
   const [inputCurrency, setInputCurrency] = useState("EUR");
   const [outputCurrency, setOutputCurrency] = useState("USD");
   const [inputAmount, setInputAmount] = useState(1);
@@ -148,7 +148,7 @@ const CurrencyConverter = ({ provided, item }) => {
 
   return (
     <>
-      <ElementWrapper provided={provided} item={item}>
+      <ElementWrapper handleDelete={handleDelete}  provided={provided} item={item}>
         <div className="currency-converter">
           <div className="currency">
             <Flag

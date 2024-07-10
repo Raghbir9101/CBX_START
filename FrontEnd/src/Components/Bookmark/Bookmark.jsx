@@ -26,7 +26,7 @@ function isValidURL(url) {
   return regex.test(url);
 }
 
-function Bookmark({ data, onChange, provided, item }) {
+function Bookmark({ data, onChange, provided, item, handleDelete }) {
   const [links, setLinks] = useState(data.URLs || []);
   const [newLink, setNewLink] = useState("");
 
@@ -63,7 +63,7 @@ function Bookmark({ data, onChange, provided, item }) {
   }, [links]);
 
   return (
-    <ElementWrapper provided={provided} item={item}>
+    <ElementWrapper handleDelete={handleDelete} provided={provided} item={item}>
       <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="links">

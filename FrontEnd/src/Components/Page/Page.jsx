@@ -21,6 +21,7 @@ import EditPageModal from "./EditNewPage";
 import "./Page.css";
 import TabButtons from "./TabButtons";
 import Navbar from "../Navbar/Navbar";
+import Delete from "@mui/icons-material/Delete";
 
 const modalStyle = {
   position: "absolute",
@@ -212,7 +213,7 @@ function Page() {
           </Box>
         </Box>
       </Modal>
-      <Navbar pageMetaData={pageMetaData} setPageData={setPageData} setPageMetaData={setPageMetaData}/>
+      <Navbar pageMetaData={pageMetaData} setPageData={setPageData} setPageMetaData={setPageMetaData} />
       <Box sx={{ bgcolor: "#f4f4f4" }}>
         <TabButtons
           setPageData={setPageData}
@@ -286,6 +287,20 @@ function Page() {
                                   if (item.type == "Calculator") {
                                     return (
                                       <Calculator
+                                        handleDelete={() => {
+                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
+                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
+                                          setPageData(newData)
+                                        }}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
                                         data={item.data}
                                         provided={provided}
                                         item={item}
@@ -294,8 +309,6 @@ function Page() {
                                   } else if (item.type == "Note") {
                                     return (
                                       <TextEditorWithSave
-                                        provided={provided}
-                                        item={item}
                                         onChange={(newData) => {
                                           setPageData((p) => {
                                             let temp = [...p];
@@ -305,12 +318,33 @@ function Page() {
                                             return temp;
                                           });
                                         }}
+                                        handleDelete={() => {
+                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
+                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
+                                          setPageData(newData)
+                                        }}
+                                        provided={provided}
+                                        item={item}
                                         data={item.data}
                                       />
                                     );
                                   } else if (item.type == "Clock") {
                                     return (
                                       <Clock
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        handleDelete={() => {
+                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
+                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
+                                          setPageData(newData)
+                                        }}
                                         data={item.data}
                                         provided={provided}
                                         item={item}
@@ -319,8 +353,6 @@ function Page() {
                                   } else if (item.type == "Todo") {
                                     return (
                                       <Todo
-                                        provided={provided}
-                                        item={item}
                                         onChange={(newData) => {
                                           setPageData((p) => {
                                             let temp = [...p];
@@ -330,14 +362,20 @@ function Page() {
                                             return temp;
                                           });
                                         }}
+                                        handleDelete={() => {
+                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
+                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
+                                          setPageData(newData)
+                                        }}
+                                        provided={provided}
+                                        item={item}
+
                                         data={item.data}
                                       />
                                     );
                                   } else if (item.type == "Bookmark") {
                                     return (
                                       <Bookmark
-                                        provided={provided}
-                                        item={item}
                                         onChange={(newData) => {
                                           setPageData((p) => {
                                             let temp = [...p];
@@ -347,12 +385,25 @@ function Page() {
                                             return temp;
                                           });
                                         }}
+                                        handleDelete={() => {
+                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
+                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
+                                          setPageData(newData)
+                                        }}
+                                        provided={provided}
+                                        item={item}
                                         data={item.data}
                                       />
                                     );
                                   } else if (item.type == "Embed") {
                                     return (
                                       <Embed
+                                        setPageData={setPageData}
+                                        handleDelete={() => {
+                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
+                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
+                                          setPageData(newData)
+                                        }}
                                         provided={provided}
                                         item={item}
                                         onChange={(newData) => {
@@ -373,7 +424,21 @@ function Page() {
                                   ) {
                                     return (
                                       <CurrencyConverter
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
                                         data={item.data}
+                                        handleDelete={() => {
+                                          if (pageMetaData.role != "OWNER" && pageMetaData.role != "EDITOR") return alert("You don't have rights to edit or delete")
+                                          let newData = deleteObject([...pageData], boxIndex, itemIndex);
+                                          setPageData(newData)
+                                        }}
                                         provided={provided}
                                         item={item}
                                       />
@@ -401,7 +466,24 @@ function Page() {
 
 export default Page;
 
-export function ElementWrapper({ provided, item, children, ActionButtons }) {
+
+function deleteObject(data, pageIndex, objectIndex) {
+  // Check if the provided indexes are valid
+  if (
+    pageIndex >= 0 && pageIndex < data.length &&
+    objectIndex >= 0 && objectIndex < data[pageIndex].items.length
+  ) {
+
+    // Remove the object at the specified index
+    data[pageIndex].items.splice(objectIndex, 1);
+  } else {
+    console.error("Invalid indexes provided.");
+  }
+  return data;
+}
+
+
+export function ElementWrapper({ provided, item, children, ActionButtons, handleDelete, editing, handleTitleChange }) {
   const [open, setOpen] = useState(true);
   const contentRef = useRef(null);
 
@@ -438,16 +520,23 @@ export function ElementWrapper({ provided, item, children, ActionButtons }) {
         gap={"10px"}
       >
         <Box display={"flex"} gap={"10px"}>
-          <Typography sx={{ color: "#333333", fontWeight: 520 }}>
+          {!editing && <Typography sx={{ color: "#333333", fontWeight: 520 }}>
             {item?.data?.name || item.type}
-          </Typography>
+          </Typography>}
+          {editing && <input onChange={(e)=>{
+            if(handleTitleChange) {
+              handleTitleChange(e.target.value)
+            }
+          }} defaultValue={item?.data?.name || item.type || ""} style={{ all: "unset", bgcolor:"gray", cursor:"text", width:"100%", fontWeight:"bold" }} />}
           <IconButton size="small" onClick={() => setOpen((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton>
         </Box>
         <Box display={"flex"} gap={"5px"}>
           {!!ActionButtons && <ActionButtons />}
-          
+          <IconButton size="small" onClick={() => {
+            handleDelete()
+          }}><Delete /></IconButton>
         </Box>
       </Box>
       {open && (
@@ -469,143 +558,3 @@ export function ElementWrapper({ provided, item, children, ActionButtons }) {
     </Box>
   );
 }
-
-// Navbar.jsx
-// function Navbar() {
-//   const nav = useNavigate();
-//   const { pageID } = useParams();
-//   const { handleLogout, pages, setPages, token } = useContext(Context);
-//   const [modalOpen, setModalOpen] = useState(false);
-//   const [editModalOpen, setEditModalOpen] = useState(false);
-//   const handleOpenModal = () => setModalOpen(true);
-//   const handleCloseModal = () => setModalOpen(false);
-//   const handleEditOpenModal = () => setEditModalOpen(true);
-//   const handleEditCloseModal = () => setEditModalOpen(false);
-
-//   const handleCreatePage = async (pageData) => {
-//     let { data: res } = await HTTP.post(`addNewPage`, pageData);
-//     if (res.error) return alert(res.error || "Internal Server Error!");
-//     setPages((p) => [...p, res]);
-//   };
-
-//   const handleEditPage = async (pageData) => {
-//     let { data: res } = await HTTP.put(`pages/${pageID}`, pageData);
-//     if (res.error) return alert(res.error || "Internal Server Error!");
-
-//     setPages((p) => {
-//       let temp = [...p];
-//       for (let i = 0; i < temp.length; i++) {
-//         if (temp[i]._id == pageID) {
-//           temp[i] = res;
-//         }
-//       }
-//       return temp;
-//     });
-//   };
-
-//   return (
-//     <Box display={"flex"} justifyContent={"space-between"}>
-//       <Box display={"flex"} gap={"10px"}>
-//         {token && (
-//           <Sbutton startIcon={<MenuIcon sx={{ color: "black" }} />}>
-//             <Typography>Pages</Typography>
-//           </Sbutton>
-//         )}
-
-//         {token &&
-//           pages.map((item) => {
-//             return (
-//               <Sbutton
-//                 onClick={() => {
-//                   nav("/page/" + item._id);
-//                 }}
-//               >
-//                 <Typography>{item.pageName || ""}</Typography>
-//               </Sbutton>
-//             );
-//           })}
-//         {token && (
-//           <Sbutton title={"Add new Page"} onClick={handleOpenModal}>
-//             <AddIcon />
-//           </Sbutton>
-//         )}
-//       </Box>
-
-//       {modalOpen && (
-//         <CreatePageModal
-//           open={modalOpen}
-//           handleClose={handleCloseModal}
-//           handleCreatePage={handleCreatePage}
-//         />
-//       )}
-//       {editModalOpen && (
-//         <EditPageModal
-//           open={editModalOpen}
-//           handleClose={handleEditCloseModal}
-//           handleEditPage={handleEditPage}
-//         />
-//       )}
-
-//       <Box display={"flex"} gap={"10px"}>
-//         {token && (
-//           <Sbutton
-//             onClick={() => {
-//               handleLogout();
-//               nav("/login");
-//             }}
-//           >
-//             <Typography>Logout</Typography>
-//           </Sbutton>
-//         )}
-//         {!token && (
-//           <Sbutton onClick={() => nav("/login")}>
-//             <Typography>Login</Typography>
-//           </Sbutton>
-//         )}
-//         {token && (
-//           <Sbutton>
-//             <Typography>Share</Typography>
-//           </Sbutton>
-//         )}
-//         {token && (
-//           <Sbutton>
-//             <AddIcon />
-//           </Sbutton>
-//         )}
-//         {token && (
-//           <Sbutton onClick={handleEditOpenModal}>
-//             {/* <MoreVertIcon /> */}
-//             <SettingsIcon />
-//           </Sbutton>
-//         )}
-//         <Sbutton sx={{ borderRadius: "50%", padding: 0 }}>
-//           <Box
-//             borderRadius={"50%"}
-//             height={"32px"}
-//             width={"32px"}
-//             overflow={"hidden"}
-//           >
-//             <img
-//               draggable={false}
-//               style={{ width: "100%", height: "100%" }}
-//               src="https://lh3.googleusercontent.com/a/ACg8ocJT0qY5tWE0jbHJMnBF7ZcLWffYEqmfX665vNor9zabZNCUIek=s96-c"
-//             />
-//           </Box>
-//         </Sbutton>
-//       </Box>
-//     </Box>
-//   );
-// }
-
-// function Sbutton({ children, sx, ...props }) {
-//   return (
-//     <Button
-//       className="SButton"
-//       size="small"
-//       {...props}
-//       sx={{ textTransform: "none", minWidth: 0, ...sx }}
-//     >
-//       {children}
-//     </Button>
-//   );
-// }

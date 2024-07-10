@@ -4,7 +4,7 @@ import { Box, Button, IconButton } from '@mui/material';
 import { ElementWrapper } from '../Page/Page';
 import Save from '@mui/icons-material/Save';
 
-function TextEditorWithSave({ data: parentData, onChange, provided, item }) {
+function TextEditorWithSave({ data: parentData, onChange, provided, item, handleDelete }) {
     const [data, setData] = useState(parentData.html || "");
     const [editing, setEditing] = useState(false);
 
@@ -80,7 +80,7 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item }) {
         }} provided={provided} item={item} />
     }, [parentData])
     return (
-        <ElementWrapper provided={provided} item={item} ActionButtons={ActionButtons}>
+        <ElementWrapper handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons}>
             <div>
                 {editing && texteditor}
                 {!editing && <Box className="textEditor" sx={{ cursor: "default", padding: "10px", wordWrap: "break-word", overflowWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
