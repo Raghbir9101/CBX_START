@@ -6,13 +6,33 @@ const port = process.env.PORT || 80;
 import { connection } from './db.js';
 import UsersRouter from './Controllers/UserController.js';
 import PagesRouter from './Controllers/PageController.js';
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+const _dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json({ limit: '50mb' }));
-app.use(express.static('build'));
-app.use(cors());
+app.use(express.static('../FrontEnd/dist'));
+app.use(cors({ origin: "*" }));
+
 
 app.use("/api", UsersRouter);
 app.use("/api", PagesRouter);
+
+
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
+})
+app.get("/login", (req, res) => {
+    res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
+})
+app.get("/page/:pageID", (req, res) => {
+    res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
+})
+// app.get("/client/:path/:path1/:path2", (req, res) => {
+//     res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
+// })
+
 
 
 
@@ -203,11 +223,28 @@ app.get("/api/getUserData", authenticateToken, async (req, res) => {
 
 app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, res) => {
     let page = await PagesModel.findOne({ _id: req.params.pageID }).lean();
-
     let role = "NONE";
 
+    if (page.visibility == "PUBLIC" && !req.login) {
+        if (!page.isPasswordProtected) {
+            return res.send(page)
+        }
+        else {
+            console.log(page.password, req.query.password)
+            if (page.password == req.query.password) {
+                return res.send(page)
+            }
+            else if (page.password != req.query.password && req.query.password) {
+                return res.send({ error: "Incorrect Password.", errorCode: "INVALID_PASSWORD" })
+            }
+            return res.send({ error: "Please enter password", errorCode: "ENTER_PASSWORD" })
+        }
+    }
+    if(!req.login && page.visibility == "PRIVATE"){
+        return res.send({ error: "This page is PRIVATE !", errorCode: "PRIVATE_PAGE" })
+    }
     for (let i of page.collaborators) {
-        if(req.user._id == page.userID) {
+        if (req.user._id == page.userID) {
             role = "OWNER";
             break
         }

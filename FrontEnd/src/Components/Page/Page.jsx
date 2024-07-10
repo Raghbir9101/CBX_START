@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Modal, TextField, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -22,6 +22,19 @@ import "./Page.css";
 import TabButtons from "./TabButtons";
 import Navbar from "../Navbar/Navbar";
 
+const modalStyle = {
+  position: "absolute",
+  top: "300px",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: 500,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "18px",
+};
+
+
 function findByID(arr = [], id) {
   for (let i of arr) {
     if (i._id == id) {
@@ -41,8 +54,10 @@ function Page() {
 
   const { pages } = useContext(Context);
   const [pageData, setPageData] = useState([]);
+  const [pass, setPass] = useState("");
   const [filteredPageData, setFilteredPageData] = useState([]);
   const [filters, setFilters] = useState({});
+  const [passwordModal, setPasswordModal] = useState(false);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -83,16 +98,23 @@ function Page() {
 
     // let tempPageData = findByID(pages, pageID);
     // let tempPage = tempPageData?.data || [];
-    // if (tempPage.length == 0 || loginUser == null) {
+    if (pageData.length > 0 && loginUser == null) {
+      return
+    }
     HTTP.get(`getPageData/${pageID}`).then(async (res) => {
       if (res.data.error) {
         if (res.data.errorCode == "ENTER_PASSWORD") {
-          let pass = prompt("Please enter page password");
-          let { data: tempPage } = await HTTP.get(
-            `getPageData/${pageID}?password=${pass}`
-          );
-          setFilteredPageData(tempPage.data);
-          return setPageData(tempPage.data);
+          return setPasswordModal(true)
+          // let pass = prompt("Please enter page password");
+          // if (!pass) return alert("Invalid Password !");
+          // let { data: tempPage } = await HTTP.get(
+          //   `getPageData/${pageID}?password=${pass}`
+          // );
+          // if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
+          //   return alert(res.data.error);
+          // }
+          // setFilteredPageData(tempPage.data);
+          // return setPageData(tempPage.data);
         }
 
         return alert(res.data.error);
@@ -124,7 +146,7 @@ function Page() {
         { data: pageData },
         { signal: controller.signal }
       )
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -163,6 +185,31 @@ function Page() {
 
   return (
     <Box>
+      <Modal
+        open={passwordModal}
+        onClose={() => { }}
+        aria-labelledby="create-page-modal-title"
+        aria-describedby="create-page-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <TextField value={pass} onChange={(e) => {
+            setPass(e.target.value || "")
+          }} fullWidth label="Enter Password" />
+          <Box sx={{ mt: "10px", display: "flex", justifyContent: "center" }}>
+            <Button variant="contained" onClick={async () => {
+              let { data: tempPage } = await HTTP.get(
+                `getPageData/${pageID}?password=${pass}`
+              );
+              if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
+                return alert(tempPage.error);
+              }
+              setFilteredPageData(tempPage.data);
+              setPageData(tempPage.data);
+              return setPasswordModal(false)
+            }}>Submit</Button>
+          </Box>
+        </Box>
+      </Modal>
       <Navbar setPageData={setPageData} />
       <Box sx={{ bgcolor: "#f4f4f4" }}>
         <TabButtons
@@ -194,15 +241,15 @@ function Page() {
                         pageData.length == 5
                           ? "19%"
                           : pageData.length == 3
-                          ? "33.33%"
-                          : "50%"
+                            ? "33.33%"
+                            : "50%"
                       }
                       width={
                         pageData.length == 5
                           ? "19%"
                           : pageData.length == 3
-                          ? "33.33%"
-                          : "50%"
+                            ? "33.33%"
+                            : "50%"
                       }
                       {...provided.droppableProps}
                       ref={provided.innerRef}

@@ -235,6 +235,21 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
             </Box>
           ))} */}
             <Box>
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="visibility-label">Visibility</InputLabel>
+                <Select
+                  labelId="visibility-label"
+                  name="visibility"
+                  label="Visibility"
+                  value={formData.visibility}
+                  onChange={handleChange}
+                  fullWidth
+                  size="small"
+                >
+                  <MenuItem value="PRIVATE">Private</MenuItem>
+                  <MenuItem value="PUBLIC">Public</MenuItem>
+                </Select>
+              </FormControl>
               <FormControlLabel
                 control={
                   <Checkbox

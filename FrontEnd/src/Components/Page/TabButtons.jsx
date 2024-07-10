@@ -97,9 +97,7 @@ const TabButtons = ({
   };
 
   const handleReset = () => {
-    setIsLink(false);
-    setIsTodo(false);
-    setIsNote(false);
+    setFilters({})
   };
   return (
     <Box>
@@ -118,14 +116,14 @@ const TabButtons = ({
           onClick={() => {
             toggleFilter("Note");
           }}
-          className={isNote ? "isActive" : "headingBtns"}
+          className={filters["Note"]  ? "isActive" : "headingBtns"}
           sx={{
             boxShadow: 1,
             // transform: filters.Note ? "scale(110%)" : "none",
           }}
           startIcon={
             <IconButton
-              className={isNote ? "isActiveIcons" : "iconBtns"}
+              className={filters["Note"]  ? "isActiveIcons" : "iconBtns"}
               sx={{ p: "4px", mr: 1 }}
             >
               <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
@@ -144,10 +142,10 @@ const TabButtons = ({
               boxShadow: 1,
               // transform: filters.Todo ? "scale(110%)" : "none",
             }}
-            className={isTodo ? "isActive" : "headingBtns"}
+            className={filters["Todo"] ? "isActive" : "headingBtns"}
             startIcon={
               <IconButton
-                className={isTodo ? "isActiveIcons" : "iconBtns"}
+                className={ filters["Todo"]  ? "isActiveIcons" : "iconBtns"}
                 sx={{ p: "4px", mr: 1 }}
               >
                 <FormatListBulletedOutlinedIcon
@@ -168,10 +166,10 @@ const TabButtons = ({
             boxShadow: 1,
             // transform: filters.Bookmark ? "scale(110%)" : "none",
           }}
-          className={isLink ? "isActive" : "headingBtns"}
+          className={filters["Bookmark"] ? "isActive" : "headingBtns"}
           startIcon={
             <IconButton
-              className={isLink ? "isActiveIcons" : "iconBtns"}
+              className={filters["Bookmark"]  ? "isActiveIcons" : "iconBtns"}
               sx={{ p: "4px", mr: 1 }}
             >
               <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />

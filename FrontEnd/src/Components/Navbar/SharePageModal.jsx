@@ -49,7 +49,7 @@ const SharePageModal = ({ open, handleClose }) => {
             Share page
           </Typography>
 
-          <Box sx={{ mt: 2, mb: 2, position: "relative" }}>
+          {/* <Box sx={{ mt: 2, mb: 2, position: "relative" }}>
             <input
               type="email"
               placeholder="Search or invite people by e-mail"
@@ -62,6 +62,23 @@ const SharePageModal = ({ open, handleClose }) => {
               className="createPageBtn"
             >
               Invite
+            </Button>
+          </Box> */}
+          <Box sx={{ mt: 2, mb: 2, position: "relative" }}>
+            <input
+              type="email"
+              placeholder="Search or invite people by e-mail"
+              className="passwordInput"
+              value={window.location.href}
+            />
+            <Button
+              sx={{ position: "absolute", right: 0, p: "5px 20px", height:"100%" }}
+              onClick={()=>navigator.clipboard.writeText(window.location.href)}
+              type="submit"
+              variant="contained"
+              className="createPageBtn"
+            >
+              Copy
             </Button>
           </Box>
 

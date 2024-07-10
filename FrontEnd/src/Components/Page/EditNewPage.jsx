@@ -276,17 +276,32 @@ const EditPageModal = ({
             />
 
             <Box>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    size="small"
-                    name="isPasswordProtected"
-                    checked={formData.isPasswordProtected}
-                    onChange={handleChange}
-                  />
-                }
-                label="Password Protected"
-              />
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="visibility-label">Visibility</InputLabel>
+                <Select
+                  labelId="visibility-label"
+                  name="visibility"
+                  label="Visibility"
+                  value={formData.visibility}
+                  onChange={handleChange}
+                  fullWidth
+                  size="small"
+                >
+                  <MenuItem value="PRIVATE">Private</MenuItem>
+                  <MenuItem value="PUBLIC">Public</MenuItem>
+                </Select>
+                </FormControl>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      size="small"
+                      name="isPasswordProtected"
+                      checked={formData.isPasswordProtected}
+                      onChange={handleChange}
+                    />
+                  }
+                  label="Password Protected"
+                />
             </Box>
             {/* Footer */}
             <Box

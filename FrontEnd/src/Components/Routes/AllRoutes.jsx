@@ -24,7 +24,7 @@ function AllRoutes() {
         />
         {/* {!isLoading && <> */}
         <Route path="/page/:pageID" element={<Page />} />
-        <Route path="/todo-list" element={<TodoList />} />
+        {/* <Route path="/todo-list" element={<TodoList />} /> */}
         {/* </>} */}
       </Routes>
     </Box>
