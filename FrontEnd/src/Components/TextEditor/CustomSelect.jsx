@@ -38,9 +38,9 @@ const MyCustomSelect = styled(Select)({
       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
         border: 'none',
       },
-      '& .MuiSelect-select': {
-        padding: 0, // Optional: adjust padding as needed
-      },
+      // '& .MuiSelect-select': {
+      //   padding: 0, // Optional: adjust padding as needed
+      // },
       '&:hover .MuiOutlinedInput-notchedOutline': {
         border: 'none',
       },

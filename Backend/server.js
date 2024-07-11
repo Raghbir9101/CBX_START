@@ -421,7 +421,9 @@ app.get('/auth/google/callback', async (req, res) => {
                 password: "",
                 pageName: "New Page"
             })
-            pages = JSON.parse(JSON.stringify(pages))
+            pages = JSON.parse(JSON.stringify(pages));
+            pages[0].role = "OWNER" 
+
             console.log(pages)
             const token = jwt.sign({ userId: newUser._id }, secret);
             delete newUser.password;

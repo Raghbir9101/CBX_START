@@ -183,7 +183,7 @@ function Page() {
         ...page,
         items: page.items.filter((item) => {
 
-          return filterObject[item.type] === 1 || item?.data?.name.toLowerCase().includes(search)
+          return filterObject[item.type] === 1 && item?.data?.name.toLowerCase().includes(search)
         }),
       };
     });
