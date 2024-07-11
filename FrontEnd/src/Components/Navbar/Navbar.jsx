@@ -78,7 +78,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData }) => {
   const handleCreatePage = async (pageData) => {
     let { data: res } = await HTTP.post(`addNewPage`, pageData);
     if (res.error) return alert(res.error || "Internal Server Error!");
-    setPages((p) => [...p, res]);
+    setPages((p) => [...p, { ...res, role: "OWNER" }]);
   };
 
   const handleEditPage = async (pageData) => {

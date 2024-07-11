@@ -6,11 +6,13 @@ import Save from "@mui/icons-material/Save";
 function Embed({ url, provided, item, handleDelete, onChange }) {
   const [editing, setEditing] = useState(false);
   const [embedURL, setEmbedURL] = useState(url);
+  const [title, setTitle] = useState(item.data.name || "");
 
   function ActionButtons() {
     return <>
       <IconButton onClick={() => {
         setEditing(p => !p)
+        onChange({ name: title, url: embedURL })
       }} size="small">
         {!editing ? <svg
           width="14"
@@ -69,7 +71,7 @@ function Embed({ url, provided, item, handleDelete, onChange }) {
     </>
   }
   return (
-    <ElementWrapper ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
+    <ElementWrapper handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
       {!editing ? <iframe
         width="100%"
         height={"250px"}
@@ -84,10 +86,10 @@ function Embed({ url, provided, item, handleDelete, onChange }) {
           <TextField label={"Enter Embed URL !"} value={embedURL} onChange={(e) => {
             setEmbedURL(e.target.value || "")
           }} />
-          <Button onClick={() => {
+          {/* <Button onClick={() => {
             setEditing(false)
-            onChange({ url: embedURL })
-          }}>Save</Button>
+            onChange({ name: title, url: embedURL })
+          }}>Save</Button> */}
         </Box>
       }
     </ElementWrapper>
