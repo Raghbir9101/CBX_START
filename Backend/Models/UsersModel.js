@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const usersSchema = mongoose.Schema({
     userName: { type: String },
+    photo: { type: String },
     email: { type: String },
     isAdmin: { type: Boolean },
     password: { type: String },

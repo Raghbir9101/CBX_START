@@ -32,7 +32,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
   setSearch }) => {
   const nav = useNavigate();
   const { pageID } = useParams();
-  const { handleLogout, pages, setPages, token } = useContext(Context);
+  const { handleLogout, pages, setPages, token, loginUser } = useContext(Context);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -330,7 +330,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
                   height: "40px",
                   cursor: "pointer",
                 }}
-                src="https://t4.ftcdn.net/jpg/06/43/02/01/240_F_643020191_XOHPJqX5xKqXii8FztvoSIUlaWVtGjbs.jpg"
+                src={loginUser?.photo || ""}
                 alt="profile"
               />
             </Box>
@@ -349,8 +349,8 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
           },
         }}
       >
-        <MenuItem>Raghbir Singh</MenuItem>
-        <MenuItem>raghbir786@gmail.com</MenuItem>
+        <MenuItem>{loginUser?.userName || ""}</MenuItem>
+        <MenuItem>{loginUser?.email || ""}</MenuItem>
         <MenuItem
           onClick={() => {
             handleLogout();

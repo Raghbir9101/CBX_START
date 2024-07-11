@@ -316,20 +316,24 @@ app.get('/auth/google/callback', async (req, res) => {
     const code = req.query.code;
     try {
         const { tokens } = await client.getToken(code);
-        console.log(tokens)
+
         // Use tokens.access_token for accessing Google APIs on behalf of the user
         const { email } = await client.getTokenInfo(tokens.access_token);
+
         const ticket = await client.verifyIdToken({
             idToken: tokens.id_token,
             audience: CLIENT_ID, // Specify your app's client ID
         });
         const payload = ticket.getPayload();
+
         const userEmail = payload.email;
         const userName = payload.name;
+        const photo = payload.picture;
         const existingUser = await UsersModel.findOne({ email }).lean();
         if (existingUser) {
             let updatedUser = await UsersModel.findOneAndUpdate({ email }, {
                 googleRefreshToken: tokens.refresh_token,
+                photo
                 // role: "ADMIN"
             });
             // const pages = await PagesModel.find({ userID: existingUser._id })
@@ -386,6 +390,7 @@ app.get('/auth/google/callback', async (req, res) => {
                 password: userEmail,
                 isAdmin: false,
                 googleRefreshToken: tokens.refresh_token,
+                photo
             })
             newUser = JSON.parse(JSON.stringify(newUser))
             let pages = await PagesModel.create({
@@ -411,7 +416,7 @@ app.get('/auth/google/callback', async (req, res) => {
                     },
                     {
                         items: [
-                         
+
                         ]
                     },
                 ],
@@ -422,9 +427,8 @@ app.get('/auth/google/callback', async (req, res) => {
                 pageName: "New Page"
             })
             pages = JSON.parse(JSON.stringify(pages));
-            pages[0].role = "OWNER" 
+            pages = { ...pages, role: "OWNER" }
 
-            console.log(pages)
             const token = jwt.sign({ userId: newUser._id }, secret);
             delete newUser.password;
             delete newUser.googleRefreshToken;
