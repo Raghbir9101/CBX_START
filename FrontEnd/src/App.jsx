@@ -41,7 +41,8 @@ function App() {
 
       // .get("https://data.ceoitbox.com/auth/google/callback?code=" + code)
       axios
-        .get("http://localhost/auth/google/callback?code=" + code)
+        .get("https://cbx-start.onrender.com/auth/google/callback?code=" + code)
+        // .get("http://localhost/auth/google/callback?code=" + code)
         .then(({ data: res }) => {
           if (res.error) {
             setIsLoading(false);

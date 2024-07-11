@@ -81,7 +81,8 @@ const App = () => {
           <Box sx={{ mt: 2 }}>
             <Button
               onClick={() =>
-                (window.location.href = "http://localhost/auth/google")
+                // (window.location.href = "http://localhost/auth/google")
+                (window.location.href = "https://cbx-start.onrender.com/auth/google")
               }
               startIcon={
                 <img
