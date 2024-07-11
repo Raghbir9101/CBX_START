@@ -4,8 +4,8 @@ import { Box, Button, IconButton, TextField } from "@mui/material";
 import Save from "@mui/icons-material/Save";
 
 function Embed({ url, provided, item, handleDelete, onChange }) {
-  const [editing, setEditing] = useState(false);
   const [embedURL, setEmbedURL] = useState(url);
+  const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(item.data.name || "");
 
   function ActionButtons() {
@@ -37,7 +37,7 @@ function Embed({ url, provided, item, handleDelete, onChange }) {
           />
         </svg> : <Save sx={{ fontSize: "18px" }} />}
       </IconButton>
-      <IconButton size="small">
+      {/* <IconButton size="small">
         <svg
           width="14"
           height="14"
@@ -67,7 +67,7 @@ function Embed({ url, provided, item, handleDelete, onChange }) {
             stroke-linejoin="round"
           />
         </svg>
-      </IconButton>
+      </IconButton> */}
     </>
   }
   return (

@@ -66,6 +66,7 @@ function Page() {
   const [pageMetaData, setPageMetaData] = useState([]);
   const [pass, setPass] = useState("");
   const [filteredPageData, setFilteredPageData] = useState([]);
+  const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({});
   const [passwordModal, setPasswordModal] = useState(false);
 
@@ -156,7 +157,7 @@ function Page() {
         { data: pageData },
         { signal: controller.signal }
       )
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -173,14 +174,17 @@ function Page() {
     };
   }, [pageData]);
 
-  function filterData(data, filterObject) {
-    if (Object.keys(filterObject).length == 0) return data;
+  function filterData(data, filterObject, search) {
+    if (Object.keys(filterObject).length == 0 && search == "") return data;
     // Create a new array to hold the filtered data
     const filteredData = data.map((page) => {
       // Create a new page object with the same structure but empty items arrays
       return {
         ...page,
-        items: page.items.filter((item) => filterObject[item.type] === 1),
+        items: page.items.filter((item) => {
+
+          return filterObject[item.type] === 1 || item?.data?.name.toLowerCase().includes(search)
+        }),
       };
     });
 
@@ -189,15 +193,16 @@ function Page() {
   }
 
   useEffect(() => {
-    let tempFilteredObj = filterData(pageData, filters);
+    let tempFilteredObj = filterData([...pageData], filters, search);
     setFilteredPageData(tempFilteredObj);
-  }, [pageData, filters]);
+  }, [pageData, filters, search]);
+
 
   return (
     <Box>
       <Modal
         open={passwordModal}
-        onClose={() => {}}
+        onClose={() => { }}
         aria-labelledby="create-page-modal-title"
         aria-describedby="create-page-modal-description"
       >
@@ -232,6 +237,7 @@ function Page() {
         </Box>
       </Modal>
       <Navbar
+      search={search} setSearch={setSearch}
         pageMetaData={pageMetaData}
         setPageData={setPageData}
         setPageMetaData={setPageMetaData}
@@ -266,15 +272,15 @@ function Page() {
                         pageData.length == 5
                           ? "19%"
                           : pageData.length == 3
-                          ? "33.33%"
-                          : "50%"
+                            ? "33.33%"
+                            : "50%"
                       }
                       width={
                         pageData.length == 5
                           ? "19%"
                           : pageData.length == 3
-                          ? "33.33%"
-                          : "50%"
+                            ? "33.33%"
+                            : "50%"
                       }
                       {...provided.droppableProps}
                       ref={provided.innerRef}
@@ -287,7 +293,7 @@ function Page() {
                       {box.items.map((item, itemIndex) => {
                         return (
                           <Draggable
-                            key={itemIndex}
+                            key={item?.id || itemIndex}
                             draggableId={`${boxIndex}-${itemIndex}`}
                             index={itemIndex}
                           >
@@ -614,12 +620,13 @@ export function ElementWrapper({
           padding: "10px",
           width: "100%",
           justifyContent: "space-between",
+          position: "relative"
         }}
         gap={"10px"}
       >
         <Box display={"flex"} gap={"10px"}>
           {!editing && (
-            <Typography sx={{ color: "#333333", fontWeight: 520 }}>
+            <Typography sx={{ color: "#333333", fontWeight: 520, whiteSpace: "nowrap", flex: 1, width: "100%", }}>
               {item?.data?.name || item.type}
             </Typography>
           )}
@@ -640,11 +647,11 @@ export function ElementWrapper({
               }}
             />
           )}
+        </Box>
+        <Box display={"flex"} gap={"5px"} position={'absolute'} right={0} bgcolor={"white"}>
           <IconButton size="small" onClick={() => setOpen((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton>
-        </Box>
-        <Box display={"flex"} gap={"5px"}>
           {!!ActionButtons && <ActionButtons />}
           <Tooltip title="Delete" arrow>
             <IconButton

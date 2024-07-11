@@ -21,14 +21,15 @@ import plus from "../../Icons/add.svg";
 import pluss from "../../Icons/plusGreen.svg";
 import share from "../../Icons/share.svg";
 import logo from "../../Icons/logooo.svg";
-import search from "../../Icons/searchIcon.svg";
+import searchIcons from "../../Icons/searchIcon.svg";
 import AddNewData from "./AddNewData";
 import ShowAllPageModal from "../Page/ShowAllPageModal";
 import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HTTP from "../../HTTP";
 
-const Navbar = ({ setPageData, pageMetaData, setPageMetaData }) => {
+const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
+  setSearch }) => {
   const nav = useNavigate();
   const { pageID } = useParams();
   const { handleLogout, pages, setPages, token } = useContext(Context);
@@ -153,8 +154,10 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData }) => {
               className="pageSearchInput"
               type="text"
               placeholder="Seach on your page"
+              value={search}
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
             />
-            <img className="pSearchIcon" src={search} alt="search" />
+            <img className="pSearchIcon" src={searchIcons} alt="search" />
 
             <CloseOutlinedIcon
               className="pCloseIcon"

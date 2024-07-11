@@ -206,7 +206,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
             />
           </svg>
         </IconButton>
-        <IconButton size="small">
+        {/* <IconButton size="small">
           <svg
             width="14"
             height="14"
@@ -236,7 +236,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
               stroke-linejoin="round"
             />
           </svg>
-        </IconButton>
+        </IconButton> */}
       </>
     );
   }

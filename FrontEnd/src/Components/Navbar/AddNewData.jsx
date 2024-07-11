@@ -9,6 +9,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
 import CloudOutlinedIcon from "@mui/icons-material/CloudOutlined";
+import { v4 } from "uuid";
 
 
 
@@ -19,10 +20,10 @@ function addObjectToShortestArray(data, newObject) {
 
   // Iterate through the data to find the shortest array
   data.forEach((dataItem, dataIndex) => {
-      if (dataItem.items.length < shortestArray.length) {
-          shortestArray = dataItem.items;
-          shortestArrayIndex = dataIndex;
-      }
+    if (dataItem.items.length < shortestArray.length) {
+      shortestArray = dataItem.items;
+      shortestArrayIndex = dataIndex;
+    }
   });
 
   // Push the new object into the shortest array
@@ -140,7 +141,7 @@ const Item = ({ icon, label, name, setPageData, defaultObj }) => (
       setPageData(p => {
         // console.log(addObjectToShortestArray([...p], defaultObj))
         // return p
-        return addObjectToShortestArray([...p], defaultObj)
+        return addObjectToShortestArray([...p], { ...defaultObj, id: v4() })
       })
 
       // console.log(name)

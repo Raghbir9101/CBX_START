@@ -1,5 +1,8 @@
 import { Box, Modal, Typography, Button } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import HTTP from "../../HTTP";
+import { useNavigate, useNavigation, useParams } from "react-router-dom";
+import { Context } from "../Context/Context";
 
 const modalStyle = {
   position: "absolute",
@@ -13,7 +16,10 @@ const modalStyle = {
   borderRadius: "18px",
 };
 
-const DeleteModal = ({ open, handleClose }) => {
+const DeleteModal = ({ open, handleClose, selectedPage, setSelectedPage, setPages }) => {
+  const nav = useNavigate()
+  const { pages } = useContext(Context);
+  const { pageID } = useParams()
   return (
     <>
       <Modal
@@ -49,6 +55,18 @@ const DeleteModal = ({ open, handleClose }) => {
                 type="submit"
                 variant="contained"
                 className="createPageBtn"
+                onClick={async () => {
+                  await HTTP.delete(`pages/${selectedPage?._id}`)
+                  setPages(p => {
+                    return p.filter(item => {
+                      return item._id != selectedPage?._id
+                    })
+                  })
+                  if(pageID == selectedPage?._id) {
+                    nav(`/page/${pages[0]?._id}`);
+                  }
+                  handleClose()
+                }}
               >
                 Yes
               </Button>

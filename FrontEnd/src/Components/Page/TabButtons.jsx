@@ -287,8 +287,9 @@ const TabButtons = ({
           }}
           ref={searchInputRef}
         >
+          <div className="gcse-search"></div>
           <Box
-            className="inputBox"
+            className="inputBox "
             sx={{ position: "relative", boxShadow: 1, borderRadius: "12px" }}
           >
             <input

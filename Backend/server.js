@@ -42,6 +42,8 @@ import cheerio from "cheerio"
 import urlModule from "url"
 import UsersModel from './Models/UsersModel.js';
 import { v4 as uid } from 'uuid';
+
+
 async function extractWebsiteData(url) {
     try {
         const { data } = await axios.get(url);
@@ -83,9 +85,10 @@ async function extractWebsiteData(url) {
                 break;
             }
         }
+        console.log(favicon)
         try {
-            let browkenLinkCheck = await fetch(imageUrl)
-            if (!browkenLinkCheck.ok) {
+            let browkenLinkCheck = await fetch(favicon)
+            if (!browkenLinkCheck.ok || favicon == "") {
                 favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=30px`
             }
         } catch (error) {
@@ -94,7 +97,7 @@ async function extractWebsiteData(url) {
         return { name: title, favicon, description };
     } catch (error) {
         console.error('Error extracting website data:', error.message);
-        return ({ name: url, favicon: "", description: url });
+        return ({ name: url, favicon: `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=30px`, description: url });
     }
 }
 
@@ -388,206 +391,26 @@ app.get('/auth/google/callback', async (req, res) => {
                 data: [
                     {
                         items: [
-                            {
-                                type: "Calculator", data: {
-
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        items: [
-
-                            {
-                                type: "Clock", data: {
-
-                                }
-                            },
-                            {
-                                type: "Note", data: {
-                                    name: "Test Note",
-                                    html: `<ol><li><strong>Task 1</strong></li><li><em>Task 2</em></li><li><u>Task 3</u></li><li><strong><em><u>Task 4</u></em></strong></li></ol><p>Hi</p>`
-                                }
-                            },
 
                         ]
                     },
                     {
                         items: [
-                            {
-                                type: "Bookmark", data: {
-                                    name: "My Links",
-                                    URLs: [
-                                        {
-                                            "_id": "8d5b3b5f-acc1-41c0-8f84-560c16e4303c",
-                                            "link": "https://google.com",
-                                            "name": "Google",
-                                            "favicon": "https://www.google.com/favicon.ico"
-                                        },
-                                        {
-                                            "_id": "307faaaf-f35f-436c-b1f9-8c56810406ad",
-                                            "link": "https://youtube.com",
-                                            "name": "YouTube",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://youtube.com&size=30px",
-                                            "description": "Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube."
-                                        },
-                                        {
-                                            "_id": "33303410-fac8-4ed7-bf14-0b97ec669291",
-                                            "link": "https://fb.com",
-                                            "name": "ফেইচবুক - লগ ইন কৰক বা ছাইন আপ কৰক",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://fb.com&size=30px",
-                                            "description": "আপোনাৰ বন্ধু, পৰিয়ালবৰ্গ আৰু আপুনি জনা লোকসকলৰ সৈতে ভাগ বতৰা আৰু সংযোগৰ আৰম্ভণি কৰিবলৈ ফেইচবুকত লগ ইন কৰক।"
-                                        },
-                                        {
-                                            "_id": "c78af177-8c77-4b91-b2b9-6b25b3039352",
-                                            "link": "https://instagram.com",
-                                            "name": "Instagram",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://instagram.com&size=30px",
-                                            "description": "Create an account or log in to Instagram - Share what you're into with the people who get you."
-                                        },
-                                        {
-                                            "_id": "1991b892-95ed-47d3-b55f-bce307d97ef3",
-                                            "link": "https://honeygain.com/",
-                                            "name": "Passive Income - Effortlessly | Honeygain",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://honeygain.com/&size=30px",
-                                            "description": "Honeygain is the first-ever app that allows users to make money online by sharing their internet connection."
-                                        },
-                                        {
-                                            "_id": "00f6204f-c99f-4081-8a4f-7647164d5868",
-                                            "link": "https://www.soraai.onl/",
-                                            "name": "Sora AI Video Generator - OpenAI Text to Video",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://www.soraai.onl/&size=30px",
-                                            "description": "Sora AI by OpenAI - Login to Generate Videos from Text effortlessly. Revolutionize content creation across industries with AI technology."
-                                        },
-                                        {
-                                            "_id": "889491f9-a787-41f5-abcc-ef7cc2026fc5",
-                                            "link": "https://gemini.google.com",
-                                            "name": "‎Gemini - chat to supercharge your ideas",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://gemini.google.com&size=30px",
-                                            "description": "Bard is now Gemini. Get help with writing, planning, learning, and more from Google AI."
-                                        },
-                                        {
-                                            "_id": "f6cdcc35-452d-475d-a1cd-2c741a997161",
-                                            "link": "https://play.google.com",
-                                            "name": "Android Apps on Google Play",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://play.google.com&size=30px",
-                                            "description": "Enjoy millions of the latest Android apps, games, music, movies, TV, books, magazines & more. Anytime, anywhere, across your devices."
-                                        },
-                                        {
-                                            "_id": "4d39748b-f91d-4aa2-b0f1-e62056b0dfe7",
-                                            "link": "https://data.ceoitbox.com",
-                                            "name": "Sheet To WebApp",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://data.ceoitbox.com&size=30px",
-                                            "description": "description"
-                                        },
-                                        {
-                                            "_id": "b1d824b4-24b3-46f1-82b9-77e542e441aa",
-                                            "link": "https://meet.ceoitbox.com",
-                                            "name": "CBXMEET",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://meet.ceoitbox.com&size=30px",
-                                            "description": "Web site created using create-react-app"
-                                        },
-                                        {
-                                            "_id": "24318ce2-ea22-4399-911d-d93ac3cb0831",
-                                            "link": "https://auth.ceoitbox.com",
-                                            "name": "SLM",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://auth.ceoitbox.com&size=30px",
-                                            "description": "Web site created using create-react-app"
-                                        },
-                                        {
-                                            "_id": "4fe3eac7-4b1b-463f-9184-0fa22122f713",
-                                            "link": "https://test.ceoitbox.com",
-                                            "name": "Mcq Form",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://test.ceoitbox.com&size=30px",
-                                            "description": "Web site created using create-react-app"
-                                        },
-                                        {
-                                            "_id": "df3c1bf9-a66e-4f79-812f-9b98f92e0abd",
-                                            "link": "https://onelink.ceoitbox.com",
-                                            "name": "OneLink",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://onelink.ceoitbox.com&size=30px",
-                                            "description": null
-                                        },
-                                        {
-                                            "_id": "6b4ddcaf-a195-4dc9-bd0c-1db3a333e850",
-                                            "link": "https://cbxtree.in/",
-                                            "name": "CBXTREE",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://cbxtree.in/&size=30px",
-                                            "description": "Web site build by CEOITBOX"
-                                        },
-                                        {
-                                            "_id": "36796c11-c4a8-4a5b-b485-f8ae2b5607a4",
-                                            "link": "https://help.ceoitbox.com",
-                                            "name": "CEOITBOX | Helpdesk",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://help.ceoitbox.com&size=30px",
-                                            "description": "Web site build by CEOITBOX"
-                                        },
-                                        {
-                                            "_id": "ddf16cbb-ea3c-4671-8658-8275aabdfe8a",
-                                            "link": "https://cbxit.in",
-                                            "name": "CBXIT",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://cbxit.in&size=30px",
-                                            "description": "Web site created using create-react-app"
-                                        },
-                                        {
-                                            "_id": "df1a4070-5f18-4288-8391-fd270847697f",
-                                            "link": "https://lms.ceoitbox.com",
-                                            "name": "CEOITBOX",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://lms.ceoitbox.com&size=30px",
-                                            "description": null
-                                        },
-                                        {
-                                            "_id": "333e69e6-9ab2-499b-80a2-cd22c39d99f1",
-                                            "link": "https://warranty.boat-lifestyle.com/",
-                                            "name": "boAt Support",
-                                            "favicon": "https://s2.googleusercontent.com/s2/favicons?domain=https://warranty.boat-lifestyle.com/&size=30px",
-                                            "description": null
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                type: "Currency Converter", data: {
+                        ]
+                    },
+                    {
+                        items: [
 
-                                }
-                            },
                         ]
                     },
                     {
                         items: [
-                            {
-                                type: "Embed", data: {
-                                    name: "Song",
-                                    url: "https://www.youtube.com/embed/gMQv5i3wQeQ?si=FknaJFqpuHA2dzbR"
-                                }
-                            },
-                            {
-                                type: "Embed", data: {
-                                    name: "Google Calander",
-                                    url: "https://calendar.google.com/calendar/embed?src=raghbir%40ceoitbox.in&ctz=Asia%2FKolkata"
-                                }
-                            },
+
                         ]
                     },
                     {
                         items: [
-                            {
-                                type: "Todo", data: {
-                                    name: "My Todo List",
-                                    tasks: [
-                                        {
-                                            _id: uid(),
-                                            task: "Work on Laptop",
-                                            completed: false
-                                        },
-                                        {
-                                            _id: uid(),
-                                            task: "Work on Mobile",
-                                            completed: true
-                                        }
-                                    ]
-                                }
-                            },
+                         
                         ]
                     },
                 ],

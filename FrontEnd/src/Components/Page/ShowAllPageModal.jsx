@@ -6,7 +6,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DeleteModal from "./DeleteModal";
 import { Context } from "../Context/Context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const modalStyle = {
   position: "absolute",
@@ -27,16 +27,17 @@ const ShowAllPageModal = ({
   handleEditOpenModal,
   pageMetaData,
   setSelectedPage,
+  selectedPage
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const { pages } = useContext(Context);
+  const { pages, setPages } = useContext(Context);
   const handleOpenDeleteModal = () => {
     setOpenDeleteModal(true);
   };
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false);
   };
-
+  const { pageID } = useParams()
   const nav = useNavigate();
   return (
     <>
@@ -71,14 +72,16 @@ const ShowAllPageModal = ({
                 return (
                   <Box
                     sx={{
+                      borderRadius:"10px",
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
                       mt: "5px",
                       height:"40px",
                       cursor: "pointer",
+                      background: pageID == item?._id ? "#d1ffbc" : "",
                       "&:hover": {
-                        background: "#f7fafc",
+                        background: pageID == item?._id ? "#d1ffbc" :"#f7fafc",
                       },
                     }}
                     onClick={() => {
@@ -151,6 +154,9 @@ const ShowAllPageModal = ({
 
       <DeleteModal
         open={openDeleteModal}
+        selectedPage={selectedPage}
+        setSelectedPage={setSelectedPage}
+        setPages={setPages}
         handleClose={handleCloseDeleteModal}
       />
     </>

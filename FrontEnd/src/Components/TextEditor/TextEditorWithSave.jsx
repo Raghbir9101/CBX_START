@@ -7,15 +7,17 @@ import Save from '@mui/icons-material/Save';
 function TextEditorWithSave({ data: parentData, onChange, provided, item, handleDelete }) {
     const [data, setData] = useState(parentData.html || "");
     const [editing, setEditing] = useState(false);
+    const [title, setTitle] = useState(item.data.name || "");
 
-    useEffect(() => {
-        if (editing) return;
-        onChange({ ...parentData, html: data })
-    }, [editing])
+    // useEffect(() => {
+    //     if (editing) return;
+    //     onChange({ ...parentData, html: data })
+    // }, [editing])
     function ActionButtons() {
         return <>
             <IconButton onClick={() => {
-                setEditing(p => !p)
+                setEditing(p => !p);
+                onChange({ ...parentData, name:title, html: data })
             }} size="small">
                 {!editing ? <svg
                     width="14"
@@ -40,7 +42,7 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
                     />
                 </svg> : <Save sx={{ fontSize: "18px" }} />}
             </IconButton>
-            <IconButton size="small">
+            {/* <IconButton size="small">
                 <svg
                     width="14"
                     height="14"
@@ -70,7 +72,7 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
                         stroke-linejoin="round"
                     />
                 </svg>
-            </IconButton>
+            </IconButton> */}
         </>
     }
 
@@ -79,8 +81,12 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
             setData(val)
         }} provided={provided} item={item} />
     }, [parentData])
+
+ 
+
+
     return (
-        <ElementWrapper handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons}>
+        <ElementWrapper handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
             <div>
                 {editing && texteditor}
                 {!editing && <Box className="textEditor" sx={{ cursor: "default", padding: "10px", wordWrap: "break-word", overflowWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
