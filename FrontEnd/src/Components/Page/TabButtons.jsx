@@ -296,7 +296,12 @@ const TabButtons = ({
               type="text"
               placeholder="Google Search"
             />
-            <img className="gsearchIcon" src={search} alt="search" />
+            <img
+              className="gsearchIcon"
+              style={{ width: "22px", height: "22px" }}
+              src={gImg}
+              alt="search"
+            />
             <img
               className="closeIcon"
               src={clear}
