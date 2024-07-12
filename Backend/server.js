@@ -33,7 +33,11 @@ app.get("/page/:pageID", (req, res) => {
 //     res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
 // })
 
+app.get("/api/googlesearch", async (req, res) => {
+    let { data: resp } = await axios.get(`https://suggestqueries.google.com/complete/search?client=firefox&q=${req.query.q}`);
 
+    res.send(resp)
+})
 
 
 
@@ -175,6 +179,8 @@ import { authenticateToken, authenticateTokenAndReturnUser } from './Authorizati
 //         return res.status(500).send("Internal Server Error");
 //     }
 // });
+
+
 
 
 app.get("/api/getUserData", authenticateToken, async (req, res) => {

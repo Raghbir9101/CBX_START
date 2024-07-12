@@ -11,6 +11,7 @@ import googleSearch from "../../Icons/googleSearchIcon.svg";
 import gImg from "../../Icons/gImage.svg";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import axios from "axios";
+import HTTP from "../../HTTP";
 
 const clearedPageData = [
   {
@@ -86,11 +87,12 @@ const TabButtons = ({
   };
 
   useEffect(() => {
-    if (googleSearch) return setGoogleSearchSuggestions([]);
+    if (!googleSearch) return setGoogleSearchSuggestions([]);
 
     let temp = setTimeout(() => {
-      axios.get(`https://suggestqueries.google.com/complete/search?client=firefox&q=${googleSearch}`).then(res => {
-        setGoogleSearchSuggestions(res.data[1] || [])
+      HTTP.get(`googlesearch?q=${googleSearch}`).then(res => {
+        console.log(res)
+        setGoogleSearchSuggestions(res?.data?.[1] || [])
       })
     }, 300)
 
@@ -99,6 +101,7 @@ const TabButtons = ({
     }
   }, [googleSearch])
 
+  console.log(googleSearchSuggestions)
   return (
     <Box>
       <Box
@@ -266,7 +269,7 @@ const TabButtons = ({
             />
 
             {googleSearchSuggestions.length > 0 && <Box overflow={"hidden"} position={"absolute"} sx={{ boxShadow: 1 }} bgcolor={"white"} width={"100%"} top={`calc( 100% + 5px )`} zIndex={"99"} borderRadius={"20px"}>
-              {googleSearchSuggestions.map(item => {
+              {(googleSearchSuggestions || []).map(item => {
                 return <MenuItem onClick={() => {
                   window.open(`https://www.google.com/search?q=${item}`);
                   handleCloseClick()
