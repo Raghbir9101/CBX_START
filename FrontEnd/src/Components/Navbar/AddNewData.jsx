@@ -40,7 +40,7 @@ const items = [
     defaultObj: {
       "type": "Note",
       "data": {
-        "name": "Test Note",
+        "name": "Note",
         "html": ""
       }
     }
@@ -52,7 +52,7 @@ const items = [
     defaultObj: {
       "type": "Todo",
       "data": {
-        "name": "My Todo List",
+        "name": "Todo List",
         "tasks": []
       }
     }
@@ -82,12 +82,12 @@ const items = [
   {
     icon: <CalendarMonthOutlinedIcon sx={{ color: "#4D8733" }} />,
     label: "Calendar",
-    name: "Note",
+    name: "Google Calendar",
     defaultObj: {
-      "type": "Embed",
+      "type": "Google Calendar",
       "data": {
-        "name": "Google Calander",
-        "url": "https://calendar.google.com/calendar/embed?src=raghbir%40ceoitbox.in&ctz=Asia%2FKolkata"
+        "name": "Google Calendar",
+        "url": ""
       }
     }
   },
@@ -141,6 +141,7 @@ const Item = ({ icon, label, name, setPageData, defaultObj }) => (
       setPageData(p => {
         // console.log(addObjectToShortestArray([...p], defaultObj))
         // return p
+        // console.log(defaultObj)
         return addObjectToShortestArray([...p], { ...defaultObj, id: v4() })
       })
 

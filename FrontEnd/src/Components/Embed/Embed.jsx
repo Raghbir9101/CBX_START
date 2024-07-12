@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { ElementWrapper } from "../Page/Page";
-import { Box, Button, IconButton, TextField } from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import Save from "@mui/icons-material/Save";
 
 function Embed({ url, provided, item, handleDelete, onChange }) {
   const [embedURL, setEmbedURL] = useState(url);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(!url ? true : false);
   const [title, setTitle] = useState(item.data.name || "");
 
   function ActionButtons() {
@@ -72,7 +72,7 @@ function Embed({ url, provided, item, handleDelete, onChange }) {
   }
   return (
     <ElementWrapper handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
-      {!editing ? <iframe
+      {(!editing && url) ? <iframe
         width="100%"
         height={"250px"}
         src={embedURL}
@@ -82,14 +82,15 @@ function Embed({ url, provided, item, handleDelete, onChange }) {
         referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen
       ></iframe> :
-        <Box>
-          <TextField label={"Enter Embed URL !"} value={embedURL} onChange={(e) => {
+        <Box width={"100%"} height={"100%"} display={"flex"} alignItems={"center"} flexDirection={"column"} p={"20px"} gap={"10px"}>
+          <Box>
+            <Typography color={"gray"} fontSize={"12px"}>
+              <b>1.</b> Please copy your Embed URL and paste it in the below Text Field..
+            </Typography>
+          </Box>
+          <TextField fullWidth size="small" variant="filled" label={"Enter Embed URL !"} value={embedURL} onChange={(e) => {
             setEmbedURL(e.target.value || "")
           }} />
-          {/* <Button onClick={() => {
-            setEditing(false)
-            onChange({ name: title, url: embedURL })
-          }}>Save</Button> */}
         </Box>
       }
     </ElementWrapper>

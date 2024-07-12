@@ -50,7 +50,6 @@ function App() {
             setIsLoading(false);
             return;
           }
-          console.log(res);
           if (!token && !loginUser) {
             setToken(res.token);
             setLoginUser(res.body);

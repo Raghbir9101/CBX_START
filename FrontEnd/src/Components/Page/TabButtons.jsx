@@ -91,7 +91,6 @@ const TabButtons = ({
 
     let temp = setTimeout(() => {
       HTTP.get(`googlesearch?q=${googleSearch}`).then(res => {
-        console.log(res)
         setGoogleSearchSuggestions(res?.data?.[1] || [])
       })
     }, 300)
@@ -101,7 +100,6 @@ const TabButtons = ({
     }
   }, [googleSearch])
 
-  console.log(googleSearchSuggestions)
   return (
     <Box>
       <Box

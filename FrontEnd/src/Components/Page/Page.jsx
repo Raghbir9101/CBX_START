@@ -31,6 +31,7 @@ import TabButtons from "./TabButtons";
 import Navbar from "../Navbar/Navbar";
 import Delete from "@mui/icons-material/Delete";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import GoogleCalendar from "../GoogleCalendar/GoogleCalendar";
 
 const modalStyle = {
   position: "absolute",
@@ -473,7 +474,8 @@ function Page() {
                                         data={item.data}
                                       />
                                     );
-                                  } else if (item.type == "Embed") {
+                                  } 
+                                  else if (item.type == "Embed") {
                                     return (
                                       <Embed
                                         setPageData={setPageData}
@@ -507,7 +509,44 @@ function Page() {
                                         data={item.data}
                                       />
                                     );
-                                  } else if (
+                                  } 
+                                  else if (item.type == "Google Calendar") {
+                                    // console.log("google")
+                                    return (
+                                      <GoogleCalendar
+                                        setPageData={setPageData}
+                                        handleDelete={() => {
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
+                                        }}
+                                        provided={provided}
+                                        item={item}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        url={item.data.url}
+                                        data={item.data}
+                                      />
+                                    );
+                                  } 
+                                  else if (
                                     item.type == "Currency Converter"
                                   ) {
                                     return (

@@ -10,6 +10,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
+import DefaultPFP from "../../Icons/Default_pfp.jpg"
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Context } from "../Context/Context";
 import CreatePageModal from "../Page/CreateNewPage";
@@ -331,6 +332,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
                   cursor: "pointer",
                 }}
                 src={loginUser?.photo || ""}
+                onError={(e)=>e.target.src = DefaultPFP}
                 alt="profile"
               />
             </Box>
