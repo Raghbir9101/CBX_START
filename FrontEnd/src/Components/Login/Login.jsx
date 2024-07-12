@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Container,
   Box,
@@ -11,8 +11,10 @@ import img from "../../Icons/loginImg.svg";
 import bgImg from "../../Icons/bg.svg";
 import gImg from "../../Icons/gImage.svg";
 import "./Login.css";
+import { Context } from "../Context/Context";
 
 const App = () => {
+  const { apiLink } = useContext(Context);
   const styles = {
     container: {
       display: "flex",
@@ -82,7 +84,8 @@ const App = () => {
             <Button
               onClick={() =>
                 // (window.location.href = "http://localhost/auth/google")
-                (window.location.href = "https://cbx-start.onrender.com/auth/google")
+                // (window.location.href = "https://cbx-start.onrender.com/auth/google")
+                (window.location.href = apiLink + "/auth/google")
               }
               startIcon={
                 <img

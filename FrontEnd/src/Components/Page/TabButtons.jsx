@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, IconButton, MenuItem, Tooltip } from "@mui/material";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
 import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
@@ -10,6 +10,7 @@ import clear from "../../Icons/cross.svg";
 import googleSearch from "../../Icons/googleSearchIcon.svg";
 import gImg from "../../Icons/gImage.svg";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import axios from "axios";
 
 const clearedPageData = [
   {
@@ -37,6 +38,8 @@ const TabButtons = ({
 }) => {
   const location = useLocation();
   const [searchVisible, setSearchVisible] = useState(false);
+  const [googleSearch, setGoogleSearch] = useState("");
+  const [googleSearchSuggestions, setGoogleSearchSuggestions] = useState([]);
   const searchInputRef = useRef(null);
 
   const handleSearchClick = () => {
@@ -50,6 +53,7 @@ const TabButtons = ({
         !searchInputRef.current.contains(event.target)
       ) {
         setSearchVisible(false);
+        setGoogleSearch("")
       }
     };
 
@@ -64,6 +68,7 @@ const TabButtons = ({
   }, [searchVisible]);
 
   const handleCloseClick = () => {
+    setGoogleSearch("")
     setSearchVisible(false);
   };
 
@@ -79,6 +84,20 @@ const TabButtons = ({
   const handleReset = () => {
     setFilters({});
   };
+
+  useEffect(() => {
+    if (googleSearch) return setGoogleSearchSuggestions([]);
+
+    let temp = setTimeout(() => {
+      axios.get(`https://suggestqueries.google.com/complete/search?client=firefox&q=${googleSearch}`).then(res => {
+        setGoogleSearchSuggestions(res.data[1] || [])
+      })
+    }, 300)
+
+    return () => {
+      clearTimeout(temp)
+    }
+  }, [googleSearch])
 
   return (
     <Box>
@@ -159,74 +178,6 @@ const TabButtons = ({
         >
           Links
         </Button>
-        {/* <Button
-          onClick={() => {
-            setPageData(clearedPageData);
-            setFilteredPageData(clearedPageData);
-          }}
-          sx={{ boxShadow: 1 }}
-          className="headingBtns"
-          startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-              <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-            </IconButton>
-          }
-        >
-          Clear Page
-        </Button> */}
-        {/* <Button
-          onClick={() => {
-            setFilters([]);
-          }}
-          className="headingBtns"
-          sx={{ boxShadow: 1 }}
-          startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-              <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-            </IconButton>
-          }
-        >
-          Reset
-        </Button> */}
-        {/* <IconButton
-          sx={{
-            boxShadow: 1,
-            background: "#fff",
-            "&:hover": {
-              boxShadow: 2,
-              background: "#fff",
-            },
-          }}
-        >
-          <RestartAltIcon sx={{ color: "#4d8733" }} />
-        </IconButton> */}
-
-        {/* {searchVisible && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              // width: "100%",
-            }}
-            ref={searchInputRef}
-          >
-            <Box className="inputBox" sx={{ position: "relative" }}>
-              <input
-                className="googleSearchInput"
-                type="text"
-                placeholder="Google Search"
-              />
-              <img className="gsearchIcon" src={search} alt="search" />
-              <img
-                className="closeIcon"
-                src={clear}
-                alt="close"
-                onClick={handleCloseClick}
-              />
-            </Box>
-          </Box>
-        )} */}
 
         {/* Search Icon */}
         <Box
@@ -284,6 +235,7 @@ const TabButtons = ({
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
+            position: "relative"
           }}
           ref={searchInputRef}
         >
@@ -296,6 +248,9 @@ const TabButtons = ({
               className="googleSearchInput"
               type="text"
               placeholder="Google Search"
+              onChange={(e) => {
+                setGoogleSearch(e.target.value)
+              }}
             />
             <img
               className="gsearchIcon"
@@ -309,6 +264,18 @@ const TabButtons = ({
               alt="close"
               onClick={handleCloseClick}
             />
+
+            {googleSearchSuggestions.length > 0 && <Box overflow={"hidden"} position={"absolute"} sx={{ boxShadow: 1 }} bgcolor={"white"} width={"100%"} top={`calc( 100% + 5px )`} zIndex={"99"} borderRadius={"20px"}>
+              {googleSearchSuggestions.map(item => {
+                return <MenuItem onClick={() => {
+                  window.open(`https://www.google.com/search?q=${item}`);
+                  handleCloseClick()
+                }} width={"100%"} padding={"10px 20px"}>
+                  {item}
+                </MenuItem>
+              })}
+            </Box>}
+
           </Box>
         </Box>
       )}

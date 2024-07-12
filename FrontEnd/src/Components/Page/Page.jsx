@@ -175,7 +175,8 @@ function Page() {
   }, [pageData]);
 
   function filterData(data, filterObject, search) {
-    if (Object.keys(filterObject).length == 0 && search == "") return data;
+    let notTabFiltering = Object.keys(filterObject).length == 0;
+    if (notTabFiltering && search == "") return data;
     // Create a new array to hold the filtered data
     const filteredData = data.map((page) => {
       // Create a new page object with the same structure but empty items arrays
@@ -183,7 +184,7 @@ function Page() {
         ...page,
         items: page.items.filter((item) => {
 
-          return filterObject[item.type] === 1 && item?.data?.name.toLowerCase().includes(search)
+          return (notTabFiltering ? true : filterObject[item.type] === 1) && item?.data?.name.toLowerCase().includes(search)
         }),
       };
     });

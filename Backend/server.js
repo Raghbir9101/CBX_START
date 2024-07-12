@@ -123,8 +123,8 @@ import { OAuth2Client } from "google-auth-library";
 
 const CLIENT_ID = `57117822909-4h5v6n8j2fgi0f82ng99pjuegksr4n4e.apps.googleusercontent.com`
 const CLIENT_SECRET = `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`
-const REDIRECT_URI = `https://cbx-start.onrender.com`
-// const REDIRECT_URI = `http://localhost:5173`
+// const REDIRECT_URI = `https://cbx-start.onrender.com`
+const REDIRECT_URI = process.env.HOST_URL || `http://localhost:5173`
 
 
 const client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);

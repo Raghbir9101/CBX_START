@@ -17,11 +17,13 @@ function App() {
     setPages,
     isLoading,
     setIsLoading,
+    apiLink
   } = useContext(Context);
 
   const nav = useNavigate();
 
   useEffect(() => {
+    axios.get("https://suggestqueries.google.com/complete/search?client=firefox&q=c%20df")
     try {
       setIsLoading(true);
       const searchParams = new URLSearchParams(location.search);
@@ -41,7 +43,7 @@ function App() {
 
       // .get("https://data.ceoitbox.com/auth/google/callback?code=" + code)
       axios
-        .get("https://cbx-start.onrender.com/auth/google/callback?code=" + code)
+        .get(apiLink+"/auth/google/callback?code=" + code)
         // .get("http://localhost/auth/google/callback?code=" + code)
         .then(({ data: res }) => {
           if (res.error) {

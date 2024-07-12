@@ -251,7 +251,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
           {/* <Typography className="toolName">CBX START</Typography> */}
         </Box>
 
-        <Box width={"33%"} display={"flex"} justifyContent={"center"}>
+        {token && <Box width={"33%"} display={"flex"} justifyContent={"center"}>
           <Button
             // onClick={handleOpenModal}
             onClick={handleOpenAllPagesModal}
@@ -260,7 +260,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
           >
             {pageMetaData?.pageName || ""}
           </Button>
-        </Box>
+        </Box>}
 
         {token && (
           <Box
