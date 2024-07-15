@@ -15,6 +15,9 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .currency-select {
@@ -32,12 +35,12 @@
 }
 
 .amount-input {
-  padding: 8px;
+  padding: 3px 7px;
   font-size: 16px;
   border: 1px solid #d9d9d9;
   outline: #d9d9d9;
   border-radius: 4px;
-  width: 100px;
+  width: 70px;
   /* text-align: end; */
 }
 
@@ -69,4 +72,5 @@
 .currency-flag {
   width: 39px;
   height: 22px;
+  
 }

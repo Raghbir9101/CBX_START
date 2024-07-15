@@ -4,6 +4,7 @@ import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { IconButton } from "@mui/material";
 import { ElementWrapper } from "../Page/Page";
 import Flag from "react-world-flags";
+import { AutoComplete, Input } from 'antd';
 
 const CurrencyConverter = ({ provided, item, handleDelete }) => {
   const [inputCurrency, setInputCurrency] = useState("EUR");
@@ -13,60 +14,60 @@ const CurrencyConverter = ({ provided, item, handleDelete }) => {
   const [exchangeRate, setExchangeRate] = useState(0);
 
   const currencyOptions = [
-    "AED",
-    "ARS",
-    "AUD",
-    "BGN",
-    "BRL",
-    "BSD",
-    "CAD",
-    "CHF",
-    "CLP",
-    "CNY",
-    "COP",
-    "CZK",
-    "DKK",
-    "DOP",
-    "EGP",
-    "EUR",
-    "FJD",
-    "GBP",
-    "GTQ",
-    "HKD",
-    "HRK",
-    "HUF",
-    "IDR",
-    "ILS",
-    "INR",
-    "ISK",
-    "JPY",
-    "KRW",
-    "KZT",
-    "MXN",
-    "MYR",
-    "NOK",
-    "NZD",
-    "PAB",
-    "PEN",
-    "PHP",
-    "PKR",
-    "PLN",
-    "PYG",
-    "RON",
-    "RUB",
-    "SAR",
-    "SEK",
-    "SGD",
-    "THB",
-    "TRY",
-    "TWD",
-    "UAH",
-    "USD",
-    "UYU",
-    "VND",
-    "ZAR",
+    { code: "AED", name: "United Arab Emirates Dirham" },
+    { code: "ARS", name: "Argentine Peso" },
+    { code: "AUD", name: "Australian Dollar" },
+    { code: "BGN", name: "Bulgarian Lev" },
+    { code: "BRL", name: "Brazilian Real" },
+    { code: "BSD", name: "Bahamian Dollar" },
+    { code: "CAD", name: "Canadian Dollar" },
+    { code: "CHF", name: "Swiss Franc" },
+    { code: "CLP", name: "Chilean Peso" },
+    { code: "CNY", name: "Chinese Yuan" },
+    { code: "COP", name: "Colombian Peso" },
+    { code: "CZK", name: "Czech Koruna" },
+    { code: "DKK", name: "Danish Krone" },
+    { code: "DOP", name: "Dominican Peso" },
+    { code: "EGP", name: "Egyptian Pound" },
+    { code: "EUR", name: "Euro" },
+    { code: "FJD", name: "Fijian Dollar" },
+    { code: "GBP", name: "British Pound Sterling" },
+    { code: "GTQ", name: "Guatemalan Quetzal" },
+    { code: "HKD", name: "Hong Kong Dollar" },
+    { code: "HRK", name: "Croatian Kuna" },
+    { code: "HUF", name: "Hungarian Forint" },
+    { code: "IDR", name: "Indonesian Rupiah" },
+    { code: "ILS", name: "Israeli New Shekel" },
+    { code: "INR", name: "Indian Rupee" },
+    { code: "ISK", name: "Icelandic Krona" },
+    { code: "JPY", name: "Japanese Yen" },
+    { code: "KRW", name: "South Korean Won" },
+    { code: "KZT", name: "Kazakhstani Tenge" },
+    { code: "MXN", name: "Mexican Peso" },
+    { code: "MYR", name: "Malaysian Ringgit" },
+    { code: "NOK", name: "Norwegian Krone" },
+    { code: "NZD", name: "New Zealand Dollar" },
+    { code: "PAB", name: "Panamanian Balboa" },
+    { code: "PEN", name: "Peruvian Nuevo Sol" },
+    { code: "PHP", name: "Philippine Peso" },
+    { code: "PKR", name: "Pakistani Rupee" },
+    { code: "PLN", name: "Polish Zloty" },
+    { code: "PYG", name: "Paraguayan Guarani" },
+    { code: "RON", name: "Romanian Leu" },
+    { code: "RUB", name: "Russian Ruble" },
+    { code: "SAR", name: "Saudi Riyal" },
+    { code: "SEK", name: "Swedish Krona" },
+    { code: "SGD", name: "Singapore Dollar" },
+    { code: "THB", name: "Thai Baht" },
+    { code: "TRY", name: "Turkish Lira" },
+    { code: "TWD", name: "New Taiwan Dollar" },
+    { code: "UAH", name: "Ukrainian Hryvnia" },
+    { code: "USD", name: "United States Dollar" },
+    { code: "UYU", name: "Uruguayan Peso" },
+    { code: "VND", name: "Vietnamese Dong" },
+    { code: "ZAR", name: "South African Rand" },
   ];
-
+  const [options, setOptions] = useState(currencyOptions || []);
   useEffect(() => {
     compute();
   }, [inputCurrency, outputCurrency, inputAmount]);
@@ -146,27 +147,44 @@ const CurrencyConverter = ({ provided, item, handleDelete }) => {
     return currencyCountryMap[currency] || "UN";
   };
 
+  const onSearch = (searchText) => {
+    const filteredOptions = currencyOptions.filter(
+      (option) =>
+        option.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        option.code.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setOptions(filteredOptions);
+  };
+
+  const onSelect = (value) => {
+    setInputCurrency(value);
+  };
+
+  const onSelectOutput = (value) => {
+    setOptions(currencyOptions)
+    setOutputCurrency(value);
+  };
+
   return (
     <>
-      <ElementWrapper handleDelete={handleDelete}  provided={provided} item={item}>
+      <ElementWrapper handleDelete={handleDelete} provided={provided} item={item}>
         <div className="currency-converter">
           <div className="currency">
             <Flag
               code={getCountryCode(inputCurrency)}
               className="currency-flag"
             />
-            <select
-              value={inputCurrency}
-              onChange={(e) => setInputCurrency(e.target.value)}
-              className="currency-select"
-            >
-              {currencyOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            <input
+            <AutoComplete
+              options={options.map(option => ({ value: option.code, label: `${option.name} (${option.code})` }))}
+              style={{ width: 100 }}
+              onSelect={onSelect}
+              key={inputCurrency}
+              defaultValue={inputCurrency}
+              onSearch={onSearch}
+              placeholder="Select input currency"
+            />
+
+            <Input
               type="number"
               value={inputAmount}
               onChange={(e) => setInputAmount(e.target.value)}
@@ -181,18 +199,16 @@ const CurrencyConverter = ({ provided, item, handleDelete }) => {
               code={getCountryCode(outputCurrency)}
               className="currency-flag"
             />
-            <select
-              value={outputCurrency}
-              onChange={(e) => setOutputCurrency(e.target.value)}
-              className="currency-select"
-            >
-              {currencyOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            <input
+            <AutoComplete
+              defaultValue={outputCurrency}
+              options={options.map(option => ({ value: option.code, label: `${option.name} (${option.code})` }))}
+              style={{ width: 100 }}
+              key={outputCurrency}
+              onSelect={onSelectOutput}
+              onSearch={onSearch}
+              placeholder="Select output currency"
+            />
+            <Input
               type="number"
               value={outputAmount}
               readOnly

@@ -249,6 +249,12 @@ const TabButtons = ({
               className="googleSearchInput"
               type="text"
               placeholder="Google Search"
+              onKeyDown={(e) => {
+                if (e.key == "Enter") {
+                  window.open(`https://www.google.com/search?q=${e.target.value}`);
+                  handleCloseClick()
+                }
+              }}
               onChange={(e) => {
                 setGoogleSearch(e.target.value)
               }}

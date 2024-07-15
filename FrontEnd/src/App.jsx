@@ -4,7 +4,7 @@ import AllRoutes from "./Components/Routes/AllRoutes";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { Context } from "./Components/Context/Context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HTTP from "./HTTP";
 
 function App() {
@@ -23,9 +23,9 @@ function App() {
   const nav = useNavigate();
 
   useEffect(() => {
-    axios.get("https://suggestqueries.google.com/complete/search?client=firefox&q=c%20df")
     try {
       setIsLoading(true);
+      let splittedHref = window.location.href.split("/");
       const searchParams = new URLSearchParams(location.search);
       const code = searchParams.get("code");
       if (code == null) {
@@ -35,6 +35,14 @@ function App() {
         HTTP.get("getUserData").then(({ data: res }) => {
           setLoginUser(res);
           setPages(res.pages || []);
+          if (splittedHref[3] == "page") {
+            for (let i of res.pages || []) {
+              if (i._id == splittedHref[4]) {
+                nav("/page/" + splittedHref[4]);
+                return setIsLoading(false);
+              }
+            }
+          }
           nav("/page/" + res.pages[0]._id);
           setIsLoading(false);
         });
@@ -43,7 +51,7 @@ function App() {
 
       // .get("https://data.ceoitbox.com/auth/google/callback?code=" + code)
       axios
-        .get(apiLink+"/auth/google/callback?code=" + code)
+        .get(apiLink + "/auth/google/callback?code=" + code)
         // .get("http://localhost/auth/google/callback?code=" + code)
         .then(({ data: res }) => {
           if (res.error) {
@@ -58,6 +66,11 @@ function App() {
 
           sessionStorage.setItem("token", res.token);
           setIsLoading(false);
+          for (let i of res?.body?.pages) {
+            if (i._id == splittedHref) {
+              return nav("/page/" + splittedHref);
+            }
+          }
           nav("/page/" + res.body.pages[0]._id);
         });
     } catch (err) {

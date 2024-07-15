@@ -57,7 +57,7 @@ function findByID(arr = [], id) {
 function Page() {
   const { loginUser, token } = useContext(Context);
   const { pageID } = useParams();
-
+  
   const [bgImage, setBgImage] = useState(
     "https://static.start.me/f_auto,q_auto/backgrounds/iifsjzygnlokefem069v"
   );
@@ -296,7 +296,7 @@ function Page() {
                         return (
                           <Draggable
                             key={item?.id || itemIndex}
-                            draggableId={`${boxIndex}-${itemIndex}`}
+                            draggableId={item?.id || `${boxIndex}-${itemIndex}`}
                             index={itemIndex}
                           >
                             {(provided) => (
