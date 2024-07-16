@@ -1,12 +1,12 @@
 import "./App.css";
-import { Box } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import AllRoutes from "./Components/Routes/AllRoutes";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { Context } from "./Components/Context/Context";
 import { useNavigate, useParams } from "react-router-dom";
 import HTTP from "./HTTP";
-
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 function App() {
   const {
     token,
@@ -55,6 +55,7 @@ function App() {
         // .get("http://localhost/auth/google/callback?code=" + code)
         .then(({ data: res }) => {
           if (res.error) {
+            alert(res.error)
             setIsLoading(false);
             return;
           }
@@ -78,8 +79,16 @@ function App() {
       console.log(err.message);
     }
   }, []);
+  
   return (
     <Box>
+      {loginUser?.isAdmin && <Tooltip title="Admin Panel">
+        <IconButton onClick={() => {
+          nav("/AdminPanel")
+        }} size="large" sx={{ position: "fixed", bottom: "20px", right: "20px", zIndex: 100, bgcolor: "#d7d7d7", "&:hover": { bgcolor: "#d7d7d7" } }}>
+          <AdminPanelSettingsIcon sx={{ color: "#4d8733" }} />
+        </IconButton>
+      </Tooltip>}
       <AllRoutes />
     </Box>
   );

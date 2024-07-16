@@ -332,7 +332,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
                   cursor: "pointer",
                 }}
                 src={loginUser?.photo || ""}
-                onError={(e)=>e.target.src = DefaultPFP}
+                onError={(e) => e.target.src = DefaultPFP}
                 alt="profile"
               />
             </Box>

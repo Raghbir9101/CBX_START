@@ -15,9 +15,6 @@ app.use(express.static('../FrontEnd/dist'));
 app.use(cors({ origin: "*" }));
 
 
-app.use("/api", UsersRouter);
-app.use("/api", PagesRouter);
-
 
 
 app.get("/", (req, res) => {
@@ -138,47 +135,54 @@ import jwt from 'jsonwebtoken';
 import PagesModel from './Models/PagesModel.js';
 import { authenticateToken, authenticateTokenAndReturnUser } from './Authorization/AuthenticateToken.js';
 
+app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, res) => {
+    let page = await PagesModel.findOne({ _id: req.params.pageID }).lean();
+    let role = "NONE";
+    if (req?.user?._id == page?.userID) {
+        role = "OWNER";
+    }
+    if (page.visibility == "PUBLIC") {
+        return res.send({ ...page, role })
+    }
+    if (!req.login && page.visibility == "PRIVATE") {
+        return res.send({ error: "This page is PRIVATE !", errorCode: "PRIVATE_PAGE" })
+    }
+    if (page.visibility == "PASSWORD_PROTECTED") {
+        if (page.password == req.query.password) {
+            return res.send({ ...page, role })
+        }
+        else if (page.password != req.query.password && req.query.password) {
+            return res.send({ error: "Incorrect Password.", errorCode: "INVALID_PASSWORD" })
+        }
+        return res.send({ error: "Please enter password", errorCode: "ENTER_PASSWORD" })
+    }
+    else if (req.login && page.visibility == "PRIVATE") {
+        for (let i of page.collaborators) {
+            if (req.user._id == page.userID) {
+                role = "OWNER";
+                break
+            }
+            if (i.email == req.user.email) {
+                role = i.role;
+                break
+            }
+        }
+
+        page = { ...page, role }
+    }
+
+    if ((req.login && req.user._id == page.userID) || role != "NONE") {
+        return res.send({ ...page, role })
+    }
+
+    if (page.visibility == "PRIVATE") {
+        return res.send({ error: "This Page is private. Cannot access without permission.", errorCode: "PRIVATE_PAGE" })
+    }
+
+    return res.send({ ...page, role })
+})
 
 
-// app.get("/api/getUserData", authenticateToken, async (req, res) => {
-//     const ownedPages = await PagesModel.find({ userID: req.user._id },)
-//     const colaboratedPages = await PagesModel.find({ "collaborators.email": req.user.email })
-//     return res.send({ ...req.user, pages })
-// })
-
-// app.get("/api/getUserData", authenticateToken, async (req, res) => {
-//     try {
-//         // Find pages owned by the user
-//         const ownedPages = await PagesModel.find({ userID: req.user._id });
-
-//         // Find pages where the user is a collaborator
-//         const collaboratedPages = await PagesModel.find({ "collaborators.email": req.user.email });
-
-//         // Add role key to collaborated pages
-//         const collaboratedPagesWithRole = collaboratedPages.map(page => {
-//             const collaborator = page.collaborators.find(c => c.email === req.user.email);
-//             return {
-//                 ...page.toObject(),
-//                 role: collaborator.role
-//             };
-//         });
-
-//         // Combine owned and collaborated pages
-//         const pages = [
-//             ...ownedPages.map(page => ({
-//                 ...page.toObject(),
-//                 role: 'OWNER' // Assuming the role for owned pages is 'OWNER'
-//             })),
-//             ...collaboratedPagesWithRole
-//         ];
-
-//         // Send response
-//         return res.send({ ...req.user, pages });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).send("Internal Server Error");
-//     }
-// });
 
 
 
@@ -230,53 +234,6 @@ app.get("/api/getUserData", authenticateToken, async (req, res) => {
 });
 
 
-
-app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, res) => {
-    let page = await PagesModel.findOne({ _id: req.params.pageID }).lean();
-    let role = "NONE";
-    if (req?.user?._id == page?.userID) {
-        role = "OWNER";
-    }
-    if (page.visibility == "PUBLIC") {
-        return res.send({ ...page, role })
-    }
-    if (!req.login && page.visibility == "PRIVATE") {
-        return res.send({ error: "This page is PRIVATE !", errorCode: "PRIVATE_PAGE" })
-    }
-    if (page.visibility == "PASSWORD_PROTECTED") {
-        if (page.password == req.query.password) {
-            return res.send({ ...page, role })
-        }
-        else if (page.password != req.query.password && req.query.password) {
-            return res.send({ error: "Incorrect Password.", errorCode: "INVALID_PASSWORD" })
-        }
-        return res.send({ error: "Please enter password", errorCode: "ENTER_PASSWORD" })
-    }
-    else if (req.login && page.visibility == "PRIVATE") {
-        for (let i of page.collaborators) {
-            if (req.user._id == page.userID) {
-                role = "OWNER";
-                break
-            }
-            if (i.email == req.user.email) {
-                role = i.role;
-                break
-            }
-        }
-
-        page = { ...page, role }
-    }
-
-    if ((req.login && req.user._id == page.userID) || role != "NONE") {
-        return res.send({ ...page, role })
-    }
-
-    if (page.visibility == "PRIVATE") {
-        return res.send({ error: "This Page is private. Cannot access without permission.", errorCode: "PRIVATE_PAGE" })
-    }
-
-    return res.send({ ...page, role })
-})
 
 
 
@@ -342,6 +299,11 @@ app.get('/auth/google/callback', async (req, res) => {
                 photo
                 // role: "ADMIN"
             });
+
+            if (updatedUser.isApproved == false && updatedUser.isAdmin == false) {
+                return res.send({ error: "Your account is pending approval." })
+            }
+
             // const pages = await PagesModel.find({ userID: existingUser._id })
 
             const ownedPages = await PagesModel.find({ userID: existingUser._id });
@@ -435,14 +397,17 @@ app.get('/auth/google/callback', async (req, res) => {
             pages = JSON.parse(JSON.stringify(pages));
             pages = { ...pages, role: "OWNER" }
 
-            const token = jwt.sign({ userId: newUser._id }, secret);
-            delete newUser.password;
-            delete newUser.googleRefreshToken;
-            delete newUser.OTP;
+            // const token = jwt.sign({ userId: newUser._id }, secret);
+            // delete newUser.password;
+            // delete newUser.googleRefreshToken;
+            // delete newUser.OTP;
             return res.send({
-                body: { ...newUser, pages: [pages] },
-                token
+                error: "Your account has been created and is pending approval."
             })
+            // return res.send({
+            //     body: { ...newUser, pages: [pages] },
+            //     token
+            // })
         }
     } catch (error) {
         console.error('Error retrieving access token:', error);
@@ -460,6 +425,9 @@ app.get('/auth/google/callback', async (req, res) => {
 
 
 
+app.use(authenticateToken);
+app.use("/api", UsersRouter);
+app.use("/api", PagesRouter);
 
 
 

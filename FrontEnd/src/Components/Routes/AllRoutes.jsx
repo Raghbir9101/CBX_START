@@ -7,14 +7,13 @@ import HomePage from "../Homepage/Homepage";
 import { Box } from "@mui/material";
 import Navbar from "../Navbar/Navbar";
 import TodoList from "../Page/Pages/TodoList";
+import AdminPanel from "../AdminPanel/AdminPanel";
 function AllRoutes() {
-  const { token, pages, isLoading } = useContext(Context);
+  const { token, pages, loginUser } = useContext(Context);
 
   return (
     <Box>
-      {/* <Navbar /> */}
       <Routes>
-        {/* <Route path='/' element={!token ? <Navigate to={"/login"} /> : <></>} /> */}
         <Route path="/" element={<HomePage />} />
         <Route
           path="/login"
@@ -22,10 +21,8 @@ function AllRoutes() {
             token ? <Navigate to={"/page/" + pages[0]?._id} /> : <Login></Login>
           }
         />
-        {/* {!isLoading && <> */}
         <Route path="/page/:pageID" element={<Page />} />
-        {/* <Route path="/todo-list" element={<TodoList />} /> */}
-        {/* </>} */}
+        <Route path="/adminPanel" element={(!token || !loginUser?.isAdmin) ? <Navigate to={"/login"}/> : <AdminPanel />} />
       </Routes>
     </Box>
   );

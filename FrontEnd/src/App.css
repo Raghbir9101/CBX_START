@@ -8,6 +8,10 @@
   font-family: "Nunito", sans-serif;
 }
 
+button {
+  outline: none !important;
+}
+
  li {
   margin: auto -12px ;
 }

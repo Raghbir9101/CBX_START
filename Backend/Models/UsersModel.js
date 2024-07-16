@@ -4,10 +4,11 @@ const usersSchema = mongoose.Schema({
     userName: { type: String },
     photo: { type: String },
     email: { type: String },
-    isAdmin: { type: Boolean },
+    isAdmin: { type: Boolean, default: false },
+    isApproved: { type: Boolean, default: false },
     password: { type: String },
     googleRefreshToken: { type: String },
-})
+});
 
 const UsersModel = mongoose.model("user", usersSchema);
 

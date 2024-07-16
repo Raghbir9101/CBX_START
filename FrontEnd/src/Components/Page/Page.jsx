@@ -32,6 +32,7 @@ import Navbar from "../Navbar/Navbar";
 import Delete from "@mui/icons-material/Delete";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import GoogleCalendar from "../GoogleCalendar/GoogleCalendar";
+import axios from "axios";
 
 const modalStyle = {
   position: "absolute",
@@ -57,7 +58,7 @@ function findByID(arr = [], id) {
 function Page() {
   const { loginUser, token } = useContext(Context);
   const { pageID } = useParams();
-  
+
   const [bgImage, setBgImage] = useState(
     "https://static.start.me/f_auto,q_auto/backgrounds/iifsjzygnlokefem069v"
   );
@@ -106,7 +107,8 @@ function Page() {
   };
 
   useEffect(() => {
-    // if (!loginUser) return;
+
+    if (pageID == "undefined" || !pageID) return;
 
     // let tempPageData = findByID(pages, pageID);
     // let tempPage = tempPageData?.data || [];
@@ -140,7 +142,8 @@ function Page() {
   const controllerRef = useRef(null);
 
   useEffect(() => {
-    if (!loginUser || !token) return;
+
+    if (!loginUser || !token || pageID == "undefined" || !pageID) return;
     let tempPageData = findByID(pages, pageID);
     if (loginUser) {
       if (tempPageData.role != "EDITOR" && tempPageData.role != "OWNER") return;
@@ -156,7 +159,6 @@ function Page() {
       HTTP.put(
         `pages/${pageID}`,
         { data: pageData },
-        { signal: controller.signal }
       )
         .then((response) => { })
         .catch((error) => {
@@ -201,7 +203,7 @@ function Page() {
 
 
   return (
-    <Box>
+    <Box paddingBottom={"100px"} bgcolor={"#f4f4f4"}>
       <Modal
         open={passwordModal}
         onClose={() => { }}
@@ -239,7 +241,7 @@ function Page() {
         </Box>
       </Modal>
       <Navbar
-      search={search} setSearch={setSearch}
+        search={search} setSearch={setSearch}
         pageMetaData={pageMetaData}
         setPageData={setPageData}
         setPageMetaData={setPageMetaData}
@@ -474,7 +476,7 @@ function Page() {
                                         data={item.data}
                                       />
                                     );
-                                  } 
+                                  }
                                   else if (item.type == "Embed") {
                                     return (
                                       <Embed
@@ -509,7 +511,7 @@ function Page() {
                                         data={item.data}
                                       />
                                     );
-                                  } 
+                                  }
                                   else if (item.type == "Google Calendar") {
                                     // console.log("google")
                                     return (
@@ -545,7 +547,7 @@ function Page() {
                                         data={item.data}
                                       />
                                     );
-                                  } 
+                                  }
                                   else if (
                                     item.type == "Currency Converter"
                                   ) {

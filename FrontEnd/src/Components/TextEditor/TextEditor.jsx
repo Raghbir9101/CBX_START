@@ -54,7 +54,7 @@
 
 import FontDownload from "@mui/icons-material/FontDownload";
 import { Box, IconButton, MenuItem } from "@mui/material";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import CustomSelect from "./CustomSelect";
 import FormatBold from "@mui/icons-material/FormatBold";
 import FormatItalic from "@mui/icons-material/FormatItalic";
@@ -71,7 +71,7 @@ import FormatSizeIcon from '@mui/icons-material/FormatSize';
 import zIndex from "@mui/material/styles/zIndex";
 
 
-const FormattingOptions = ({handleHTMLChange}) => {
+const FormattingOptions = ({ handleHTMLChange }) => {
     const colorRef = useRef(null);
     const fontFamilyRef = useRef(null);
     const fontSizeRef = useRef(null);
@@ -160,6 +160,11 @@ const FormattingOptions = ({handleHTMLChange}) => {
         setAlign(event.target.value);
         handleHTMLChange()
     };
+
+    let colorInput = useMemo(() => {
+        return <input ref={colorRef} type="color" onChange={handleColorChange} />
+    }, [])
+
     return (
         <Box
             display={"flex"}
@@ -220,23 +225,23 @@ const FormattingOptions = ({handleHTMLChange}) => {
                 <IconButton size="small"
                 >
                     <FormatSizeIcon sx={{ fontSize: "14px" }} />
-                <CustomSelect
-                    ref={fontSizeRef}
-                    onChange={(e) => {
-                        handleFontSizeChang2(e.target.value)
-                    }}
-                    defaultValue="3"
-                    value={fontSize}
-                    sx={{ position: "absolute", opacity: "0" }}
-                >
-                    <MenuItem value="1">1</MenuItem>
-                    <MenuItem value="2">2</MenuItem>
-                    <MenuItem value="3">Normal</MenuItem>
-                    <MenuItem value="4">4</MenuItem>
-                    <MenuItem value="5">5</MenuItem>
-                    <MenuItem value="6">6</MenuItem>
-                    <MenuItem value="7">7</MenuItem>
-                </CustomSelect>
+                    <CustomSelect
+                        ref={fontSizeRef}
+                        onChange={(e) => {
+                            handleFontSizeChang2(e.target.value)
+                        }}
+                        defaultValue="3"
+                        value={fontSize}
+                        sx={{ position: "absolute", opacity: "0" }}
+                    >
+                        <MenuItem value="1">1</MenuItem>
+                        <MenuItem value="2">2</MenuItem>
+                        <MenuItem value="3">Normal</MenuItem>
+                        <MenuItem value="4">4</MenuItem>
+                        <MenuItem value="5">5</MenuItem>
+                        <MenuItem value="6">6</MenuItem>
+                        <MenuItem value="7">7</MenuItem>
+                    </CustomSelect>
                 </IconButton>
             </Box>
             <IconButton size="small"
@@ -278,7 +283,8 @@ const FormattingOptions = ({handleHTMLChange}) => {
                         position: "absolute",
                     }}
                 >
-                    <input ref={colorRef} type="color" onChange={handleColorChange} />
+                    {colorInput}
+                    {/* <input ref={colorRef} type="color" onChange={handleColorChange} /> */}
                 </div>
                 <FormatColorText sx={{ fontSize: "14px" }} />
             </IconButton>
@@ -577,7 +583,7 @@ export { FormattingOptions };
 export default function TextEditor({ data, setData }) {
     const ref = useRef(null)
     const handleHTMLChange = () => {
-        if(ref.current) {
+        if (ref.current) {
             setData(ref.current.innerHTML || "")
         }
     }
@@ -585,7 +591,7 @@ export default function TextEditor({ data, setData }) {
         <Box ref={ref} onKeyUp={(e) => setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px" }}>
 
         </Box>
-        <FormattingOptions handleHTMLChange={handleHTMLChange}/>
+        <FormattingOptions handleHTMLChange={handleHTMLChange} />
     </Box>
 
 }
