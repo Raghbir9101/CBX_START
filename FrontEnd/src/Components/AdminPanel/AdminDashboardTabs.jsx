@@ -20,7 +20,7 @@ function AdminDashboardTabs() {
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"center"}
-          mt={"20px"}
+          mt={"25px"}
         >
           <Box
             display={"flex"}
