@@ -9,7 +9,6 @@ function AdminDashboardTabs() {
 
   useEffect(() => {
     HTTP.get(`getReports`).then((res) => {
-      console.log(res.data);
       setDashboardData(res.data);
     });
   }, []);

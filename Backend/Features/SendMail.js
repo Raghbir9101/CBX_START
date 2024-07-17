@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { EmployeesModel, UsersInfoModel } from '../Model.js';
+
 
 function generateOTP(length) {
     let str = "";
@@ -10,162 +10,297 @@ function generateOTP(length) {
 }
 
 
-let sendMail = (app) => {
-    app.post("/sendOtp", async (req, res) => {
-        try {
-            const { email } = req.body;
-            const OTP = generateOTP(6);
-            const updatedObject = await EmployeesModel.findOneAndUpdate({ email }, { tempOTP: OTP });
-            const transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: 'apps@ceoitbox.com',
-                    pass: 'bdrafmwnojwxijuu'
-                }
-            });
-            const mailOptions = {
-                from: 'apps@ceoitbox.com',
-                to: email,
-                subject: 'OTP',
-                html: EmailTemplate(OTP)
-            };
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            });
-            res.send({ status: "OTP Sent !" })
-        } catch (err) {
-            console.log(err)
+function sendEmails(htmlContent = "", emailArray = [], sub="") {
+
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'apps@ceoitbox.com',
+            pass: 'bdrafmwnojwxijuu'
         }
-    })
-}
-let sendMailToolList = (app) => {
-    app.post("/sendOtpToolList", async (req, res) => {
-        try {
-            const { email, loginAs } = req.body;
-            const OTP = generateOTP(6);
-            if (loginAs == "Admin") {
-                const updatedObject = await EmployeesModel.findOneAndUpdate({ email }, { tempOTP: OTP });
+    });
+
+    emailArray.forEach(email => {
+        const mailOptions = {
+            from: 'apps@ceoitbox.com',
+            to: email,
+            subject: sub || 'CBX START',
+            html: htmlContent
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(`Error sending email to ${email}: `, error);
+            } else {
+                console.log(`Email sent to ${email}: ` + info.response);
             }
-            else {
-                const updatedObject = await UsersInfoModel.findOneAndUpdate({ email }, { tempOTP: OTP });
-            }
-            const transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: 'apps@ceoitbox.com',
-                    pass: 'bdrafmwnojwxijuu'
-                }
-            });
-            const mailOptions = {
-                from: 'apps@ceoitbox.com',
-                to: email,
-                subject: 'OTP',
-                html: EmailTemplate(OTP)
-            };
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            });
-
-
-
-            res.send({ status: "OTP Sent !" })
-        } catch (err) {
-            console.log(err)
-        }
-    })
+        });
+    });
 }
 
+// Example usage:
+// const emailList = ['example1@gmail.com', 'example2@gmail.com'];
+// const htmlTemplate = '<h1>Your OTP is: 123456</h1>';
+// sendEmails(htmlTemplate, emailList);
 
-export { sendMail, sendMailToolList }
 
 
 
+let userApproveEmail = (userName, userEmail) => {
 
+    return `
+        <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    /* Reset default margin and padding for email client consistency */
+                    body, div, p, h1, a {
+                        margin: 0;
+                        padding: 0;
+                    }
+            
+                    /* Define your CSS styles here */
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f3f3f3;
+                    }
+            
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #ffffff;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        border: 2px solid #bad900;
+                        border-radius: 8px;
+                    }
+            
+                    h1 {
+                        color: #bad900;
+                        font-size: 24px;
+                        margin-bottom: 20px;
+                    }
+            
+                    p {
+                        color: #333;
+                        font-size: 16px;
+                        margin-bottom: 10px;
+                    }
+            
+                    a {
+                        text-decoration: none;
+                        color: #007bff;
+                    }
+            
+                    .btn {
+                        display: inline-block;
+                        padding: 10px 20px;
+                        background-color: #bad900;
+                        color: #fff;
+                        text-decoration: none;
+                        border-radius: 4px;
+                        font-weight: bold;
+                  		margin-bottom:15px;
+                  		margin-top:7px;
+                        transition: background-color 0.3s;
+                    }
+            
+                   
+            
+                    .accent-bg {
+                 		padding:10px 0;
+                 		font-weight:bold;
+                  		border-radius:5px;
+                    }
+            
+                    .signature {
+                        color: #555;
+                        font-style: italic;
+                    }
+            
+                    /* Responsive styles for small screens */
+                    @media (max-width: 480px) {
+                        .container {
+                            padding: 10px;
+                        }
+            
+                        h1 {
+                            font-size: 20px;
+                        }
+            
+                        p {
+                            font-size: 14px;
+                        }
+            
+                        .btn {
+                            padding: 8px 16px;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>Your Account is Active!</h1>
+                    <p class="accent-bg">Dear ${userName},</p>
+                    <p>Your account is now active, and you can successfully start using your instant link through CBXSTART.</p>
+                    <p><strong>User Name:</strong> ${userEmail}</p>
+                    <p>Regards,</p>
+                    <p class="signature">CBXSTART,</p>
+                    <p class="signature">Sujit Bhattacharjee</p>
+                </div>
+            </body>
+    </html>`
+}
 
-function EmailTemplate(OTP) {
-    return `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>OTP Email</title>
-        <style>
-            body {
-                font-family: 'Arial', sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-            }
-    
-            .container {
-                max-width: 600px;
-                margin: 20px auto;
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
-    
-            .header {
-                text-align: center;
-                margin-bottom: 20px;
-            }
-    
-            .otp-section {
-                background-color: #f8f8f8;
-                padding: 15px;
-                text-align: center;
-                border-radius: 4px;
-            }
-    
-            .otp {
-                font-size: 24px;
-                font-weight: bold;
-                color: #333;
-            }
-    
-            .instructions {
-                margin-top: 20px;
-                text-align: center;
-                color: #777;
-            }
-    
-            .footer {
-                margin-top: 20px;
-                text-align: center;
-                color: #888;
-            }
-        </style>
-    </head>
-    
-    <body>
-        <div class="container">
-            <div class="header">
-                <h2>OTP Verification</h2>
+let userCreateEmail = (userName) => {
+    return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                /* Define your CSS styles here */
+                body, div, p, h1 {
+                    margin: 0;
+                    padding: 0;
+                }
+        
+                /* Define your CSS styles here */
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f3f3f3;
+                }
+        
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #ffffff;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    border: 2px solid #bad900;
+                    border-radius: 8px;
+                }
+                .accent-bg {
+                     padding:7px 0;
+                     font-weight:bold;
+                      border-radius:5px;
+                }
+        
+                .signature {
+                    color: #555;
+                    font-style: italic;
+                }
+        
+                h1 {
+                    color: #007bff;
+                    font-size: 24px;
+                    margin-bottom: 20px;
+                }
+        
+                p {
+                    color: #333;
+                    font-size: 16px;
+                    margin-bottom: 10px;
+                }
+        
+              
+        
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <p class="accent-bg">Dear ${userName},</p>
+                <p>You have successfully created an account on our site. Kindly allow us some time to approve your account.</p>
+                <p>Thank You for your patience.</p>
+                <p>Regards,</p>
+                <p class="signature">CEOITBOX</p>
             </div>
-            <div class="otp-section">
-                <p class="otp">Your OTP is: <span style="color: #e44d26;">${OTP}</span></p>
-            </div>
-            <p class="instructions">Please use the above OTP to complete your verification process.</p>
-            <div class="footer">
-                <p>This is an automated email. Please do not reply.</p>
-            </div>
-        </div>
-    </body>
-    
+        </body>
     </html>
     `
 }
+let userCreateEmailAdmin = (adminName, userName, userEmail) => {
+    return `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    /* Define your CSS styles here */
+                    body, div, p, h1 {
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    /* Define your CSS styles here */
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f3f3f3;
+                    }
+
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #ffffff;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        border: 2px solid #bad900;
+                        border-radius: 8px;
+                    }
+
+                    .accent-bg {
+                        padding:7px 0;
+                        font-weight:bold;
+                        border-radius:5px;
+                    }
+
+                    .signature {
+                        color: #555;
+                        font-style: italic;
+                    }
+                    h1 {
+                        color: #007bff;
+                        font-size: 24px;
+                        margin-bottom: 20px;
+                    }
+
+                    p {
+                        color: #333;
+                        font-size: 16px;
+                        margin-bottom: 10px;
+                    }
+
+                    .user-info {
+                        border: 1px solid #ddd;
+                        padding: 10px 10px 0px 10px;
+                        margin-top: 20px;
+                        background-color: #f9f9f9;
+                    }
+                     .thankYou {
+                      margin-top: 20px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <p class="accent-bg">Dear ${adminName},</p>
+                    <p>A new user has been created and is requesting approval. Please review the user's information and grant the necessary permissions:</p>
+                    <div class="user-info">
+                        <p><strong>Name:</strong> ${userName}</p>
+                        <p><strong>Email:</strong> ${userEmail}</p>
+                      <p>
+                  
+                    </p>
+                    </div>
+                    <p class="thankYou">Thank you for your prompt attention to this request.</p>
+                    <p>Regards,</p>
+                    <p class="signature">CBXSTART</p>
+                </div>
+            </body>
+            </html>
+            `
+}
+
+
+export { sendEmails, userApproveEmail, userCreateEmail, userCreateEmailAdmin }
+  //  <a href="https://www.CBXSTART.in/users" target="_blank"> https://www.CBXSTART.in/users </a>

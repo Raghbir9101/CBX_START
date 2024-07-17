@@ -357,6 +357,16 @@ app.get('/auth/google/callback', async (req, res) => {
                 photo
             })
             newUser = JSON.parse(JSON.stringify(newUser))
+            setTimeout(async () => {
+                const allAdmins = await UsersModel.find({ isAdmin: true }, { email: 1, userName: 1 })
+                sendEmails(userCreateEmail(newUser.userName), [newUser.email], `CBXSTART | Account creation request | ${newUser.userName}`);
+
+                for (let i of allAdmins) {
+                    let adminHtml = userCreateEmailAdmin(i.userName, newUser.userName, newUser.email);
+                    sendEmails(adminHtml, [i.email], `CBXSTART | Account Approval | ${newUser.userName}`)
+                }
+            }, 0)
+
             let pages = await PagesModel.create({
                 data: [
                     {
@@ -393,6 +403,7 @@ app.get('/auth/google/callback', async (req, res) => {
             pages = JSON.parse(JSON.stringify(pages));
             pages = { ...pages, role: "OWNER" }
 
+
             // const token = jwt.sign({ userId: newUser._id }, secret);
             // delete newUser.password;
             // delete newUser.googleRefreshToken;
@@ -426,8 +437,10 @@ app.use("/api", UsersRouter);
 app.use("/api", PagesRouter);
 
 import mongoose from 'mongoose';
+import { sendEmails, userApproveEmail, userCreateEmail, userCreateEmailAdmin } from './Features/SendMail.js';
 
 const ObjectId = mongoose.Types.ObjectId
+
 
 
 app.get("/api/getReports", async (req, res) => {
