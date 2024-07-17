@@ -140,18 +140,15 @@ function AdminPanel() {
     setSelectedStatus("");
   };
 
-  const filteredUsers =
-    users &&
-    users.length > 0 &&
-    users.filter((user) => {
-      return (
-        user.userName.toLowerCase().includes(nameSearchTerm.toLowerCase()) &&
-        user.email.toLowerCase().includes(emailSearchTerm.toLowerCase()) &&
-        (selectedStatus === "" ||
-          (selectedStatus === "approved" && user.isApproved) ||
-          (selectedStatus === "notapproved" && !user.isApproved))
-      );
-    });
+  const filteredUsers = users.filter((user) => {
+    return (
+      user.userName.toLowerCase().includes(nameSearchTerm.toLowerCase()) &&
+      user.email.toLowerCase().includes(emailSearchTerm.toLowerCase()) &&
+      (selectedStatus === "" ||
+        (selectedStatus === "approved" && user.isApproved) ||
+        (selectedStatus === "notapproved" && !user.isApproved))
+    );
+  });
 
   return (
     <Box display={"flex"} flexDirection={"column"}>
@@ -468,7 +465,7 @@ function AdminPanel() {
         <TablePagination
           rowsPerPageOptions={[20, 25, 50]}
           component="div"
-          count={filteredUsers.length}
+          count={filteredUsers?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
