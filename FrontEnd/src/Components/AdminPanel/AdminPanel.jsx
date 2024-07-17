@@ -20,7 +20,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import "./AdminPanel.css";
 import AdminNavbar from "./AdminNavbar";
 import AdminDashboardTabs from "./AdminDashboardTabs";
-
+import DeleteConformationModal from "./DeleteConformationModal"
 const styles = {
   tableContainer: {
     marginTop: "20px",
@@ -28,6 +28,7 @@ const styles = {
   tableHeaderCell: {
     fontWeight: "bold",
     fontSize: "15px",
+    padding: "14px",
   },
   approveCheckbox: {
     color: "green",
@@ -39,13 +40,35 @@ const styles = {
     width: 35,
     height: 35,
   },
+  evenRow: {
+    backgroundColor: "#ffffff",
+  },
+  oddRow: {
+    backgroundColor: "#ddf0d5",
+  },
+  hoverEffect: {
+    "&:hover": {
+      backgroundColor: "#f7fcf5",
+      transition: "backgroundColor 0.3s ease",
+    },
+  },
 };
 
 function AdminPanel() {
+  const { token, loginUser } = useContext(Context);
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
-  const { token, loginUser } = useContext(Context);
+  const [open, setOpen] = useState(false);
+  const [userUniqueId, setUserUniqueId] = useState("");
+
+  const handleOpenModal = (id) => {
+    setUserUniqueId(id);
+    setOpen(!open);
+  };
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   const handleApprovalChange = async (event, userId) => {
     await HTTP.patch(`updateUsersAdmin/${userId}`, {
@@ -69,7 +92,9 @@ function AdminPanel() {
 
   const handleDeleteUser = async (userId) => {
     await HTTP.delete(`deleteUsersAdmin/${userId}`);
-    const updatedUsers = users.filter((user) => user._id !== userId);
+    const updatedUsers = users?.filter((user) => user._id !== userId);
+    handleCloseModal();
+    setUserUniqueId("");
     setUsers(updatedUsers);
   };
 
@@ -99,7 +124,7 @@ function AdminPanel() {
         <TableContainer component={Paper} style={styles.tableContainer}>
           <Table>
             <TableHead>
-              <TableRow sx={{ background: "#f3f3f3" }}>
+              <TableRow sx={{ background: "#ddf0d5" }}>
                 <TableCell
                   style={styles.tableHeaderCell}
                   sx={{ textAlign: "center" }}
@@ -145,8 +170,14 @@ function AdminPanel() {
                     page * rowsPerPage + rowsPerPage
                   )
                 : users
-              ).map((user) => (
-                <TableRow key={user._id}>
+              ).map((user, index) => (
+                <TableRow
+                  key={user._id}
+                  sx={{
+                    ...styles.hoverEffect,
+                    ...(index % 2 === 0 ? styles.evenRow : styles.oddRow),
+                  }}
+                >
                   <TableCell
                     className="tableCell"
                     sx={{
@@ -199,7 +230,10 @@ function AdminPanel() {
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }} className="tableCell">
                     <Tooltip title="Delete" arrow placement="right">
-                      <IconButton onClick={() => handleDeleteUser(user._id)}>
+                      <IconButton
+                        // onClick={() => handleDeleteUser(user._id)}
+                        onClick={() => handleOpenModal(user._id)}
+                      >
                         <DeleteOutlinedIcon
                           style={{
                             color: "red",
@@ -225,6 +259,13 @@ function AdminPanel() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Box>
+      {/* Delete modal */}
+      <DeleteConformationModal
+        open={open}
+        handleClose={handleCloseModal}
+        handleDeleteUser={handleDeleteUser}
+        userId={userUniqueId}
+      />
     </Box>
   );
 }
