@@ -53,11 +53,14 @@ const styles = {
     backgroundColor: "#ffffff",
   },
   oddRow: {
-    backgroundColor: "#ddf0d5",
+    // backgroundColor: "#ddf0d5",
+    // backgroundColor: "#d1ffbc",
+    backgroundColor: "#f7fcf5",
   },
   hoverEffect: {
     "&:hover": {
-      backgroundColor: "#f7fcf5",
+      // backgroundColor: "#f7fcf5",
+      backgroundColor: "#f2ffed",
       transition: "backgroundColor 0.3s ease",
     },
   },
@@ -304,10 +307,20 @@ function AdminPanel() {
         </Box>
         <AdminDashboardTabs />
         {/* Dashboard table */}
-        <TableContainer component={Paper} style={styles.tableContainer}>
+        <TableContainer
+          component={Paper}
+          sx={{ boxShadow: 1 }}
+          style={styles.tableContainer}
+        >
           <Table>
             <TableHead>
-              <TableRow sx={{ background: "#ddf0d5" }}>
+              <TableRow
+                sx={{
+                  // background: "#d1ffbc"
+                  // background: "#f7fcf5",
+                  background: "#f2ffed",
+                }}
+              >
                 <TableCell
                   style={styles.tableHeaderCell}
                   sx={{ textAlign: "center" }}
@@ -330,19 +343,19 @@ function AdminPanel() {
                   style={styles.tableHeaderCell}
                   sx={{ textAlign: "center" }}
                 >
-                  Is Approved
+                  Approved
                 </TableCell>
                 <TableCell
                   style={styles.tableHeaderCell}
                   sx={{ textAlign: "center" }}
                 >
-                  Is Admin
+                  Role
                 </TableCell>
                 <TableCell
                   style={styles.tableHeaderCell}
                   sx={{ textAlign: "center" }}
                 >
-                  Actions
+                  Action
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -404,27 +417,37 @@ function AdminPanel() {
                     />
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }} className="tableCell">
-                    <select
-                      size="small"
-                      value={user.isAdmin ? "true" : "false"}
-                      onChange={(event) => {
-                        let val = event.target.value == "true" ? true : false;
-                        handleAdminChange(
-                          { target: { checked: val } },
-                          user._id
-                        );
-                      }}
-                    >
-                      <option value={"false"}>User</option>
-                      <option value={"true"}>Admin</option>
-                    </select>
+                    <Tooltip title="Update user role" arrow placement="right">
+                      <Select
+                        sx={{
+                          border: "none",
+                          fontSize: "12px",
+                          fontSize: "500",
+                          ".MuiOutlinedInput-notchedOutline": {
+                            border: "none",
+                          },
+                          ".MuiSelect-select": {
+                            padding: "8px",
+                          },
+                        }}
+                        size="small"
+                        value={user.isAdmin ? "true" : "false"}
+                        onChange={(event) => {
+                          let val = event.target.value == "true" ? true : false;
+                          handleAdminChange(
+                            { target: { checked: val } },
+                            user._id
+                          );
+                        }}
+                      >
+                        <MenuItem value={"false"}>User</MenuItem>
+                        <MenuItem value={"true"}>Admin</MenuItem>
+                      </Select>
+                    </Tooltip>
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }} className="tableCell">
-                    <Tooltip title="Delete" arrow placement="right">
-                      <IconButton
-                        // onClick={() => handleDeleteUser(user._id)}
-                        onClick={() => handleOpenModal(user._id)}
-                      >
+                    <Tooltip title="Delete user" arrow placement="right">
+                      <IconButton onClick={() => handleOpenModal(user._id)}>
                         <DeleteOutlinedIcon
                           style={{
                             color: "red",

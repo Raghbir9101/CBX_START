@@ -20,11 +20,11 @@ function AdminDashboardTabs() {
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"center"}
-          mt={"25px"}
+          mt={"22px"}
         >
           <Box
             display={"flex"}
-            justifyContent={"space-evenly"}
+            justifyContent={"space-between"}
             flexWrap={"wrap"}
             gap="10px"
           >
@@ -32,12 +32,12 @@ function AdminDashboardTabs() {
               sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
               className="card"
             >
-              <Typography fontSize={"16px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"}>
                 New Users Created Today
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
-                  fontSize={"28px"}
+                  fontSize={"22px"}
                   color={"#4D8733"}
                   fontWeight={"bold"}
                 >
@@ -46,18 +46,19 @@ function AdminDashboardTabs() {
                 <Box
                   height={"70%"}
                   bgcolor={getColor(dashboardData?.usersCreatedChange)}
-                  p={"10px"}
-                  borderRadius={"10px"}
+                  p={"8px"}
+                  borderRadius={"8px"}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    fontSize: "11px",
                   }}
                 >
                   {dashboardData?.usersCreatedChange || 0}%
                 </Box>
               </Box>
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"12px"} color={"#4D8733"}>
                 vs. previous day
               </Typography>
               <Progress val={dashboardData?.usersCreatedChange} />
@@ -67,12 +68,12 @@ function AdminDashboardTabs() {
               sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
               className="card"
             >
-              <Typography fontSize={"16px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"}>
                 New Pages Created Today
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
-                  fontSize={"28px"}
+                  fontSize={"22px"}
                   color={"#4D8733"}
                   fontWeight={"bold"}
                 >
@@ -81,18 +82,19 @@ function AdminDashboardTabs() {
                 <Box
                   height={"70%"}
                   bgcolor={getColor(dashboardData?.pagesCreatedChange)}
-                  p={"10px"}
-                  borderRadius={"10px"}
+                  p={"8px"}
+                  borderRadius={"8px"}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    fontSize: "11px",
                   }}
                 >
                   {dashboardData?.pagesCreatedChange || 0}%
                 </Box>
               </Box>
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"12px"} color={"#4D8733"}>
                 vs. previous day
               </Typography>
               <Progress val={dashboardData?.pagesCreatedChange} />
@@ -102,12 +104,12 @@ function AdminDashboardTabs() {
               sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
               className="card"
             >
-              <Typography fontSize={"16px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"}>
                 Users
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
-                  fontSize={"28px"}
+                  fontSize={"22px"}
                   color={"#4D8733"}
                   fontWeight={"bold"}
                 >
@@ -120,12 +122,12 @@ function AdminDashboardTabs() {
               sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
               className="card"
             >
-              <Typography fontSize={"16px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"}>
                 Pages
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
-                  fontSize={"28px"}
+                  fontSize={"22px"}
                   color={"#4D8733"}
                   fontWeight={"bold"}
                 >
@@ -155,10 +157,14 @@ function Progress({ val }) {
   if (temp > 100) temp = 100;
 
   return (
-    <Box pt={"20px"}>
+    <Box pt={"16px"}>
       <Box display={"flex"} justifyContent={"space-between"}>
-        <Typography color={"#4D8733"}>0%</Typography>
-        <Typography color={"#4D8733"}>100%</Typography>
+        <Typography color={"#4D8733"} fontSize={"12px"}>
+          0%
+        </Typography>
+        <Typography color={"#4D8733"} fontSize={"12px"}>
+          100%
+        </Typography>
       </Box>
       <Box
         bgcolor={val < 0 ? "red" : "#0026e1"}

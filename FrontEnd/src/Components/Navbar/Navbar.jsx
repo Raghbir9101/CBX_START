@@ -10,7 +10,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
-import DefaultPFP from "../../Icons/Default_pfp.jpg"
+import DefaultPFP from "../../Icons/Default_pfp.jpg";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Context } from "../Context/Context";
 import CreatePageModal from "../Page/CreateNewPage";
@@ -29,11 +29,17 @@ import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HTTP from "../../HTTP";
 
-const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
-  setSearch }) => {
+const Navbar = ({
+  setPageData,
+  pageMetaData,
+  setPageMetaData,
+  search,
+  setSearch,
+}) => {
   const nav = useNavigate();
   const { pageID } = useParams();
-  const { handleLogout, pages, setPages, token, loginUser } = useContext(Context);
+  const { handleLogout, pages, setPages, token, loginUser } =
+    useContext(Context);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -252,16 +258,18 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
           {/* <Typography className="toolName">CBX START</Typography> */}
         </Box>
 
-        {token && <Box width={"33%"} display={"flex"} justifyContent={"center"}>
-          <Button
-            // onClick={handleOpenModal}
-            onClick={handleOpenAllPagesModal}
-            className="pageNameBtn"
-            endIcon={<KeyboardArrowDownIcon />}
-          >
-            {pageMetaData?.pageName || ""}
-          </Button>
-        </Box>}
+        {token && (
+          <Box width={"33%"} display={"flex"} justifyContent={"center"}>
+            <Button
+              // onClick={handleOpenModal}
+              onClick={handleOpenAllPagesModal}
+              className="pageNameBtn"
+              endIcon={<KeyboardArrowDownIcon />}
+            >
+              {pageMetaData?.pageName || ""}
+            </Button>
+          </Box>
+        )}
 
         {token && (
           <Box
@@ -302,7 +310,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
 
             <Box
               onClick={() => setSearchVisible(!searchVisible)}
-              sx={{ cursor: "pointer", mt: "5px" }}
+              sx={{ cursor: "pointer" }}
             >
               <img
                 // style={{ width: "28px", height: "28px" }}
@@ -311,10 +319,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
               />
             </Box>
 
-            <Box
-              sx={{ cursor: "pointer", mt: "5px" }}
-              onClick={handleOpenShareModal}
-            >
+            <Box sx={{ cursor: "pointer" }} onClick={handleOpenShareModal}>
               <img
                 style={{ width: "28px", height: "28px" }}
                 src={share}
@@ -332,7 +337,7 @@ const Navbar = ({ setPageData, pageMetaData, setPageMetaData, search,
                   cursor: "pointer",
                 }}
                 src={loginUser?.photo || ""}
-                onError={(e) => e.target.src = DefaultPFP}
+                onError={(e) => (e.target.src = DefaultPFP)}
                 alt="profile"
               />
             </Box>
