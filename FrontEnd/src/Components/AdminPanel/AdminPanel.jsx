@@ -77,7 +77,6 @@ function AdminPanel() {
   const [emailSearchTerm, setEmailSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
 
-  console.log("users", users);
 
   const handleOpenModal = (id) => {
     setUserUniqueId(id);
@@ -87,9 +86,9 @@ function AdminPanel() {
     setOpen(false);
   };
 
-  const handleApprovalChange = async (event, userId) => {
+  const handleApprovalChange = async (event, userId, email, userName) => {
     await HTTP.patch(`updateUsersAdmin/${userId}`, {
-      isApproved: event.target.checked,
+      isApproved: event.target.checked, email, userName
     });
     const updatedUsers = users.map((user) =>
       user._id === userId ? { ...user, isApproved: event.target.checked } : user
@@ -99,7 +98,7 @@ function AdminPanel() {
 
   const handleAdminChange = async (event, userId) => {
     await HTTP.patch(`updateUsersAdmin/${userId}`, {
-      isAdmin: event.target.checked,
+      isAdmin: event.target.checked
     });
     const updatedUsers = users.map((user) =>
       user._id === userId ? { ...user, isAdmin: event.target.checked } : user
@@ -411,7 +410,7 @@ function AdminPanel() {
                       size="small"
                       defaultChecked={user.isApproved}
                       onChange={(event) =>
-                        handleApprovalChange(event, user._id)
+                        handleApprovalChange(event, user._id, user?.email, user?.userName)
                       }
                       style={styles.approveCheckbox}
                     />
@@ -436,7 +435,8 @@ function AdminPanel() {
                           let val = event.target.value == "true" ? true : false;
                           handleAdminChange(
                             { target: { checked: val } },
-                            user._id
+                            user._id,
+                            user?.email
                           );
                         }}
                       >
