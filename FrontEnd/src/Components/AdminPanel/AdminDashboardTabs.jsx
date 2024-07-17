@@ -29,10 +29,17 @@ function AdminDashboardTabs() {
             gap="10px"
           >
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 New Users Created Today
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
@@ -65,10 +72,17 @@ function AdminDashboardTabs() {
             </Box>
 
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 New Pages Created Today
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
@@ -101,10 +115,17 @@ function AdminDashboardTabs() {
             </Box>
 
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 Users
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
@@ -119,10 +140,17 @@ function AdminDashboardTabs() {
             </Box>
 
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 Pages
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
