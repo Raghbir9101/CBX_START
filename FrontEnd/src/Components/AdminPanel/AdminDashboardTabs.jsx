@@ -29,10 +29,17 @@ function AdminDashboardTabs() {
             gap="10px"
           >
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 New Users Created Today
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
@@ -53,6 +60,7 @@ function AdminDashboardTabs() {
                     justifyContent: "center",
                     alignItems: "center",
                     fontSize: "11px",
+                    fontWeight: 500,
                   }}
                 >
                   {dashboardData?.usersCreatedChange || 0}%
@@ -65,10 +73,17 @@ function AdminDashboardTabs() {
             </Box>
 
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 New Pages Created Today
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
@@ -89,6 +104,7 @@ function AdminDashboardTabs() {
                     justifyContent: "center",
                     alignItems: "center",
                     fontSize: "11px",
+                    fontWeight: 500,
                   }}
                 >
                   {dashboardData?.pagesCreatedChange || 0}%
@@ -101,10 +117,17 @@ function AdminDashboardTabs() {
             </Box>
 
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 Users
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
@@ -119,10 +142,17 @@ function AdminDashboardTabs() {
             </Box>
 
             <Box
-              sx={{ display: "flex", flexDirection: "column", padding: "20px" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+                "&:hover": {
+                  boxShadow: 2,
+                },
+              }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"}>
+              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
                 Pages
               </Typography>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
@@ -146,7 +176,8 @@ export default AdminDashboardTabs;
 
 function getColor(val) {
   if (val > 0) {
-    return "#b4ffb1";
+    // return "#b4ffb1";
+    return "#f2ffed";
   } else if (val < 0) {
     return "#ff9ca1";
   } else return "#f0f0f0";

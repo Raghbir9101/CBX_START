@@ -77,11 +77,11 @@ li {
 .disableScroll {
   overflow: hidden !important;
 }
-
+/* 
 .card:hover {
-  /* transform: rotateY(10deg) rotateX(10deg) scale(1.05); */
+  transform: rotateY(10deg) rotateX(10deg) scale(1.05);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
+} */
 
 #hightlight {
   background-color: #cbe4ff !important;
