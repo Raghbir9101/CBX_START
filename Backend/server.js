@@ -460,7 +460,6 @@ app.get("/api/getReports", async (req, res) => {
                 $lte: endId,
             },
             isAdmin: false,
-            role: "USER"
         }),
         UsersModel.countDocuments({
             _id: {
@@ -468,7 +467,6 @@ app.get("/api/getReports", async (req, res) => {
                 $lte: endIdYesterday,
             },
             isAdmin: false,
-            role: "USER"
         }),
         UsersModel.countDocuments({
 
