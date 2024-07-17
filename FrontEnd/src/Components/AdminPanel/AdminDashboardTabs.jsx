@@ -60,6 +60,7 @@ function AdminDashboardTabs() {
                     justifyContent: "center",
                     alignItems: "center",
                     fontSize: "11px",
+                    fontWeight: 500,
                   }}
                 >
                   {dashboardData?.usersCreatedChange || 0}%
@@ -103,6 +104,7 @@ function AdminDashboardTabs() {
                     justifyContent: "center",
                     alignItems: "center",
                     fontSize: "11px",
+                    fontWeight: 500,
                   }}
                 >
                   {dashboardData?.pagesCreatedChange || 0}%
@@ -174,7 +176,8 @@ export default AdminDashboardTabs;
 
 function getColor(val) {
   if (val > 0) {
-    return "#b4ffb1";
+    // return "#b4ffb1";
+    return "#f2ffed";
   } else if (val < 0) {
     return "#ff9ca1";
   } else return "#f0f0f0";

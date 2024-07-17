@@ -39,7 +39,7 @@ const styles = {
     padding: "12px 12px 12px 0px",
   },
   approveCheckbox: {
-    color: "green",
+    color: "#4D8733",
   },
   adminCheckbox: {
     color: "blue",
@@ -140,15 +140,18 @@ function AdminPanel() {
     setSelectedStatus("");
   };
 
-  const filteredUsers = users?.filter((user) => {
-    return (
-      user.userName.toLowerCase().includes(nameSearchTerm.toLowerCase()) &&
-      user.email.toLowerCase().includes(emailSearchTerm.toLowerCase()) &&
-      (selectedStatus === "" ||
-        (selectedStatus === "approved" && user.isApproved) ||
-        (selectedStatus === "notapproved" && !user.isApproved))
-    );
-  });
+  const filteredUsers =
+    users &&
+    users.length > 0 &&
+    users.filter((user) => {
+      return (
+        user.userName.toLowerCase().includes(nameSearchTerm.toLowerCase()) &&
+        user.email.toLowerCase().includes(emailSearchTerm.toLowerCase()) &&
+        (selectedStatus === "" ||
+          (selectedStatus === "approved" && user.isApproved) ||
+          (selectedStatus === "notapproved" && !user.isApproved))
+      );
+    });
 
   return (
     <Box display={"flex"} flexDirection={"column"}>
@@ -286,15 +289,14 @@ function AdminPanel() {
               <Button
                 startIcon={<RestartAltOutlinedIcon />}
                 onClick={handleResetFilter}
+                variant="contained"
                 sx={{
-                  p: "8px 20px",
                   background: "#4D8733",
                   textTransform: "none",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   mt: "7px",
-                  color: "#fff",
                   "&:hover": {
                     background: "#4D8733",
                   },
