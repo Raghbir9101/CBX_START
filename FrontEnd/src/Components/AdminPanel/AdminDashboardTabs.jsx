@@ -129,7 +129,7 @@ function AdminDashboardTabs() {
                   color={"#4D8733"}
                   fontWeight={"bold"}
                 >
-                  {dashboardData?.totalAdminsJoined || 0}
+                  {dashboardData?.totalPagesCreated || 0}
                 </Typography>
               </Box>
             </Box>
