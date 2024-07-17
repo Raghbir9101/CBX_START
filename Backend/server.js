@@ -183,10 +183,6 @@ app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, 
 })
 
 
-
-
-
-
 app.get("/api/getUserData", authenticateToken, async (req, res) => {
     try {
         // Find pages owned by the user
@@ -429,8 +425,91 @@ app.use(authenticateToken);
 app.use("/api", UsersRouter);
 app.use("/api", PagesRouter);
 
+import mongoose from 'mongoose';
+
+const ObjectId = mongoose.Types.ObjectId
 
 
+app.get("/api/getReports", async (req, res) => {
+    const startOfDay = new Date();
+    startOfDay.setUTCHours(0, 0, 0, 0); // Set to the start of the day in UTC
+
+    const endOfDay = new Date();
+    endOfDay.setUTCHours(23, 59, 59, 999); // Set to the end of the day in UTC
+
+    // Convert dates to ObjectId
+    const startId = ObjectId.createFromTime(startOfDay.getTime() / 1000);
+    const endId = ObjectId.createFromTime(endOfDay.getTime() / 1000);
+
+    const startOfYesterday = new Date();
+    startOfYesterday.setUTCHours(0, 0, 0, 0); // Set to the start of today in UTC
+    startOfYesterday.setUTCDate(startOfYesterday.getUTCDate() - 1); // Move to the start of yesterday
+
+    const endOfYesterday = new Date();
+    endOfYesterday.setUTCHours(23, 59, 59, 999); // Set to the end of today in UTC
+    endOfYesterday.setUTCDate(endOfYesterday.getUTCDate() - 1); // Move to the end of yesterday
+
+    // Convert dates to ObjectId
+    const startIdYesterday = ObjectId.createFromTime(startOfYesterday.getTime() / 1000);
+    const endIdYesterday = ObjectId.createFromTime(endOfYesterday.getTime() / 1000);
+
+    const [usersCreatedToday, usersCreatedYesterday, totalUsersCreated, pagesCreatedToday, pagesCreatedYesterday, totalPagesCreated] = await Promise.all([
+        UsersModel.countDocuments({
+            _id: {
+                $gte: startId,
+                $lte: endId,
+            },
+            isAdmin: false,
+            role: "USER"
+        }),
+        UsersModel.countDocuments({
+            _id: {
+                $gte: startIdYesterday,
+                $lte: endIdYesterday,
+            },
+            isAdmin: false,
+            role: "USER"
+        }),
+        UsersModel.countDocuments({
+
+        }),
+        PagesModel.countDocuments({
+            _id: {
+                $gte: startId,
+                $lte: endId,
+            },
+        }),
+        PagesModel.countDocuments({
+            _id: {
+                $gte: startIdYesterday,
+                $lte: endIdYesterday,
+            },
+        }),
+        PagesModel.countDocuments({}),
+    ]);
+
+    // Calculate percentage changes
+    const calculatePercentageChange = (today, yesterday) => {
+        if (yesterday === 0) {
+            return today > 0 ? 100 : 0;
+        }
+        return ((today - yesterday) / yesterday) * 100;
+    };
+
+    const usersCreatedChange = calculatePercentageChange(usersCreatedToday, usersCreatedYesterday);
+    const pagesCreatedChange = calculatePercentageChange(pagesCreatedToday, pagesCreatedYesterday);
+
+    res.send({
+        usersCreatedToday,
+        usersCreatedYesterday,
+        totalUsersCreated,
+        totalPagesCreated,
+        pagesCreatedToday,
+        pagesCreatedYesterday,
+        usersCreatedChange,
+        pagesCreatedChange,
+    });
+});
 
 
 

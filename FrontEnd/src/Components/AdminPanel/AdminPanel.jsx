@@ -19,6 +19,7 @@ import { Context } from "../Context/Context";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import "./AdminPanel.css";
 import AdminNavbar from "./AdminNavbar";
+import AdminDashboardTabs from "./AdminDashboardTabs";
 
 const styles = {
   tableContainer: {
@@ -94,6 +95,7 @@ function AdminPanel() {
     <Box display={"flex"} flexDirection={"column"}>
       <AdminNavbar />
       <Box width={"90%"} m={"auto"} pt={"20px"}>
+        <AdminDashboardTabs/>
         <TableContainer component={Paper} style={styles.tableContainer}>
           <Table>
             <TableHead>
