@@ -13,6 +13,12 @@ import {
   TablePagination,
   IconButton,
   Tooltip,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
 } from "@mui/material";
 import HTTP from "../../HTTP";
 import { Context } from "../Context/Context";
@@ -20,7 +26,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import "./AdminPanel.css";
 import AdminNavbar from "./AdminNavbar";
 import AdminDashboardTabs from "./AdminDashboardTabs";
-import DeleteConformationModal from "./DeleteConformationModal"
+import DeleteConformationModal from "./DeleteConformationModal";
+import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
+
 const styles = {
   tableContainer: {
     marginTop: "20px",
@@ -28,13 +36,14 @@ const styles = {
   tableHeaderCell: {
     fontWeight: "bold",
     fontSize: "15px",
-    padding: "14px",
+    padding: "12px 12px 12px 0px",
   },
   approveCheckbox: {
     color: "green",
   },
   adminCheckbox: {
     color: "blue",
+    // color: "green",
   },
   avatar: {
     width: 35,
@@ -61,6 +70,11 @@ function AdminPanel() {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [open, setOpen] = useState(false);
   const [userUniqueId, setUserUniqueId] = useState("");
+  const [nameSearchTerm, setNameSearchTerm] = useState("");
+  const [emailSearchTerm, setEmailSearchTerm] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  console.log("users", users);
 
   const handleOpenModal = (id) => {
     setUserUniqueId(id);
@@ -116,11 +130,180 @@ function AdminPanel() {
     });
   }, []);
 
+  // Filters
+  const handleResetFilter = () => {
+    setNameSearchTerm("");
+    setEmailSearchTerm("");
+    setSelectedStatus("");
+  };
+
+  const filteredUsers = users?.filter((user) => {
+    return (
+      user.userName.toLowerCase().includes(nameSearchTerm.toLowerCase()) &&
+      user.email.toLowerCase().includes(emailSearchTerm.toLowerCase()) &&
+      (selectedStatus === "" ||
+        (selectedStatus === "approved" && user.isApproved) ||
+        (selectedStatus === "notapproved" && !user.isApproved))
+    );
+  });
+
   return (
     <Box display={"flex"} flexDirection={"column"}>
       <AdminNavbar />
       <Box width={"90%"} m={"auto"} pt={"20px"}>
-        <AdminDashboardTabs/>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "20px",
+          }}
+        >
+          <TextField
+            className="filterSearchInput"
+            label="Search by Name"
+            id="outlined-search"
+            type="search"
+            fullWidth
+            margin="normal"
+            size="small"
+            value={nameSearchTerm}
+            onChange={(e) => {
+              setNameSearchTerm(e.target.value);
+              setPage(0);
+            }}
+            sx={{
+              width: "300px",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "green",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#B4D33B",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#4D8733",
+                },
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                textTransform: "none",
+                color: "#4D8733",
+              },
+            }}
+          />
+
+          <TextField
+            className="filterSearchInput"
+            label="Search by Email"
+            id="outlined-search"
+            type="search"
+            fullWidth
+            margin="normal"
+            size="small"
+            value={emailSearchTerm}
+            onChange={(e) => {
+              setEmailSearchTerm(e.target.value);
+              setPage(0);
+            }}
+            sx={{
+              width: "300px",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "green",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#B4D33B",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#4D8733",
+                },
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                textTransform: "none",
+                color: "#4D8733",
+              },
+            }}
+          />
+
+          <FormControl
+            size="small"
+            sx={{
+              width: "200px",
+              mt: "7px",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "green",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#B4D33B",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#4D8733",
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "#4D8733",
+                "&.Mui-focused": {
+                  color: "#4D8733",
+                },
+              },
+            }}
+          >
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{
+                textTransform: "none",
+                color: "#4D8733",
+              }}
+            >
+              Status
+            </InputLabel>
+            <Select
+              id="demo-simple-select"
+              value={selectedStatus}
+              label="Status"
+              onChange={(e) => {
+                setSelectedStatus(e.target.value);
+                setPage(0);
+              }}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="approved">Approved</MenuItem>
+              <MenuItem value="notapproved">Not Approved</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Box>
+            <Tooltip title="Reset" arrow placement="right">
+              <Button
+                startIcon={<RestartAltOutlinedIcon />}
+                onClick={handleResetFilter}
+                sx={{
+                  p: "8px 20px",
+                  background: "#4D8733",
+                  textTransform: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mt: "7px",
+                  color: "#fff",
+                  "&:hover": {
+                    background: "#4D8733",
+                  },
+                }}
+              >
+                Reset
+              </Button>
+            </Tooltip>
+          </Box>
+        </Box>
+        <AdminDashboardTabs />
+        {/* Dashboard table */}
         <TableContainer component={Paper} style={styles.tableContainer}>
           <Table>
             <TableHead>
@@ -165,11 +348,11 @@ function AdminPanel() {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                ? users.slice(
+                ? filteredUsers.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                : users
+                : filteredUsers
               ).map((user, index) => (
                 <TableRow
                   key={user._id}
@@ -221,12 +404,20 @@ function AdminPanel() {
                     />
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }} className="tableCell">
-                    <Checkbox
+                    <select
                       size="small"
-                      defaultChecked={user.isAdmin}
-                      onChange={(event) => handleAdminChange(event, user._id)}
-                      style={styles.adminCheckbox}
-                    />
+                      value={user.isAdmin ? "true" : "false"}
+                      onChange={(event) => {
+                        let val = event.target.value == "true" ? true : false;
+                        handleAdminChange(
+                          { target: { checked: val } },
+                          user._id
+                        );
+                      }}
+                    >
+                      <option value={"false"}>User</option>
+                      <option value={"true"}>Admin</option>
+                    </select>
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }} className="tableCell">
                     <Tooltip title="Delete" arrow placement="right">
@@ -252,7 +443,7 @@ function AdminPanel() {
         <TablePagination
           rowsPerPageOptions={[20, 25, 50]}
           component="div"
-          count={users.length}
+          count={filteredUsers.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

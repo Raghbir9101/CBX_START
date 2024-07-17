@@ -6,3 +6,9 @@
   height: 15px !important;
   padding: 2px !important;
 }
+
+select {
+  cursor: pointer;
+  outline: none;
+  color: #4d8733;
+}
