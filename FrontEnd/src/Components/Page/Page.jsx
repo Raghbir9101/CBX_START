@@ -252,6 +252,7 @@ function Page() {
           setFilteredPageData={setFilteredPageData}
           filters={filters}
           setFilters={setFilters}
+          setSearch={setSearch}
         />
         <Box
           minHeight={"100vh"}

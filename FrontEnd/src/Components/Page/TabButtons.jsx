@@ -36,6 +36,7 @@ const TabButtons = ({
   setFilters,
   setPageData,
   setFilteredPageData,
+  setSearch
 }) => {
   const location = useLocation();
   const [searchVisible, setSearchVisible] = useState(false);
@@ -84,6 +85,7 @@ const TabButtons = ({
 
   const handleReset = () => {
     setFilters({});
+    setSearch("");
   };
 
   useEffect(() => {

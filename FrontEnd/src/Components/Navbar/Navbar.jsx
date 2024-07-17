@@ -168,7 +168,10 @@ const Navbar = ({
 
             <CloseOutlinedIcon
               className="pCloseIcon"
-              onClick={() => setSearchVisible(false)}
+              onClick={() => {
+                setSearchVisible(false)
+                setSearch("")
+              }}
               sx={{ width: "16px", height: "16px" }}
             />
           </Box>
