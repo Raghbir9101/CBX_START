@@ -36,7 +36,7 @@ const TabButtons = ({
   setFilters,
   setPageData,
   setFilteredPageData,
-  setSearch
+  setSearch,
 }) => {
   const location = useLocation();
   const [searchVisible, setSearchVisible] = useState(false);
@@ -55,7 +55,7 @@ const TabButtons = ({
         !searchInputRef.current.contains(event.target)
       ) {
         setSearchVisible(false);
-        setGoogleSearch("")
+        setGoogleSearch("");
       }
     };
 
@@ -70,7 +70,7 @@ const TabButtons = ({
   }, [searchVisible]);
 
   const handleCloseClick = () => {
-    setGoogleSearch("")
+    setGoogleSearch("");
     setSearchVisible(false);
   };
 
@@ -92,15 +92,15 @@ const TabButtons = ({
     if (!googleSearch) return setGoogleSearchSuggestions([]);
 
     let temp = setTimeout(() => {
-      HTTP.get(`googlesearch?q=${googleSearch}`).then(res => {
-        setGoogleSearchSuggestions(res?.data?.[1] || [])
-      })
-    }, 300)
+      HTTP.get(`googlesearch?q=${googleSearch}`).then((res) => {
+        setGoogleSearchSuggestions(res?.data?.[1] || []);
+      });
+    }, 300);
 
     return () => {
-      clearTimeout(temp)
-    }
-  }, [googleSearch])
+      clearTimeout(temp);
+    };
+  }, [googleSearch]);
 
   return (
     <Box>
@@ -122,6 +122,9 @@ const TabButtons = ({
           className={filters["Note"] ? "isActive" : "headingBtns"}
           sx={{
             boxShadow: 1,
+            "&:hover": {
+              boxShadow: 2,
+            },
             // transform: filters.Note ? "scale(110%)" : "none",
           }}
           startIcon={
@@ -143,6 +146,9 @@ const TabButtons = ({
             }}
             sx={{
               boxShadow: 1,
+              "&:hover": {
+                boxShadow: 2,
+              },
               // transform: filters.Todo ? "scale(110%)" : "none",
             }}
             className={filters["Todo"] ? "isActive" : "headingBtns"}
@@ -167,6 +173,9 @@ const TabButtons = ({
           }}
           sx={{
             boxShadow: 1,
+            "&:hover": {
+              boxShadow: 2,
+            },
             // transform: filters.Bookmark ? "scale(110%)" : "none",
           }}
           className={filters["Bookmark"] ? "isActive" : "headingBtns"}
@@ -238,7 +247,7 @@ const TabButtons = ({
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
-            position: "relative"
+            position: "relative",
           }}
           ref={searchInputRef}
         >
@@ -253,12 +262,14 @@ const TabButtons = ({
               placeholder="Google Search"
               onKeyDown={(e) => {
                 if (e.key == "Enter") {
-                  window.open(`https://www.google.com/search?q=${e.target.value}`);
-                  handleCloseClick()
+                  window.open(
+                    `https://www.google.com/search?q=${e.target.value}`
+                  );
+                  handleCloseClick();
                 }
               }}
               onChange={(e) => {
-                setGoogleSearch(e.target.value)
+                setGoogleSearch(e.target.value);
               }}
             />
             <img
@@ -274,17 +285,33 @@ const TabButtons = ({
               onClick={handleCloseClick}
             />
 
-            {googleSearchSuggestions.length > 0 && <Box overflow={"hidden"} position={"absolute"} sx={{ boxShadow: 1 }} bgcolor={"white"} width={"100%"} top={`calc( 100% + 5px )`} zIndex={"99"} borderRadius={"20px"}>
-              {(googleSearchSuggestions || []).map(item => {
-                return <MenuItem onClick={() => {
-                  window.open(`https://www.google.com/search?q=${item}`);
-                  handleCloseClick()
-                }} width={"100%"} padding={"10px 20px"}>
-                  {item}
-                </MenuItem>
-              })}
-            </Box>}
-
+            {googleSearchSuggestions.length > 0 && (
+              <Box
+                overflow={"hidden"}
+                position={"absolute"}
+                sx={{ boxShadow: 1 }}
+                bgcolor={"white"}
+                width={"100%"}
+                top={`calc( 100% + 5px )`}
+                zIndex={"99"}
+                borderRadius={"20px"}
+              >
+                {(googleSearchSuggestions || []).map((item) => {
+                  return (
+                    <MenuItem
+                      onClick={() => {
+                        window.open(`https://www.google.com/search?q=${item}`);
+                        handleCloseClick();
+                      }}
+                      width={"100%"}
+                      padding={"10px 20px"}
+                    >
+                      {item}
+                    </MenuItem>
+                  );
+                })}
+              </Box>
+            )}
           </Box>
         </Box>
       )}
