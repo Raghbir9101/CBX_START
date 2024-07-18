@@ -1,5 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Modal, Typography, Box, Button, IconButton } from "@mui/material";
+import {
+  Modal,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -156,22 +163,24 @@ const ShowAllPageModal = ({
                         </IconButton>
                       )}
                       {(item.role == "OWNER" || item.role == "EDITOR") && (
-                        <IconButton
-                          size="small"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleOpenDeleteModal(e);
-                            setSelectedPage(item);
-                          }}
-                        >
-                          <DeleteOutlineOutlinedIcon
-                            sx={{
-                              color: "#B5B5B5",
-                              width: "20px",
-                              height: "20px",
+                        <Tooltip title="Delete this page" arrow>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleOpenDeleteModal(e);
+                              setSelectedPage(item);
                             }}
-                          />
-                        </IconButton>
+                          >
+                            <DeleteOutlineOutlinedIcon
+                              sx={{
+                                color: "#B5B5B5",
+                                width: "20px",
+                                height: "20px",
+                              }}
+                            />
+                          </IconButton>
+                        </Tooltip>
                       )}
                     </Box>
                   </Box>
