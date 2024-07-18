@@ -1,7 +1,9 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import HTTP from "../../HTTP";
 import { Context } from "../Context/Context";
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 
 function AdminDashboardTabs() {
   const { loginUser } = useContext(Context);
@@ -31,16 +33,42 @@ function AdminDashboardTabs() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                padding: "20px",
+                padding: "10px 20px 20px 20px",
                 "&:hover": {
                   boxShadow: 2,
                 },
               }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
-                New Users Created Today
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  fontSize={"15px"}
+                  color={"#4D8733"}
+                  fontWeight={500}
+                >
+                  New Users Created Today
+                </Typography>
+                <IconButton
+                  size="small"
+                  sx={{
+                    background: "#f2ffed",
+                    borderRadius: "5px",
+                    "&:hover": {
+                      background: "#f2ffed",
+                    },
+                  }}
+                >
+                  <GroupOutlinedIcon
+                    style={{ width: "18px", height: "18px" }}
+                  />
+                </IconButton>
+              </Box>
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
                   fontSize={"22px"}
@@ -62,7 +90,7 @@ function AdminDashboardTabs() {
                     fontWeight: 500,
                   }}
                 >
-                  {dashboardData?.usersCreatedChange || 0}%
+                  {(dashboardData?.usersCreatedChange || 0).toFixed(2)}%
                 </Box>
               </Box>
               <Typography fontSize={"12px"} color={"#4D8733"}>
@@ -75,16 +103,43 @@ function AdminDashboardTabs() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                padding: "20px",
+                padding: "10px 20px 20px 20px",
                 "&:hover": {
                   boxShadow: 2,
                 },
               }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
-                New Pages Created Today
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  fontSize={"15px"}
+                  color={"#4D8733"}
+                  fontWeight={500}
+                >
+                  New Pages Created Today
+                </Typography>
+                <IconButton
+                  size="small"
+                  sx={{
+                    background: "#f2ffed",
+                    borderRadius: "5px",
+                    "&:hover": {
+                      background: "#f2ffed",
+                    },
+                  }}
+                >
+                  <DescriptionOutlinedIcon
+                    style={{ width: "18px", height: "18px" }}
+                  />
+                </IconButton>
+              </Box>
+
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
                   fontSize={"22px"}
@@ -106,7 +161,7 @@ function AdminDashboardTabs() {
                     fontWeight: 500,
                   }}
                 >
-                  {dashboardData?.pagesCreatedChange || 0}%
+                  {(dashboardData?.pagesCreatedChange || 0).toFixed(2)}%
                 </Box>
               </Box>
               <Typography fontSize={"12px"} color={"#4D8733"}>
@@ -119,16 +174,43 @@ function AdminDashboardTabs() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                padding: "20px",
+                padding: "10px 20px 20px 20px",
                 "&:hover": {
                   boxShadow: 2,
                 },
               }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
-                Users
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  fontSize={"15px"}
+                  color={"#4D8733"}
+                  fontWeight={500}
+                >
+                  Users
+                </Typography>
+                <IconButton
+                  size="small"
+                  sx={{
+                    background: "#f2ffed",
+                    borderRadius: "5px",
+                    "&:hover": {
+                      background: "#f2ffed",
+                    },
+                  }}
+                >
+                  <GroupOutlinedIcon
+                    style={{ width: "18px", height: "18px" }}
+                  />
+                </IconButton>
+              </Box>
+
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
                   fontSize={"22px"}
@@ -144,16 +226,43 @@ function AdminDashboardTabs() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                padding: "20px",
+                padding: "10px 20px 20px 20px",
                 "&:hover": {
                   boxShadow: 2,
                 },
               }}
               className="card"
             >
-              <Typography fontSize={"14px"} color={"#4D8733"} fontWeight={500}>
-                Pages
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  fontSize={"15px"}
+                  color={"#4D8733"}
+                  fontWeight={500}
+                >
+                  Pages
+                </Typography>
+                <IconButton
+                  size="small"
+                  sx={{
+                    background: "#f2ffed",
+                    borderRadius: "5px",
+                    "&:hover": {
+                      background: "#f2ffed",
+                    },
+                  }}
+                >
+                  <DescriptionOutlinedIcon
+                    style={{ width: "18px", height: "18px" }}
+                  />
+                </IconButton>
+              </Box>
+
               <Box display={"flex"} gap={"10px"} alignItems={"center"}>
                 <Typography
                   fontSize={"22px"}
@@ -178,7 +287,8 @@ function getColor(val) {
     // return "#b4ffb1";
     return "#f2ffed";
   } else if (val < 0) {
-    return "#ff9ca1";
+    // return "#ff9ca1";
+    return "#ffe4e4";
   } else return "#f0f0f0";
 }
 
@@ -197,7 +307,7 @@ function Progress({ val }) {
         </Typography>
       </Box>
       <Box
-        bgcolor={val < 0 ? "red" : "#0026e1"}
+        bgcolor={val < 0 ? "#aa3939" : "#0026e1"}
         height={"3px"}
         borderRadius={"2px"}
         width={`${temp}%`}

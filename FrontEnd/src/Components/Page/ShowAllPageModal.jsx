@@ -7,6 +7,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import DeleteModal from "./DeleteModal";
 import { Context } from "../Context/Context";
 import { useNavigate, useParams } from "react-router-dom";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const modalStyle = {
   position: "absolute",
@@ -27,8 +28,9 @@ const ShowAllPageModal = ({
   handleEditOpenModal,
   pageMetaData,
   setSelectedPage,
-  selectedPage
+  selectedPage,
 }) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { pages, setPages } = useContext(Context);
   const handleOpenDeleteModal = () => {
@@ -37,8 +39,21 @@ const ShowAllPageModal = ({
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false);
   };
-  const { pageID } = useParams()
+  const { pageID } = useParams();
   const nav = useNavigate();
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredPages = pages.filter((page) =>
+    page.pageName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleClear = () => {
+    setSearchQuery("");
+  };
+
   return (
     <>
       <Modal
@@ -56,9 +71,32 @@ const ShowAllPageModal = ({
                 position: "relative",
               }}
             >
-              <input type="text" placeholder="Search" className="searchInput" />
-              <IconButton className="searchIcon">
-                <SearchRoundedIcon
+              <input
+                type="text"
+                placeholder="Search"
+                className="searchInput"
+                style={{ paddingLeft: "35px" }}
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
+              <SearchRoundedIcon
+                sx={{
+                  color: "#ACB1C6",
+                  width: "20px",
+                  height: "20px",
+                  position: "absolute",
+                  left: "10px",
+                }}
+              />
+              <IconButton
+                className="searchIcon"
+                size="small"
+                onClick={handleClear}
+              >
+                {/* <SearchRoundedIcon
+                  sx={{ color: "#ACB1C6", width: "20px", height: "20px" }}
+                /> */}
+                <CloseOutlinedIcon
                   sx={{ color: "#ACB1C6", width: "20px", height: "20px" }}
                 />
               </IconButton>
@@ -68,20 +106,20 @@ const ShowAllPageModal = ({
               <Typography sx={{ fontSize: "14px", color: "#8B8888" }}>
                 Your Pages
               </Typography>
-              {pages.map((item) => {
+              {filteredPages.map((item) => {
                 return (
                   <Box
                     sx={{
-                      borderRadius:"10px",
+                      borderRadius: "10px",
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
                       mt: "5px",
-                      height:"40px",
+                      height: "40px",
                       cursor: "pointer",
                       background: pageID == item?._id ? "#d1ffbc" : "",
                       "&:hover": {
-                        background: pageID == item?._id ? "#d1ffbc" :"#f7fafc",
+                        background: pageID == item?._id ? "#d1ffbc" : "#f7fafc",
                       },
                     }}
                     onClick={() => {
@@ -99,36 +137,42 @@ const ShowAllPageModal = ({
                       <Typography>{item.pageName || ""}</Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                      {(item.role == "OWNER" || item.role == "EDITOR") && <IconButton size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditOpenModal(e);
-                          setSelectedPage(item);
-                        }}
-                      >
-                        <EditOutlinedIcon
-                          sx={{
-                            color: "#B5B5B5",
-                            width: "20px",
-                            height: "20px",
+                      {(item.role == "OWNER" || item.role == "EDITOR") && (
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditOpenModal(e);
+                            setSelectedPage(item);
                           }}
-                        />
-                      </IconButton>}
-                      {(item.role == "OWNER" || item.role == "EDITOR") && <IconButton size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleOpenDeleteModal(e);
-                          setSelectedPage(item);
-                        }}
-                      >
-                        <DeleteOutlineOutlinedIcon
-                          sx={{
-                            color: "#B5B5B5",
-                            width: "20px",
-                            height: "20px",
+                        >
+                          <EditOutlinedIcon
+                            sx={{
+                              color: "#B5B5B5",
+                              width: "20px",
+                              height: "20px",
+                            }}
+                          />
+                        </IconButton>
+                      )}
+                      {(item.role == "OWNER" || item.role == "EDITOR") && (
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenDeleteModal(e);
+                            setSelectedPage(item);
                           }}
-                        />
-                      </IconButton>}
+                        >
+                          <DeleteOutlineOutlinedIcon
+                            sx={{
+                              color: "#B5B5B5",
+                              width: "20px",
+                              height: "20px",
+                            }}
+                          />
+                        </IconButton>
+                      )}
                     </Box>
                   </Box>
                 );

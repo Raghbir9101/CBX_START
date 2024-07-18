@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import HTTP from "../../HTTP";
 import { useNavigate, useNavigation, useParams } from "react-router-dom";
 import { Context } from "../Context/Context";
+import toast from "react-hot-toast";
 
 const modalStyle = {
   position: "absolute",
@@ -16,10 +17,16 @@ const modalStyle = {
   borderRadius: "18px",
 };
 
-const DeleteModal = ({ open, handleClose, selectedPage, setSelectedPage, setPages }) => {
-  const nav = useNavigate()
+const DeleteModal = ({
+  open,
+  handleClose,
+  selectedPage,
+  setSelectedPage,
+  setPages,
+}) => {
+  const nav = useNavigate();
   const { pages } = useContext(Context);
-  const { pageID } = useParams()
+  const { pageID } = useParams();
   return (
     <>
       <Modal
@@ -56,16 +63,17 @@ const DeleteModal = ({ open, handleClose, selectedPage, setSelectedPage, setPage
                 variant="contained"
                 className="createPageBtn"
                 onClick={async () => {
-                  await HTTP.delete(`pages/${selectedPage?._id}`)
-                  setPages(p => {
-                    return p.filter(item => {
-                      return item._id != selectedPage?._id
-                    })
-                  })
-                  if(pageID == selectedPage?._id) {
+                  await HTTP.delete(`pages/${selectedPage?._id}`);
+                  setPages((p) => {
+                    return p.filter((item) => {
+                      return item._id != selectedPage?._id;
+                    });
+                  });
+                  if (pageID == selectedPage?._id) {
                     nav(`/page/${pages[0]?._id}`);
                   }
-                  handleClose()
+                  toast.success("Page deleted successfully.");
+                  handleClose();
                 }}
               >
                 Yes

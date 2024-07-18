@@ -28,6 +28,7 @@ import ShowAllPageModal from "../Page/ShowAllPageModal";
 import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HTTP from "../../HTTP";
+import toast from "react-hot-toast";
 
 const Navbar = ({
   setPageData,
@@ -169,8 +170,8 @@ const Navbar = ({
             <CloseOutlinedIcon
               className="pCloseIcon"
               onClick={() => {
-                setSearchVisible(false)
-                setSearch("")
+                setSearchVisible(false);
+                setSearch("");
               }}
               sx={{ width: "16px", height: "16px" }}
             />
@@ -364,6 +365,7 @@ const Navbar = ({
         <MenuItem
           onClick={() => {
             handleLogout();
+            toast.success("Logout successfully.");
             nav("/login");
           }}
         >

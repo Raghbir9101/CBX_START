@@ -20,6 +20,7 @@ import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 import AddPasswordModal from "./AddPasswordModal";
 import AddCollaboratorModal from "./AddCollaboratorModal";
+import toast from "react-hot-toast";
 
 const modalStyle = {
   position: "absolute",
@@ -109,8 +110,8 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(formData)
     handleCreatePage(formData);
+    toast.success("Page created successfully.");
     handleClose();
   };
 
@@ -158,7 +159,9 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
                 >
                   <MenuItem value="PRIVATE">Private</MenuItem>
                   <MenuItem value="PUBLIC">Public</MenuItem>
-                  <MenuItem value="PASSWORD_PROTECTED">Password Protected</MenuItem>
+                  <MenuItem value="PASSWORD_PROTECTED">
+                    Password Protected
+                  </MenuItem>
                 </Select>
               </FormControl>
               {/* <FormControlLabel

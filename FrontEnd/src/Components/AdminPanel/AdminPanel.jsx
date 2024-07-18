@@ -28,6 +28,7 @@ import AdminNavbar from "./AdminNavbar";
 import AdminDashboardTabs from "./AdminDashboardTabs";
 import DeleteConformationModal from "./DeleteConformationModal";
 import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
+import toast from "react-hot-toast";
 
 const styles = {
   tableContainer: {
@@ -77,7 +78,6 @@ function AdminPanel() {
   const [emailSearchTerm, setEmailSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
 
-
   const handleOpenModal = (id) => {
     setUserUniqueId(id);
     setOpen(!open);
@@ -88,7 +88,9 @@ function AdminPanel() {
 
   const handleApprovalChange = async (event, userId, email, userName) => {
     await HTTP.patch(`updateUsersAdmin/${userId}`, {
-      isApproved: event.target.checked, email, userName
+      isApproved: event.target.checked,
+      email,
+      userName,
     });
     const updatedUsers = users.map((user) =>
       user._id === userId ? { ...user, isApproved: event.target.checked } : user
@@ -98,7 +100,7 @@ function AdminPanel() {
 
   const handleAdminChange = async (event, userId) => {
     await HTTP.patch(`updateUsersAdmin/${userId}`, {
-      isAdmin: event.target.checked
+      isAdmin: event.target.checked,
     });
     const updatedUsers = users.map((user) =>
       user._id === userId ? { ...user, isAdmin: event.target.checked } : user
@@ -109,6 +111,7 @@ function AdminPanel() {
   const handleDeleteUser = async (userId) => {
     await HTTP.delete(`deleteUsersAdmin/${userId}`);
     const updatedUsers = users?.filter((user) => user._id !== userId);
+    toast.success("Delete successfully.");
     handleCloseModal();
     setUserUniqueId("");
     setUsers(updatedUsers);
@@ -140,17 +143,18 @@ function AdminPanel() {
   };
 
   const filteredUsers =
-    users &&
-    users.length > 0 &&
-    users.filter((user) => {
-      return (
-        user.userName.toLowerCase().includes(nameSearchTerm.toLowerCase()) &&
-        user.email.toLowerCase().includes(emailSearchTerm.toLowerCase()) &&
-        (selectedStatus === "" ||
-          (selectedStatus === "approved" && user.isApproved) ||
-          (selectedStatus === "notapproved" && !user.isApproved))
-      );
-    }) || [];
+    (users &&
+      users.length > 0 &&
+      users.filter((user) => {
+        return (
+          user.userName.toLowerCase().includes(nameSearchTerm.toLowerCase()) &&
+          user.email.toLowerCase().includes(emailSearchTerm.toLowerCase()) &&
+          (selectedStatus === "" ||
+            (selectedStatus === "approved" && user.isApproved) ||
+            (selectedStatus === "notapproved" && !user.isApproved))
+        );
+      })) ||
+    [];
 
   return (
     <Box display={"flex"} flexDirection={"column"}>
@@ -412,13 +416,22 @@ function AdminPanel() {
                       size="small"
                       defaultChecked={user.isApproved}
                       onChange={(event) =>
-                        handleApprovalChange(event, user._id, user?.email, user?.userName)
+                        handleApprovalChange(
+                          event,
+                          user._id,
+                          user?.email,
+                          user?.userName
+                        )
                       }
                       style={styles.approveCheckbox}
                     />
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }} className="tableCell">
-                    <Tooltip title="Update user role" arrow placement="right">
+                    <Tooltip
+                      title="Update this user role"
+                      arrow
+                      placement="right"
+                    >
                       <Select
                         sx={{
                           border: "none",
@@ -448,7 +461,7 @@ function AdminPanel() {
                     </Tooltip>
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }} className="tableCell">
-                    <Tooltip title="Delete user" arrow placement="right">
+                    <Tooltip title="Delete this user" arrow placement="right">
                       <IconButton onClick={() => handleOpenModal(user._id)}>
                         <DeleteOutlinedIcon
                           style={{

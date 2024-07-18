@@ -21,6 +21,7 @@ import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 import AddPasswordModal from "./AddPasswordModal";
 import AddCollaboratorModal from "./AddCollaboratorModal";
+import toast from "react-hot-toast";
 
 const modalStyle = {
   position: "absolute",
@@ -119,8 +120,8 @@ const EditPageModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     handleEditPage(formData);
+    toast.success("Update successfully.");
     handleClose();
     setSelectedPage(null);
   };
@@ -289,7 +290,9 @@ const EditPageModal = ({
                 >
                   <MenuItem value="PRIVATE">Private</MenuItem>
                   <MenuItem value="PUBLIC">Public</MenuItem>
-                  <MenuItem value="PASSWORD_PROTECTED">Password Protected</MenuItem>
+                  <MenuItem value="PASSWORD_PROTECTED">
+                    Password Protected
+                  </MenuItem>
                 </Select>
               </FormControl>
               {/* <FormControlLabel
@@ -314,7 +317,10 @@ const EditPageModal = ({
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <IconButton disabled={formData.visibility != "PASSWORD_PROTECTED"} onClick={handleOpenPasswordModal}>
+                <IconButton
+                  disabled={formData.visibility != "PASSWORD_PROTECTED"}
+                  onClick={handleOpenPasswordModal}
+                >
                   <HttpsOutlinedIcon color="#989696" />
                 </IconButton>
                 <IconButton onClick={handleOpenCollaboratorModal}>

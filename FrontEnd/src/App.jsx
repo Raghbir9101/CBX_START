@@ -6,7 +6,8 @@ import { useContext, useEffect } from "react";
 import { Context } from "./Components/Context/Context";
 import { useNavigate, useParams } from "react-router-dom";
 import HTTP from "./HTTP";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import toast from "react-hot-toast";
 function App() {
   const {
     token,
@@ -17,7 +18,7 @@ function App() {
     setPages,
     isLoading,
     setIsLoading,
-    apiLink
+    apiLink,
   } = useContext(Context);
 
   const nav = useNavigate();
@@ -55,7 +56,7 @@ function App() {
         // .get("http://localhost/auth/google/callback?code=" + code)
         .then(({ data: res }) => {
           if (res.error) {
-            alert(res.error)
+            toast.error(res.error);
             setIsLoading(false);
             return;
           }
@@ -79,16 +80,29 @@ function App() {
       console.log(err.message);
     }
   }, []);
-  
+
   return (
     <Box>
-      {loginUser?.isAdmin && <Tooltip title="Admin Panel">
-        <IconButton onClick={() => {
-          nav("/AdminPanel")
-        }} size="large" sx={{ position: "fixed", bottom: "20px", right: "20px", zIndex: 100, bgcolor: "#d7d7d7", "&:hover": { bgcolor: "#d7d7d7" } }}>
-          <AdminPanelSettingsIcon sx={{ color: "#4d8733" }} />
-        </IconButton>
-      </Tooltip>}
+      {loginUser?.isAdmin && (
+        <Tooltip title="Admin Panel">
+          <IconButton
+            onClick={() => {
+              nav("/AdminPanel");
+            }}
+            size="large"
+            sx={{
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+              zIndex: 100,
+              bgcolor: "#d7d7d7",
+              "&:hover": { bgcolor: "#d7d7d7" },
+            }}
+          >
+            <AdminPanelSettingsIcon sx={{ color: "#4d8733" }} />
+          </IconButton>
+        </Tooltip>
+      )}
       <AllRoutes />
     </Box>
   );
