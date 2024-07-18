@@ -468,7 +468,7 @@ function AdminPanel() {
         <TablePagination
           rowsPerPageOptions={[20, 25, 50]}
           component="div"
-          count={filteredUsers.length}
+          count={filteredUsers?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
