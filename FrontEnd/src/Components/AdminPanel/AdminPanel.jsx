@@ -150,7 +150,7 @@ function AdminPanel() {
           (selectedStatus === "approved" && user.isApproved) ||
           (selectedStatus === "notapproved" && !user.isApproved))
       );
-    });
+    }) || [];
 
   return (
     <Box display={"flex"} flexDirection={"column"}>
