@@ -23,6 +23,9 @@ app.get("/", (req, res) => {
 app.get("/login", (req, res) => {
     res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
 })
+app.get("/adminPanel", (req, res) => {
+    res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
+})
 app.get("/page/:pageID", (req, res) => {
     res.sendFile(path.join(_dirname, "../FrontEnd", "dist", "index.html"));
 })
