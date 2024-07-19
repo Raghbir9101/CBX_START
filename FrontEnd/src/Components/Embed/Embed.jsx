@@ -3,16 +3,27 @@ import { ElementWrapper } from "../Page/Page";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import Save from "@mui/icons-material/Save";
 
+function ensureHTTPS(url) {
+  // Check if the URL starts with 'http://' or 'https://'
+  if (!/^https?:\/\//i.test(url)) {
+      // If not, prepend 'https://'
+      url = 'https://' + url;
+  }
+  return url;
+}
+
 function Embed({ url, provided, item, handleDelete, onChange, data }) {
   const [embedURL, setEmbedURL] = useState(url);
   const [editing, setEditing] = useState(!url ? true : false);
   const [title, setTitle] = useState(item.data.name || "");
   const [collapsed, setCollapsed] = useState(data?.collapsed);
+
+
   function ActionButtons() {
     return <>
       <IconButton onClick={() => {
         setEditing(p => !p)
-        onChange({ name: title, url: embedURL })
+        onChange({ name: title, url: embedURL, collapsed })
       }} size="small">
         {!editing ? <svg
           width="14"
@@ -73,16 +84,15 @@ function Embed({ url, provided, item, handleDelete, onChange, data }) {
 
 
   useEffect(() => {
-    onChange({ collapsed });
+    onChange({ ...data, collapsed });
   }, [collapsed]);
-
 
   return (
     <ElementWrapper collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
       {(!editing && url) ? <iframe
         width="100%"
         height={"250px"}
-        src={embedURL}
+        src={ensureHTTPS(embedURL)}
         title="YouTube video player"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

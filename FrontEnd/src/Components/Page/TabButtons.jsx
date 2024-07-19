@@ -13,23 +13,23 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import axios from "axios";
 import HTTP from "../../HTTP";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-const clearedPageData = [
-  {
-    items: [],
-  },
-  {
-    items: [],
-  },
-  {
-    items: [],
-  },
-  {
-    items: [],
-  },
-  {
-    items: [],
-  },
-];
+// const clearedPageData = [
+//   {
+//     items: [<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />],
+//   },
+//   {
+//     items: [<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />],
+//   },
+//   {
+//     items: [<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />],
+//   },
+//   {
+//     items: [<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />],
+//   },
+//   {
+//     items: [<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />],
+//   },
+// ];
 
 const TabButtons = ({
   filters,

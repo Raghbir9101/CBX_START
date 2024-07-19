@@ -3,16 +3,27 @@ import { ElementWrapper } from "../Page/Page";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import Save from "@mui/icons-material/Save";
 
+function ensureHTTPS(url) {
+    // Check if the URL starts with 'http://' or 'https://'
+    if (!/^https?:\/\//i.test(url)) {
+        // If not, prepend 'https://'
+        url = 'https://' + url;
+    }
+    return url;
+}
+
+
 function GoogleCalendar({ url, provided, item, handleDelete, onChange, data }) {
     const [embedURL, setEmbedURL] = useState(url);
     const [editing, setEditing] = useState(!url ? true : false);
     const [title, setTitle] = useState(item.data.name || "");
     const [collapsed, setCollapsed] = useState(data?.collapsed);
+    
     function ActionButtons() {
         return <>
             <IconButton onClick={() => {
                 setEditing(p => !p)
-                onChange({ name: title, url: embedURL })
+                onChange({ name: title, url: embedURL, collapsed })
             }} size="small">
                 {!editing ? <svg
                     width="14"
@@ -37,51 +48,20 @@ function GoogleCalendar({ url, provided, item, handleDelete, onChange, data }) {
                     />
                 </svg> : <Save sx={{ fontSize: "18px" }} />}
             </IconButton>
-            {/* <IconButton size="small">
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 20 5"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M9.99636 3.4898C10.5693 3.4898 11.0337 3.02535 11.0337 2.45242C11.0337 1.87949 10.5693 1.41504 9.99636 1.41504C9.42344 1.41504 8.95898 1.87949 8.95898 2.45242C8.95898 3.02535 9.42344 3.4898 9.99636 3.4898Z"
-            stroke="#79797E"
-            stroke-width="2.07476"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M17.2595 3.4898C17.8325 3.4898 18.2969 3.02535 18.2969 2.45242C18.2969 1.87949 17.8325 1.41504 17.2595 1.41504C16.6866 1.41504 16.2222 1.87949 16.2222 2.45242C16.2222 3.02535 16.6866 3.4898 17.2595 3.4898Z"
-            stroke="#79797E"
-            stroke-width="2.07476"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M2.73562 3.4898C3.30855 3.4898 3.773 3.02535 3.773 2.45242C3.773 1.87949 3.30855 1.41504 2.73562 1.41504C2.16269 1.41504 1.69824 1.87949 1.69824 2.45242C1.69824 3.02535 2.16269 3.4898 2.73562 3.4898Z"
-            stroke="#79797E"
-            stroke-width="2.07476"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </IconButton> */}
         </>
     }
 
-    
-  useEffect(() => {
-    onChange({ collapsed });
-  }, [collapsed]);
+
+    useEffect(() => {
+        onChange({ ...data, collapsed });
+    }, [collapsed]);
 
     return (
-        <ElementWrapper  collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
+        <ElementWrapper collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
             {(!editing && url) ? <iframe
                 width="100%"
                 height={"250px"}
-                src={embedURL}
+                src={ensureHTTPS(embedURL)}
                 title="Google Calendar"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

@@ -41,7 +41,8 @@ const items = [
       "type": "Note",
       "data": {
         "name": "Note",
-        "html": ""
+        "html": "",
+        collapsed: true
       }
     }
   },
@@ -53,7 +54,9 @@ const items = [
       "type": "Todo",
       "data": {
         "name": "Todo List",
-        "tasks": []
+        "tasks": [],
+        collapsed: true
+        
       }
     }
   },
@@ -65,7 +68,8 @@ const items = [
       "type": "Bookmark",
       "data": {
         "name": "My Links",
-        "URLs": []
+        "URLs": [],
+        collapsed: true
       }
     }
   },
@@ -74,7 +78,8 @@ const items = [
       "type": "Embed",
       "data": {
         "name": "",
-        "url": ""
+        "url": "",
+        collapsed: true
       }
     }
   },
@@ -87,7 +92,8 @@ const items = [
       "type": "Google Calendar",
       "data": {
         "name": "Google Calendar",
-        "url": ""
+        "url": "",
+        collapsed: true
       }
     }
   },
@@ -99,6 +105,7 @@ const items = [
       "type": "Currency Converter",
       "data": {
         "name": "",
+        collapsed: true
       }
     }
   },
@@ -110,6 +117,7 @@ const items = [
       "type": "Clock",
       "data": {
         "name": "",
+        collapsed: true
       }
     }
   },
@@ -121,7 +129,8 @@ const items = [
       "type": "Calculator",
       "data": {
         "name": "",
-        "url": ""
+        "url": "",
+        collapsed: true
       }
     }
   },

@@ -139,7 +139,9 @@ import PagesModel from './Models/PagesModel.js';
 import { authenticateToken, authenticateTokenAndReturnUser } from './Authorization/AuthenticateToken.js';
 
 app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, res) => {
+
     let page = await PagesModel.findOne({ _id: req.params.pageID }).lean();
+    if(!page) return res.send({error:"Page does not exist !"})
     let role = "NONE";
     if (req?.user?._id == page?.userID) {
         role = "OWNER";

@@ -285,7 +285,11 @@ const Navbar = ({
               gap: "30px",
             }}
           >
-            <Box>
+            <Box sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}>
               <Button
                 className="addBtn"
                 sx={{
@@ -312,9 +316,11 @@ const Navbar = ({
               </Button>
             </Box>
 
-            <Box
+            <Box 
               onClick={() => setSearchVisible(!searchVisible)}
-              sx={{ cursor: "pointer" }}
+              sx={{ cursor: "pointer",display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center", }}
             >
               <img
                 // style={{ width: "28px", height: "28px" }}
@@ -323,7 +329,9 @@ const Navbar = ({
               />
             </Box>
 
-            <Box sx={{ cursor: "pointer" }} onClick={handleOpenShareModal}>
+            <Box sx={{ cursor: "pointer",display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center", }} onClick={handleOpenShareModal}>
               <img
                 style={{ width: "28px", height: "28px" }}
                 src={share}
@@ -331,7 +339,9 @@ const Navbar = ({
               />
             </Box>
 
-            <Box onClick={handleClickMenu}>
+            <Box sx={{display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",}} onClick={handleClickMenu}>
               <img
                 style={{
                   objectFit: "cover",

@@ -86,7 +86,6 @@ function Page() {
         }
         temp[i].items = items;
       }
-      console.log(temp);
       return temp
     })
     setCollapseAll(p => !p)
@@ -128,9 +127,6 @@ function Page() {
 
   useEffect(() => {
     if (pageID == "undefined" || !pageID) return;
-
-    // let tempPageData = findByID(pages, pageID);
-    // let tempPage = tempPageData?.data || [];
     if (pageData.length > 0 && loginUser == null) {
       return;
     }
@@ -138,16 +134,6 @@ function Page() {
       if (res.data.error) {
         if (res.data.errorCode == "ENTER_PASSWORD") {
           return setPasswordModal(true);
-          // let pass = prompt("Please enter page password");
-          // if (!pass) return alert("Invalid Password !");
-          // let { data: tempPage } = await HTTP.get(
-          //   `getPageData/${pageID}?password=${pass}`
-          // );
-          // if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
-          //   return alert(res.data.error);
-          // }
-          // setFilteredPageData(tempPage.data);
-          // return setPageData(tempPage.data);
         }
 
         return alert(res.data.error);
@@ -162,6 +148,7 @@ function Page() {
 
   useEffect(() => {
     if (!loginUser || !token || pageID == "undefined" || !pageID) return;
+    if(!pageData || (pageData || []).length == 0) return
     let tempPageData = findByID(pages, pageID);
     if (loginUser) {
       if (tempPageData.role != "EDITOR" && tempPageData.role != "OWNER") return;
@@ -201,7 +188,6 @@ function Page() {
       return {
         ...page,
         items: page.items.filter((item) => {
-          console.log(item?.data?.name)
           return (
             (notTabFiltering ? true : filterObject[item.type] === 1) &&
             (item?.data?.name || "").toLowerCase().includes(search)
@@ -218,7 +204,7 @@ function Page() {
     let tempFilteredObj = filterData([...pageData], filters, search);
     setFilteredPageData(tempFilteredObj);
   }, [pageData, filters, search]);
-  // console.log(pageData)s
+
   return (
     <>
       <Box paddingBottom={"100px"} bgcolor={"#f4f4f4"}>
@@ -499,7 +485,6 @@ function Page() {
                                         />
                                       );
                                     } else if (item.type == "Google Calendar") {
-                                      // console.log("google")
                                       return (
                                         <GoogleCalendar
                                           setPageData={setPageData}
@@ -709,7 +694,7 @@ export function ElementWrapper({
 
   useEffect(() => {
     if (collapsed && contentRef.current) {
-      contentRef.current.style.minHeight = `${contentRef.current.scrollHeight}px`;
+      contentRef.current.style.minHeight = `${contentRef.current.scrollHeight || 400}px`;
     } else {
       contentRef.current.style.minHeight = `${0}px`;
     }
