@@ -24,7 +24,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
   const [tasks, setTasks] = useState(data.tasks || []);
   const [newTask, setNewTask] = useState("");
   const [completePercentage, setCompletePercentage] = useState(0);
-
+  const [collapsed, setCollapsed] = useState(data?.collapsed);
   const handleAddTask = () => {
     setTasks((prev) => [
       ...prev,
@@ -49,8 +49,8 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
       isNaN(completedTasksPercentage) ? 0 : completedTasksPercentage
     );
 
-    onChange({ ...data, tasks });
-  }, [tasks]);
+    onChange({ ...data, tasks, collapsed });
+  }, [tasks, collapsed]);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -216,7 +216,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
     </>
   }
   return (
-    <ElementWrapper  handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing}  handleDelete={handleDelete}
+    <ElementWrapper   collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing}  handleDelete={handleDelete}
       provided={provided}
       item={item}
     >

@@ -30,6 +30,7 @@ function isValidURL(url) {
 function Bookmark({ data, onChange, provided, item, handleDelete }) {
   const [links, setLinks] = useState(data.URLs || []);
   const [newLink, setNewLink] = useState("");
+  const [collapsed, setCollapsed] = useState(data?.collapsed);
 
   const handleAddLink = () => {
     let tempNewLink = formatURL(newLink);
@@ -60,8 +61,8 @@ function Bookmark({ data, onChange, provided, item, handleDelete }) {
   };
 
   useEffect(() => {
-    onChange({ ...data, URLs: links });
-  }, [links]);
+    onChange({ ...data, URLs: links, collapsed });
+  }, [links, collapsed]);
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(item.data.name || "");
 
@@ -128,7 +129,7 @@ function Bookmark({ data, onChange, provided, item, handleDelete }) {
     </>
   }
   return (
-    <ElementWrapper handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
+    <ElementWrapper collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
       <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="links">
@@ -199,7 +200,7 @@ function LinkComponent({ item, setLinks }) {
     setLinks((p) => {
       let temp = [...p];
       for (let i = 0; i < temp.length; i++) {
-        if(temp[i]._id == item._id) {
+        if (temp[i]._id == item._id) {
           temp[i].name = newName;
           return temp
         }
@@ -274,8 +275,8 @@ function LinkComponent({ item, setLinks }) {
               // <Typography  spellCheck="false" onClick={(e) => e.stopPropagation()} sx={{ cursor: "text", outline: "none", width:"100%", overflow:"hidden" }} ref={ref} contentEditable={!readOnly}>
               //   {item.name || siteData.name || ""}
               // </Typography>
-              <input style={{all:"unset", cursor:"text", width:"100%"}} defaultValue={item.name || siteData.name || ""} spellCheck="false" onClick={(e) => e.stopPropagation()} sx={{ cursor: "text", outline: "none", width:"100%", overflow:"hidden" }} ref={ref} contentEditable={!readOnly}>
-                
+              <input style={{ all: "unset", cursor: "text", width: "100%" }} defaultValue={item.name || siteData.name || ""} spellCheck="false" onClick={(e) => e.stopPropagation()} sx={{ cursor: "text", outline: "none", width: "100%", overflow: "hidden" }} ref={ref} contentEditable={!readOnly}>
+
               </input>
           }
         </Box>

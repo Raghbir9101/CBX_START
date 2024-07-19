@@ -6,13 +6,13 @@ import { ElementWrapper } from "../Page/Page";
 import Flag from "react-world-flags";
 import { AutoComplete, Input } from 'antd';
 
-const CurrencyConverter = ({ provided, item, handleDelete }) => {
+const CurrencyConverter = ({ provided, item, handleDelete, data, onChange }) => {
   const [inputCurrency, setInputCurrency] = useState("EUR");
   const [outputCurrency, setOutputCurrency] = useState("USD");
   const [inputAmount, setInputAmount] = useState(1);
   const [outputAmount, setOutputAmount] = useState(0);
   const [exchangeRate, setExchangeRate] = useState(0);
-
+  const [collapsed, setCollapsed] = useState(data?.collapsed);
   // const currencyOptions = [
   //   { code: "AED", name: "United Arab Emirates Dirham" },
   //   { code: "ARS", name: "Argentine Peso" },
@@ -498,9 +498,15 @@ const CurrencyConverter = ({ provided, item, handleDelete }) => {
     setOutputCurrency(value);
   };
 
+  useEffect(() => {
+    onChange({ collapsed });
+  }, [collapsed]);
+
+
+
   return (
     <>
-      <ElementWrapper handleDelete={handleDelete} provided={provided} item={item}>
+      <ElementWrapper handleDelete={handleDelete} provided={provided} item={item}  collapsed={data?.collapsed} setCollapsed={setCollapsed}>
         <div className="currency-converter">
           <div className="currency">
             <Flag

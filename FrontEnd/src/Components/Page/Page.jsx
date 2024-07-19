@@ -71,6 +71,26 @@ function Page() {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({});
   const [passwordModal, setPasswordModal] = useState(false);
+  const [collapseAll, setCollapseAll] = useState(true);
+
+  function collapseAllItems() {
+    let tempCollapse = !collapseAll;
+
+    setPageData(p => {
+      let temp = [...p];
+      
+      for (let i = 0; i < temp.length; i++) {
+        let items = [...(temp[i].items || [])];
+        for (let j = 0; j < items.length; j++) {
+          items[j].data.collapsed = tempCollapse;
+        }
+        temp[i].items = items;
+      }
+      console.log(temp);
+      return temp
+    })
+    setCollapseAll(p => !p)
+  }
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -155,7 +175,7 @@ function Page() {
       controllerRef.current = controller;
 
       HTTP.put(`pages/${pageID}`, { data: pageData })
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -181,9 +201,10 @@ function Page() {
       return {
         ...page,
         items: page.items.filter((item) => {
+          console.log(item?.data?.name)
           return (
             (notTabFiltering ? true : filterObject[item.type] === 1) &&
-            item?.data?.name.toLowerCase().includes(search)
+            (item?.data?.name || "").toLowerCase().includes(search)
           );
         }),
       };
@@ -197,7 +218,7 @@ function Page() {
     let tempFilteredObj = filterData([...pageData], filters, search);
     setFilteredPageData(tempFilteredObj);
   }, [pageData, filters, search]);
-
+  // console.log(pageData)s
   return (
     <>
       <Box paddingBottom={"100px"} bgcolor={"#f4f4f4"}>
@@ -210,6 +231,8 @@ function Page() {
         />
         <Box sx={{ bgcolor: "#f4f4f4" }}>
           <TabButtons
+          collapseAll={collapseAll}
+            collapseAllItems={collapseAllItems}
             setPageData={setPageData}
             setFilteredPageData={setFilteredPageData}
             filters={filters}
@@ -239,15 +262,15 @@ function Page() {
                           pageData.length == 5
                             ? "19%"
                             : pageData.length == 3
-                            ? "33.33%"
-                            : "50%"
+                              ? "33.33%"
+                              : "50%"
                         }
                         width={
                           pageData.length == 5
                             ? "19%"
                             : pageData.length == 3
-                            ? "33.33%"
-                            : "50%"
+                              ? "33.33%"
+                              : "50%"
                         }
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -678,17 +701,19 @@ export function ElementWrapper({
   handleDelete,
   editing,
   handleTitleChange,
+  collapsed,
+  setCollapsed
 }) {
-  const [open, setOpen] = useState(true);
+  // const [open, setOpen] = useState(true);
   const contentRef = useRef(null);
 
   useEffect(() => {
-    if (open && contentRef.current) {
+    if (collapsed && contentRef.current) {
       contentRef.current.style.minHeight = `${contentRef.current.scrollHeight}px`;
     } else {
       contentRef.current.style.minHeight = `${0}px`;
     }
-  }, [open]);
+  }, [collapsed]);
 
   return (
     <Box
@@ -754,9 +779,12 @@ export function ElementWrapper({
           right={0}
           bgcolor={"white"}
         >
-          <IconButton size="small" onClick={() => setOpen((p) => !p)}>
+          <IconButton size="small" onClick={() => setCollapsed((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton>
+          {/* <IconButton size="small" onClick={() => setOpen((p) => !p)}>
+            <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
+          </IconButton> */}
           {!!ActionButtons && <ActionButtons />}
           <Tooltip title="Delete" arrow>
             <IconButton
@@ -773,7 +801,12 @@ export function ElementWrapper({
           </Tooltip>
         </Box>
       </Box>
-      {open && (
+      {/* {open && (
+        <Box display={"flex"} justifyContent={"center"}>
+          <Box sx={{ borderBottom: "1px solid #DEDEDE", width: "90%" }}></Box>
+        </Box>
+      )} */}
+      {collapsed && (
         <Box display={"flex"} justifyContent={"center"}>
           <Box sx={{ borderBottom: "1px solid #DEDEDE", width: "90%" }}></Box>
         </Box>
@@ -782,12 +815,13 @@ export function ElementWrapper({
         ref={contentRef}
         sx={{
           cursor: "default",
-          opacity: open ? 1 : 0,
-          visibility: open ? "visible" : "hidden",
+          opacity: collapsed ? 1 : 0,
+          visibility: collapsed ? "visible" : "hidden",
           transition: "all 0.3s ease",
         }}
       >
-        {open && children}
+        {/* {open && children} */}
+        {collapsed && children}
       </Box>
     </Box>
   );

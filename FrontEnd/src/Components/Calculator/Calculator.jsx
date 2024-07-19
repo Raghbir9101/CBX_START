@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./calculator.css";
 import { ElementWrapper } from "../Page/Page";
 
-const App = ({ provided, item, handleDelete }) => {
+const App = ({ provided, item, handleDelete, onChange, data }) => {
   const [input, setInput] = useState("");
+  const [collapsed, setCollapsed] = useState(data?.collapsed);
 
   const handleClick = (value) => {
     setInput(input + value);
@@ -37,8 +38,12 @@ const App = ({ provided, item, handleDelete }) => {
     }
   };
 
+  useEffect(() => {
+    onChange({ collapsed });
+  }, [collapsed]);
+
   return (
-    <ElementWrapper  handleDelete={handleDelete} provided={provided} item={item} >
+    <ElementWrapper handleDelete={handleDelete} provided={provided} item={item} collapsed={data?.collapsed} setCollapsed={setCollapsed}>
       <div className="calculator">
         <div className="display">{input || "0"}</div>
         <div className="buttons">

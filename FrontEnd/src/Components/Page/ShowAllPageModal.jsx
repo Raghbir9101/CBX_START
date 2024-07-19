@@ -15,7 +15,8 @@ import DeleteModal from "./DeleteModal";
 import { Context } from "../Context/Context";
 import { useNavigate, useParams } from "react-router-dom";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DuplicateModal from "./DuplicateModal";
 const modalStyle = {
   position: "absolute",
   top: "300px",
@@ -38,13 +39,22 @@ const ShowAllPageModal = ({
   selectedPage,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { pages, setPages } = useContext(Context);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleOpenDeleteModal = () => {
     setOpenDeleteModal(true);
   };
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false);
+    setSelectedPage(null)
+  };
+  const [openDuplicateModal, setOpenDuplicateModal] = useState(false);
+  const handleOpenDuplicateModal = () => {
+    setOpenDuplicateModal(true);
+  };
+  const handleCloseDuplicateModal = () => {
+    setOpenDuplicateModal(false);
+    setSelectedPage(null)
   };
   const { pageID } = useParams();
   const nav = useNavigate();
@@ -145,23 +155,46 @@ const ShowAllPageModal = ({
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       {(item.role == "OWNER" || item.role == "EDITOR") && (
-                        <IconButton
-                          size="small"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditOpenModal(e);
-                            setSelectedPage(item);
-                          }}
-                        >
-                          <EditOutlinedIcon
-                            sx={{
-                              color: "#B5B5B5",
-                              width: "20px",
-                              height: "20px",
+                        <Tooltip title="Duplicate this page" arrow>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleOpenDuplicateModal(e);
+                              setSelectedPage(item);
                             }}
-                          />
-                        </IconButton>
+                          >
+                            <ContentCopyIcon
+                              sx={{
+                                color: "#B5B5B5",
+                                width: "15px",
+                                height: "15px",
+                              }}
+                            />
+                          </IconButton>
+                        </Tooltip>
                       )}
+                      {(item.role == "OWNER" || item.role == "EDITOR") &&
+                        (
+                          <Tooltip title="Edit this page" arrow>
+                            <IconButton
+                              size="small"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditOpenModal(e);
+                                setSelectedPage(item);
+                              }}
+                            >
+                              <EditOutlinedIcon
+                                sx={{
+                                  color: "#B5B5B5",
+                                  width: "20px",
+                                  height: "20px",
+                                }}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                       {(item.role == "OWNER" || item.role == "EDITOR") && (
                         <Tooltip title="Delete this page" arrow>
                           <IconButton
@@ -205,6 +238,12 @@ const ShowAllPageModal = ({
         </Box>
       </Modal>
 
+      <DuplicateModal
+        open={openDuplicateModal}
+        selectedPage={selectedPage}
+        setSelectedPage={setSelectedPage}
+        handleClose={handleCloseDuplicateModal}
+      />
       <DeleteModal
         open={openDeleteModal}
         selectedPage={selectedPage}

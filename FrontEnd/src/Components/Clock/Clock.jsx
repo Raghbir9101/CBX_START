@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import AnalogClock from "analog-clock-react";
 import { ElementWrapper } from "../Page/Page";
 
-const MyClock = ({ provided, item, handleDelete }) => {
+const MyClock = ({ provided, item, handleDelete, onChange, data }) => {
+  const [collapsed, setCollapsed] = useState(data?.collapsed);
   const options = {
     width: "100%",
     border: true,
@@ -21,9 +22,13 @@ const MyClock = ({ provided, item, handleDelete }) => {
     showNumbers: true,
     numbersColor: "#000000",
   };
+  useEffect(() => {
+    onChange({ collapsed });
+  }, [collapsed]);
+
 
   return (
-    <ElementWrapper  handleDelete={handleDelete} provided={provided} item={item}>
+    <ElementWrapper  collapsed={data?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item}>
       <div
         style={{
           width: "100%",

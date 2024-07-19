@@ -8,7 +8,7 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
     const [data, setData] = useState(parentData.html || "");
     const [editing, setEditing] = useState(false);
     const [title, setTitle] = useState(item.data.name || "");
-
+    const [collapsed, setCollapsed] = useState(parentData?.collapsed);
     // useEffect(() => {
     //     if (editing) return;
     //     onChange({ ...parentData, html: data })
@@ -84,9 +84,13 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
 
  
 
+    useEffect(() => {
+        onChange({ collapsed });
+      }, [collapsed]);
+    
 
     return (
-        <ElementWrapper handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
+        <ElementWrapper  collapsed={parentData?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
             <div>
                 {editing && texteditor}
                 {!editing && <Box className="textEditor" sx={{ cursor: "default", padding: "10px", wordWrap: "break-word", overflowWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}

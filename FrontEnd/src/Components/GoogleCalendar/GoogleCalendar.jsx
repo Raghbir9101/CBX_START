@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ElementWrapper } from "../Page/Page";
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import Save from "@mui/icons-material/Save";
 
-function GoogleCalendar({ url, provided, item, handleDelete, onChange }) {
+function GoogleCalendar({ url, provided, item, handleDelete, onChange, data }) {
     const [embedURL, setEmbedURL] = useState(url);
     const [editing, setEditing] = useState(!url ? true : false);
     const [title, setTitle] = useState(item.data.name || "");
-    // console.log("google")
+    const [collapsed, setCollapsed] = useState(data?.collapsed);
     function ActionButtons() {
         return <>
             <IconButton onClick={() => {
@@ -70,8 +70,14 @@ function GoogleCalendar({ url, provided, item, handleDelete, onChange }) {
       </IconButton> */}
         </>
     }
+
+    
+  useEffect(() => {
+    onChange({ collapsed });
+  }, [collapsed]);
+
     return (
-        <ElementWrapper handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
+        <ElementWrapper  collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
             {(!editing && url) ? <iframe
                 width="100%"
                 height={"250px"}

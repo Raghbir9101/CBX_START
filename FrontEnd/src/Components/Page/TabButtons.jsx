@@ -12,7 +12,7 @@ import gImg from "../../Icons/gImage.svg";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import axios from "axios";
 import HTTP from "../../HTTP";
-
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 const clearedPageData = [
   {
     items: [],
@@ -37,6 +37,8 @@ const TabButtons = ({
   setPageData,
   setFilteredPageData,
   setSearch,
+  collapseAllItems,
+  collapseAll
 }) => {
   const location = useLocation();
   const [searchVisible, setSearchVisible] = useState(false);
@@ -202,6 +204,22 @@ const TabButtons = ({
             gap: "20px",
           }}
         >
+          <Tooltip title="Collapse All" arrow>
+            <IconButton
+              onClick={collapseAllItems}
+              sx={{
+                boxShadow: 1,
+                background: "#fff",
+                
+                "&:hover": {
+                  boxShadow: 2,
+                  background: "#fff",
+                },
+              }}
+            >
+              <ArrowDownwardIcon sx={{ color: "#4d8733",transform: `rotate( ${!collapseAll ? "180deg" : "0deg"} )`, transition:".3s all"}} />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Reset" arrow>
             <IconButton
               onClick={handleReset}
