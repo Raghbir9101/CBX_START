@@ -19,13 +19,14 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { ElementWrapper } from "../Page/Page";
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 import Save from "@mui/icons-material/Save";
-
-function Todo({ data, onChange, provided, item, handleDelete }) {
+import toast from "react-hot-toast";
+function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
   const [tasks, setTasks] = useState(data.tasks || []);
   const [newTask, setNewTask] = useState("");
   const [completePercentage, setCompletePercentage] = useState(0);
   const [collapsed, setCollapsed] = useState(data?.collapsed);
   const handleAddTask = () => {
+    if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
     setTasks((prev) => [
       ...prev,
       {
@@ -38,6 +39,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
   };
 
   const handleDeleteTask = (id) => {
+    if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
@@ -82,7 +84,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
             }}
             flex={1}
             ref={ref}
-            // title={value || ""}
+          // title={value || ""}
           >
             {value || ""}
             {/* {truncatedValue} */}
@@ -92,7 +94,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
         <Box display={"flex"}>
           <IconButton
             onClick={() => {
-              
+              if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
               if (readOnly) {
                 setReadOnly(false);
               } else {
@@ -188,7 +190,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
     return <>
       <IconButton onClick={() => {
         setEditing(p => !p)
-        onChange({  ...data, tasks, name:title })
+        onChange({ ...data, tasks, name: title })
       }} size="small">
         {!editing ? <svg
           width="14"
@@ -216,7 +218,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
     </>
   }
   return (
-    <ElementWrapper   collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing}  handleDelete={handleDelete}
+    <ElementWrapper collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete}
       provided={provided}
       item={item}
     >
@@ -286,6 +288,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
                             <IconButton
                               size="small"
                               onClick={() => {
+                                if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
                                 setTasks((prev) => {
                                   let temp = [...prev];
                                   for (let i = 0; i < temp.length; i++) {
@@ -340,6 +343,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
                           </Box>
                           <EditableNote
                             onChange={(newValue) => {
+                              if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
                               setTasks((prev) => {
                                 let temp = [...prev];
                                 for (let i = 0; i < temp.length; i++) {
@@ -365,7 +369,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
             </Droppable>
           </DragDropContext>
         </Box>
-        <TextField
+        {(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR") && <TextField
           size="small"
           placeholder="Add new Task"
           sx={{ width: "100%", mt: "10px" }}
@@ -380,7 +384,7 @@ function Todo({ data, onChange, provided, item, handleDelete }) {
               </InputAdornment>
             ),
           }}
-        />
+        />}
       </Box>
     </ElementWrapper>
   );

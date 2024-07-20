@@ -34,6 +34,7 @@ function App() {
           return;
         }
         HTTP.get("getUserData").then(({ data: res }) => {
+
           setLoginUser(res);
           setPages(res.pages || []);
           if (splittedHref[3] == "page") {

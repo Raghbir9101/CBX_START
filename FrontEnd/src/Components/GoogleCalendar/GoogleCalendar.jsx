@@ -13,12 +13,14 @@ function ensureHTTPS(url) {
 }
 
 
-function GoogleCalendar({ url, provided, item, handleDelete, onChange, data }) {
+function GoogleCalendar({ url, provided, item, handleDelete, onChange, data, pageMetaData }) {
     const [embedURL, setEmbedURL] = useState(url);
-    const [editing, setEditing] = useState(!url ? true : false);
+    const [editing, setEditing] = useState(!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR") ? false : !url ? true : false);
+    // const [editing, setEditing] = useState(!url ? true : false);
+
     const [title, setTitle] = useState(item.data.name || "");
     const [collapsed, setCollapsed] = useState(data?.collapsed);
-    
+
     function ActionButtons() {
         return <>
             <IconButton onClick={() => {
@@ -57,7 +59,7 @@ function GoogleCalendar({ url, provided, item, handleDelete, onChange, data }) {
     }, [collapsed]);
 
     return (
-        <ElementWrapper collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
+        <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")} collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
             {(!editing && url) ? <iframe
                 width="100%"
                 height={"250px"}
@@ -83,9 +85,9 @@ function GoogleCalendar({ url, provided, item, handleDelete, onChange, data }) {
                             <b>4.</b> Embed code: Copy the embed link provided.
                         </Typography>
                     </Box>
-                    <TextField fullWidth size="small" variant="filled" label={"Enter Embed URL !"} value={embedURL} onChange={(e) => {
+                    {(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR") && <TextField fullWidth size="small" variant="filled" label={"Enter Embed URL !"} value={embedURL} onChange={(e) => {
                         setEmbedURL(e.target.value || "")
-                    }} />
+                    }} />}
                 </Box>
             }
         </ElementWrapper>

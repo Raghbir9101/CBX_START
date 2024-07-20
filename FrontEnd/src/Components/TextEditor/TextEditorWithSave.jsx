@@ -4,7 +4,7 @@ import { Box, Button, IconButton } from '@mui/material';
 import { ElementWrapper } from '../Page/Page';
 import Save from '@mui/icons-material/Save';
 
-function TextEditorWithSave({ data: parentData, onChange, provided, item, handleDelete }) {
+function TextEditorWithSave({ data: parentData, onChange, provided, item, handleDelete, pageMetaData }) {
     const [data, setData] = useState(parentData.html || "");
     const [editing, setEditing] = useState(false);
     const [title, setTitle] = useState(item.data.name || "");
@@ -90,7 +90,7 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
     
 
     return (
-        <ElementWrapper  collapsed={parentData?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
+        <ElementWrapper  editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}  collapsed={parentData?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
             <div>
                 {editing && texteditor}
                 {!editing && <Box className="textEditor" sx={{ cursor: "default", padding: "10px", wordWrap: "break-word", overflowWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}

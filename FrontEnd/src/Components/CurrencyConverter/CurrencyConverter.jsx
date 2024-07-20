@@ -6,7 +6,7 @@ import { ElementWrapper } from "../Page/Page";
 import Flag from "react-world-flags";
 import { AutoComplete, Input } from 'antd';
 
-const CurrencyConverter = ({ provided, item, handleDelete, data, onChange }) => {
+const CurrencyConverter = ({ provided, item, handleDelete, data, onChange, pageMetaData }) => {
   const [inputCurrency, setInputCurrency] = useState("EUR");
   const [outputCurrency, setOutputCurrency] = useState("USD");
   const [inputAmount, setInputAmount] = useState(1);
@@ -502,11 +502,11 @@ const CurrencyConverter = ({ provided, item, handleDelete, data, onChange }) => 
     onChange({ collapsed });
   }, [collapsed]);
 
-
+  console.log(pageMetaData)
 
   return (
     <>
-      <ElementWrapper handleDelete={handleDelete} provided={provided} item={item}  collapsed={data?.collapsed} setCollapsed={setCollapsed}>
+      <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}  handleDelete={handleDelete} provided={provided} item={item}  collapsed={data?.collapsed} setCollapsed={setCollapsed}>
         <div className="currency-converter">
           <div className="currency">
             <Flag

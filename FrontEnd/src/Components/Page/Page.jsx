@@ -78,7 +78,7 @@ function Page() {
 
     setPageData(p => {
       let temp = [...p];
-      
+
       for (let i = 0; i < temp.length; i++) {
         let items = [...(temp[i].items || [])];
         for (let j = 0; j < items.length; j++) {
@@ -148,7 +148,7 @@ function Page() {
 
   useEffect(() => {
     if (!loginUser || !token || pageID == "undefined" || !pageID) return;
-    if(!pageData || (pageData || []).length == 0) return
+    if (!pageData || (pageData || []).length == 0) return
     let tempPageData = findByID(pages, pageID);
     if (loginUser) {
       if (tempPageData.role != "EDITOR" && tempPageData.role != "OWNER") return;
@@ -205,6 +205,8 @@ function Page() {
     setFilteredPageData(tempFilteredObj);
   }, [pageData, filters, search]);
 
+  console.log(pageMetaData)
+
   return (
     <>
       <Box paddingBottom={"100px"} bgcolor={"#f4f4f4"}>
@@ -217,7 +219,7 @@ function Page() {
         />
         <Box sx={{ bgcolor: "#f4f4f4" }}>
           <TabButtons
-          collapseAll={collapseAll}
+            collapseAll={collapseAll}
             collapseAllItems={collapseAllItems}
             setPageData={setPageData}
             setFilteredPageData={setFilteredPageData}
@@ -293,6 +295,7 @@ function Page() {
                                     if (item.type == "Calculator") {
                                       return (
                                         <Calculator
+                                          pageMetaData={pageMetaData}
                                           handleDelete={() => {
                                             if (
                                               pageMetaData.role != "OWNER" &&
@@ -325,6 +328,7 @@ function Page() {
                                     } else if (item.type == "Note") {
                                       return (
                                         <TextEditorWithSave
+                                          pageMetaData={pageMetaData}
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
@@ -357,6 +361,7 @@ function Page() {
                                     } else if (item.type == "Clock") {
                                       return (
                                         <Clock
+                                          pageMetaData={pageMetaData}
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
@@ -389,6 +394,7 @@ function Page() {
                                     } else if (item.type == "Todo") {
                                       return (
                                         <Todo
+                                          pageMetaData={pageMetaData}
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
@@ -421,6 +427,7 @@ function Page() {
                                     } else if (item.type == "Bookmark") {
                                       return (
                                         <Bookmark
+                                          pageMetaData={pageMetaData}
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
@@ -453,6 +460,7 @@ function Page() {
                                     } else if (item.type == "Embed") {
                                       return (
                                         <Embed
+                                          pageMetaData={pageMetaData}
                                           setPageData={setPageData}
                                           handleDelete={() => {
                                             if (
@@ -487,6 +495,7 @@ function Page() {
                                     } else if (item.type == "Google Calendar") {
                                       return (
                                         <GoogleCalendar
+                                          pageMetaData={pageMetaData}
                                           setPageData={setPageData}
                                           handleDelete={() => {
                                             if (
@@ -523,6 +532,7 @@ function Page() {
                                     ) {
                                       return (
                                         <CurrencyConverter
+                                          pageMetaData={pageMetaData}
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
@@ -687,7 +697,8 @@ export function ElementWrapper({
   editing,
   handleTitleChange,
   collapsed,
-  setCollapsed
+  setCollapsed,
+  editable
 }) {
   // const [open, setOpen] = useState(true);
   const contentRef = useRef(null);
@@ -764,7 +775,7 @@ export function ElementWrapper({
           right={0}
           bgcolor={"white"}
         >
-          <IconButton size="small" onClick={() => setCollapsed((p) => !p)}>
+         {editable && <> <IconButton size="small" onClick={() => setCollapsed((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton>
           {/* <IconButton size="small" onClick={() => setOpen((p) => !p)}>
@@ -783,7 +794,7 @@ export function ElementWrapper({
               />
               {/* <Delete sx={{ width: "16px", height: "16px" }} /> */}
             </IconButton>
-          </Tooltip>
+          </Tooltip></>}
         </Box>
       </Box>
       {/* {open && (

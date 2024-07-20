@@ -89,7 +89,7 @@ async function extractWebsiteData(url) {
                 break;
             }
         }
-        console.log(favicon)
+
         try {
             let browkenLinkCheck = await fetch(favicon)
             if (!browkenLinkCheck.ok || favicon == "") {
@@ -116,7 +116,6 @@ function normalizeUrl(urlString, baseUrl) {
 }
 
 app.post("/api/getSiteData", async (req, res) => {
-    console.log(req.body.url);
     let data = await extractWebsiteData(req.body.url || "")
     return res.send(data)
 })
@@ -141,10 +140,24 @@ import { authenticateToken, authenticateTokenAndReturnUser } from './Authorizati
 app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, res) => {
 
     let page = await PagesModel.findOne({ _id: req.params.pageID }).lean();
-    if(!page) return res.send({error:"Page does not exist !"})
+    if (!page) return res.send({ error: "Page does not exist !" })
     let role = "NONE";
     if (req?.user?._id == page?.userID) {
         role = "OWNER";
+    }
+    else if (req.login) {
+        for (let i of page.collaborators) {
+            if (req.user._id == page.userID) {
+                role = "OWNER";
+                break
+            }
+            if (i.email == req.user.email) {
+                role = (i.role || "").toUpperCase();
+                break
+            }
+        }
+
+        page = { ...page, role }
     }
     if (page.visibility == "PUBLIC") {
         return res.send({ ...page, role })
@@ -161,20 +174,20 @@ app.get("/api/getPageData/:pageID", authenticateTokenAndReturnUser, async (req, 
         }
         return res.send({ error: "Please enter password", errorCode: "ENTER_PASSWORD" })
     }
-    else if (req.login && page.visibility == "PRIVATE") {
-        for (let i of page.collaborators) {
-            if (req.user._id == page.userID) {
-                role = "OWNER";
-                break
-            }
-            if (i.email == req.user.email) {
-                role = i.role;
-                break
-            }
-        }
+    // else if (req.login) {
+    //     for (let i of page.collaborators) {
+    //         if (req.user._id == page.userID) {
+    //             role = "OWNER";
+    //             break
+    //         }
+    //         if (i.email == req.user.email) {
+    //             role = i.role;
+    //             break
+    //         }
+    //     }
 
-        page = { ...page, role }
-    }
+    //     page = { ...page, role }
+    // }
 
     if ((req.login && req.user._id == page.userID) || role != "NONE") {
         return res.send({ ...page, role })
@@ -201,7 +214,7 @@ app.get("/api/getUserData", authenticateToken, async (req, res) => {
             const collaborator = page.collaborators.find(c => c.email === req.user.email);
             return {
                 ...page.toObject(),
-                role: collaborator.role
+                role: (collaborator.role || "").toUpperCase()
             };
         });
 
@@ -317,7 +330,7 @@ app.get('/auth/google/callback', async (req, res) => {
                 const collaborator = page.collaborators.find(c => c.email === existingUser.email);
                 return {
                     ...page.toObject(),
-                    role: collaborator.role
+                    role: (collaborator.role || "").toUpperCase()
                 };
             });
 

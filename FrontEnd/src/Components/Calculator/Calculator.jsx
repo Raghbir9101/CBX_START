@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./calculator.css";
 import { ElementWrapper } from "../Page/Page";
 
-const App = ({ provided, item, handleDelete, onChange, data }) => {
+const App = ({ provided, item, handleDelete, onChange, data, pageMetaData }) => {
   const [input, setInput] = useState("");
   const [collapsed, setCollapsed] = useState(data?.collapsed);
 
@@ -43,7 +43,7 @@ const App = ({ provided, item, handleDelete, onChange, data }) => {
   }, [collapsed]);
 
   return (
-    <ElementWrapper handleDelete={handleDelete} provided={provided} item={item} collapsed={data?.collapsed} setCollapsed={setCollapsed}>
+    <ElementWrapper   editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}   handleDelete={handleDelete} provided={provided} item={item} collapsed={data?.collapsed} setCollapsed={setCollapsed}>
       <div className="calculator">
         <div className="display">{input || "0"}</div>
         <div className="buttons">
