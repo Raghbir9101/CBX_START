@@ -501,9 +501,7 @@ const CurrencyConverter = ({ provided, item, handleDelete, data, onChange, pageM
   useEffect(() => {
     onChange({ collapsed });
   }, [collapsed]);
-
-  console.log(pageMetaData)
-
+  
   return (
     <>
       <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}  handleDelete={handleDelete} provided={provided} item={item}  collapsed={data?.collapsed} setCollapsed={setCollapsed}>

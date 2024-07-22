@@ -187,7 +187,7 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <IconButton onClick={handleOpenPasswordModal}>
+                <IconButton onClick={handleOpenPasswordModal} disabled={formData.visibility != "PASSWORD_PROTECTED"}>
                   <HttpsOutlinedIcon color="#989696" />
                 </IconButton>
                 <IconButton onClick={handleOpenCollaboratorModal}>

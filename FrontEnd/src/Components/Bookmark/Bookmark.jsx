@@ -132,7 +132,7 @@ function Bookmark({ data, onChange, provided, item, handleDelete, pageMetaData }
 
 
   return (
-    <ElementWrapper   editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}  collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
+    <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")} collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete} provided={provided} item={item}>
       <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="links">
@@ -150,7 +150,7 @@ function Bookmark({ data, onChange, provided, item, handleDelete, pageMetaData }
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <LinkComponent  editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}  item={item} setLinks={setLinks} />
+                        <LinkComponent editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")} item={item} setLinks={setLinks} />
                       </Box>
                     )}
                   </Draggable>
@@ -260,6 +260,7 @@ function LinkComponent({ item, setLinks, editable }) {
             display: "flex",
             alignItems: "center",
             gap: "10px",
+            width: "80%"
           }}
         >
           <img
@@ -270,10 +271,11 @@ function LinkComponent({ item, setLinks, editable }) {
           />
           {
             readOnly ?
-              <Typography>
-                {(item.name || siteData.name || item.link || "").length > 15
+              <Typography width={"calc( 100% - 10px)"} sx={{ textWrap: "nowrap", overflow: "hidden" }}>
+                {/* {(item.name || siteData.name || item.link || "").length > 15
                   ? `${(item.name || siteData.name || "").slice(0, 15)}...`
-                  : item.name || siteData.name || ""}
+                  : item.name || siteData.name || ""} */}
+                {(item.name || siteData.name || item.link || "")}
               </Typography> :
               // <Typography  spellCheck="false" onClick={(e) => e.stopPropagation()} sx={{ cursor: "text", outline: "none", width:"100%", overflow:"hidden" }} ref={ref} contentEditable={!readOnly}>
               //   {item.name || siteData.name || ""}
@@ -283,7 +285,10 @@ function LinkComponent({ item, setLinks, editable }) {
               </input>
           }
         </Box>
-        <Box display={"flex"}>
+
+
+
+        <Box display={"flex"} bgcolor={"white"}>
           {editable && <>
             <IconButton
               onClick={(e) => {

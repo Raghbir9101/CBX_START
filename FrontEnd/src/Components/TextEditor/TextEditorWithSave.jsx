@@ -17,7 +17,7 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
         return <>
             <IconButton onClick={() => {
                 setEditing(p => !p);
-                onChange({ ...parentData, name:title, html: data })
+                onChange({ ...parentData, name: title, html: data })
             }} size="small">
                 {!editing ? <svg
                     width="14"
@@ -82,15 +82,15 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
         }} provided={provided} item={item} />
     }, [parentData])
 
- 
+
 
     useEffect(() => {
-        onChange({ collapsed });
-      }, [collapsed]);
-    
+        onChange({ ...parentData, name: title, html: data, collapsed });
+    }, [collapsed]);
+
 
     return (
-        <ElementWrapper  editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}  collapsed={parentData?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
+        <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")} collapsed={parentData?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
             <div>
                 {editing && texteditor}
                 {!editing && <Box className="textEditor" sx={{ cursor: "default", padding: "10px", wordWrap: "break-word", overflowWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}

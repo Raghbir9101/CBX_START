@@ -33,6 +33,7 @@ import Delete from "@mui/icons-material/Delete";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import GoogleCalendar from "../GoogleCalendar/GoogleCalendar";
 import axios from "axios";
+import HorizontalResizableDiv from "./Resize";
 
 const modalStyle = {
   position: "absolute",
@@ -205,8 +206,6 @@ function Page() {
     setFilteredPageData(tempFilteredObj);
   }, [pageData, filters, search]);
 
-  console.log(pageMetaData)
-
   return (
     <>
       <Box paddingBottom={"100px"} bgcolor={"#f4f4f4"}>
@@ -239,21 +238,27 @@ function Page() {
               <Box
                 display={"flex"}
                 minHeight={"50vh"}
-                justifyContent={"space-evenly"}
+                // justifyContent={"space-evenly"}
+                pr={"20px"}
                 gap={"20px"}
+                sx={{ overflowX: "auto" }}
               >
                 {filteredPageData.map((box, boxIndex) => (
-                  <Droppable droppableId={`${boxIndex}`} key={boxIndex}>
+                  <Droppable className="columns" droppableId={`${boxIndex}`} key={boxIndex}>
                     {(provided) => (
                       <Box
-                        maxWidth={
-                          pageData.length == 5
-                            ? "19%"
-                            : pageData.length == 3
-                              ? "33.33%"
-                              : "50%"
-                        }
-                        width={
+                        className="columns"
+                        flexShrink={0}
+                        id={`${boxIndex}`}
+                        position={"relative"}
+                        // maxWidth={
+                        //   pageData.length == 5
+                        //     ? "19%"
+                        //     : pageData.length == 3
+                        //       ? "33.33%"
+                        //       : "50%"
+                        // }
+                        width={ box?.width ? box.width : 
                           pageData.length == 5
                             ? "19%"
                             : pageData.length == 3
@@ -570,7 +575,17 @@ function Page() {
                             </Draggable>
                           );
                         })}
-                        {provided.placeholder}
+                        {/* {provided.placeholder} */}
+                        <HorizontalResizableDiv columnId={boxIndex} onResize={(width) => {
+                          setPageData(p=>{
+                            let temp = [...p];
+                            temp[boxIndex].width = width;
+                            return temp
+                          })
+                        }} />
+                        {/* <Box height={"100%"} border={"2px solid gray"} position={"absolute"} right={"-10px"} sx={{cursor:"col-resize"}} >
+
+                        </Box> */}
                       </Box>
                     )}
                   </Droppable>
@@ -721,6 +736,7 @@ export function ElementWrapper({
       overflow={"hidden"}
       bgcolor={"white"}
       p={1}
+
     >
       <Box
         {...provided.dragHandleProps}
@@ -775,26 +791,26 @@ export function ElementWrapper({
           right={0}
           bgcolor={"white"}
         >
-         {editable && <> <IconButton size="small" onClick={() => setCollapsed((p) => !p)}>
+          {editable && <> <IconButton size="small" onClick={() => setCollapsed((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton>
-          {/* <IconButton size="small" onClick={() => setOpen((p) => !p)}>
+            {/* <IconButton size="small" onClick={() => setOpen((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton> */}
-          {!!ActionButtons && <ActionButtons />}
-          <Tooltip title="Delete" arrow>
-            <IconButton
-              size="small"
-              onClick={() => {
-                handleDelete();
-              }}
-            >
-              <DeleteOutlineOutlinedIcon
-                sx={{ width: "18px", height: "18px" }}
-              />
-              {/* <Delete sx={{ width: "16px", height: "16px" }} /> */}
-            </IconButton>
-          </Tooltip></>}
+            {!!ActionButtons && <ActionButtons />}
+            <Tooltip title="Delete" arrow>
+              <IconButton
+                size="small"
+                onClick={() => {
+                  handleDelete();
+                }}
+              >
+                <DeleteOutlineOutlinedIcon
+                  sx={{ width: "18px", height: "18px" }}
+                />
+                {/* <Delete sx={{ width: "16px", height: "16px" }} /> */}
+              </IconButton>
+            </Tooltip></>}
         </Box>
       </Box>
       {/* {open && (

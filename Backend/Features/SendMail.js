@@ -10,7 +10,7 @@ function generateOTP(length) {
 }
 
 
-function sendEmails(htmlContent = "", emailArray = [], sub="") {
+function sendEmails(htmlContent = "", emailArray = [], sub = "") {
 
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -288,6 +288,10 @@ let userCreateEmailAdmin = (adminName, userName, userEmail) => {
                     <div class="user-info">
                         <p><strong>Name:</strong> ${userName}</p>
                         <p><strong>Email:</strong> ${userEmail}</p>
+                        <p>
+                            Click here
+                            <a href="https://start.ceoitbox.com/AdminPanel" target="_blank"> https://start.ceoitbox.com/AdminPanel </a>
+                        </p>
                       <p>
                   
                     </p>
@@ -303,4 +307,4 @@ let userCreateEmailAdmin = (adminName, userName, userEmail) => {
 
 
 export { sendEmails, userApproveEmail, userCreateEmail, userCreateEmailAdmin }
-  //  <a href="https://www.CBXSTART.in/users" target="_blank"> https://www.CBXSTART.in/users </a>
+//  <a href="https://www.CBXSTART.in/users" target="_blank"> https://www.CBXSTART.in/users </a>

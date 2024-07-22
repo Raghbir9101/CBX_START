@@ -68,7 +68,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
 
 
     return (
-      <>
+      <Box display={"flex"} flex={1} justifyContent={"space-between"}>
         <Tooltip title={value.length > 14 ? value : ""} arrow>
           <Typography
             onDoubleClick={() => setReadOnly(false)}
@@ -179,7 +179,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
             </svg>
           </IconButton>
         </Box>
-      </>
+      </Box>
     );
   }
 
@@ -275,11 +275,11 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
                           {...provided.dragHandleProps}
                           display={"flex"}
                           alignItems={"center"}
-                          justifyContent={"space-between"}
+                          // justifyContent={"space-between"}
                           maxWidth={"100%"}
                         >
                           <Box
-                            width={"20%"}
+                            // width={"20%"}
                             sx={{ display: "flex", alignItems: "center" }}
                           >
                             <DragIndicatorOutlinedIcon
