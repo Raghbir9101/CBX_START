@@ -108,19 +108,6 @@ const Navbar = ({
       }
       return temp;
     });
-
-    // let { data: res } = await HTTP.put(`pages/${pageID}`, pageData);
-    // if (res.error) return alert(res.error || "Internal Server Error!");
-
-    // setPages((p) => {
-    //   let temp = [...p];
-    //   for (let i = 0; i < temp.length; i++) {
-    //     if (temp[i]._id == pageID) {
-    //       temp[i] = res;
-    //     }
-    //   }
-    //   return temp;
-    // });
   };
 
   // Menu
@@ -191,7 +178,6 @@ const Navbar = ({
         {token && (
           <Box width={"33%"} display={"flex"} justifyContent={"center"}>
             <Button
-              // onClick={handleOpenModal}
               onClick={handleOpenAllPagesModal}
               className="pageNameBtn"
               endIcon={<KeyboardArrowDownIcon />}
@@ -232,9 +218,17 @@ const Navbar = ({
                 }}
                 startIcon={
                   popoverAnchorEl ? (
-                    <img src={pluss} alt="add" />
+                    <img
+                      src={pluss}
+                      alt="add"
+                      style={{ width: "14px", height: "14px" }}
+                    />
                   ) : (
-                    <img src={plus} alt="add" />
+                    <img
+                      src={plus}
+                      alt="add"
+                      style={{ width: "14px", height: "14px" }}
+                    />
                   )
                 }
                 variant="outlined"
@@ -254,7 +248,7 @@ const Navbar = ({
               }}
             >
               <img
-                // style={{ width: "28px", height: "28px" }}
+                style={{ width: "20px", height: "20px" }}
                 src={searchIcon}
                 alt="search"
               />
@@ -270,7 +264,7 @@ const Navbar = ({
               onClick={handleOpenShareModal}
             >
               <img
-                style={{ width: "28px", height: "28px" }}
+                style={{ width: "22px", height: "22px" }}
                 src={share}
                 alt="share"
               />
@@ -288,8 +282,8 @@ const Navbar = ({
                 style={{
                   objectFit: "cover",
                   borderRadius: "100%",
-                  width: "40px",
-                  height: "40px",
+                  width: "30px",
+                  height: "30px",
                   cursor: "pointer",
                 }}
                 src={loginUser?.photo || ""}
@@ -309,6 +303,7 @@ const Navbar = ({
         sx={{
           ".MuiPaper-root": {
             borderRadius: "16px",
+            mt: "10px",
           },
         }}
       >

@@ -148,9 +148,6 @@ const Item = ({ icon, label, name, setPageData, defaultObj }) => (
   <Box
     onClick={() => {
       setPageData((p) => {
-        // console.log(addObjectToShortestArray([...p], defaultObj))
-        // return p
-        // console.log(defaultObj)
         return addObjectToShortestArray([...p], { ...defaultObj, id: v4() });
       });
 
@@ -182,7 +179,7 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
     <Popover
       sx={{
         borderRadius: "16px",
-        mt: "18px",
+        mt: "10px",
         width: "320px",
         height: "auto",
         "& .MuiPaper-root": {
@@ -214,6 +211,20 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
           }}
         >
           <Box
+            onClick={() => {
+              setPageData((p) => {
+                return addObjectToShortestArray([...p], {
+                  ...{
+                    type: "Note",
+                    data: {
+                      name: "Note",
+                      html: "",
+                      collapsed: true,
+                    },
+                  }, id: v4()
+                });
+              });
+            }}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -244,7 +255,22 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
               Note
             </Typography>
           </Box>
+
           <Box
+            onClick={() => {
+              setPageData((p) => {
+                return addObjectToShortestArray([...p], {
+                  ...{
+                    type: "Todo",
+                    data: {
+                      name: "Todo List",
+                      tasks: [],
+                      collapsed: true,
+                    },
+                  }, id: v4()
+                });
+              });
+            }}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -276,7 +302,22 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
               To do List
             </Typography>
           </Box>
+
           <Box
+            onClick={() => {
+              setPageData((p) => {
+                return addObjectToShortestArray([...p], {
+                  ...{
+                    type: "Bookmark",
+                    data: {
+                      name: "My Links",
+                      URLs: [],
+                      collapsed: true,
+                    },
+                  }, id: v4()
+                });
+              });
+            }}
             sx={{
               display: "flex",
               flexDirection: "column",
