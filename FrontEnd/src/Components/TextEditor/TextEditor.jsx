@@ -588,7 +588,7 @@ export default function TextEditor({ data, setData }) {
         }
     }
     return <Box padding={"10px"}>
-        <Box ref={ref} onKeyUp={(e) => setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px" }}>
+        <Box ref={ref}  onKeyUp={(e) => setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px", cursor:"text" }}>
 
         </Box>
         <FormattingOptions handleHTMLChange={handleHTMLChange} />

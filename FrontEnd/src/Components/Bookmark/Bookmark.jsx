@@ -184,7 +184,7 @@ function Bookmark({ data, onChange, provided, item, handleDelete, pageMetaData }
 }
 
 function LinkComponent({ item, setLinks, editable }) {
-  const [siteData, setSiteData] = useState({ ...item });
+  const [siteData, setSiteData] = useState({ ...item, favicon: item.favicon ? item.favicon : `https://s2.googleusercontent.com/s2/favicons?domain=${item.link}/&size=30px` });
   const [readOnly, setReadOnly] = useState(true);
   const ref = useRef(null);
 
