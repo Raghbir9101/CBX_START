@@ -81,6 +81,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
               outline: "none",
               cursor: readOnly ? "drag" : "text",
               overflow: "hidden",
+              flexShrink:0
             }}
             flex={1}
             ref={ref}
@@ -91,7 +92,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
           </Typography>
         </Tooltip>
 
-        <Box display={"flex"}>
+        <Box display={"flex"} flexShrink={0}>
           <IconButton
             onClick={() => {
               if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
@@ -218,7 +219,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
     </>
   }
   return (
-    <ElementWrapper collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete}
+    <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")} collapsed={data?.collapsed} setCollapsed={setCollapsed} handleTitleChange={(val) => setTitle(val)} ActionButtons={ActionButtons} editing={editing} handleDelete={handleDelete}
       provided={provided}
       item={item}
     >

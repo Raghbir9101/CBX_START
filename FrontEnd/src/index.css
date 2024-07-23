@@ -10,10 +10,9 @@
 .resizeLineShow{
     display: flex !important;
 }
-*{
+/* *{
     flex-shrink: 0 !important;
-    /* user-select:unset; */
-}
+} */
 
 .hideChildrens * :not(resizeLine){
     display: none !important;
