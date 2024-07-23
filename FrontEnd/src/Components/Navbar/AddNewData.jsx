@@ -182,7 +182,7 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
     <Popover
       sx={{
         borderRadius: "16px",
-        mt: "18px",
+        mt: "10px",
         width: "320px",
         height: "auto",
         "& .MuiPaper-root": {
