@@ -44,13 +44,19 @@ const AdminNavbar = () => {
               gap: "30px",
             }}
           >
-            <Box onClick={handleClickMenu}>
+            <Box
+              onClick={handleClickMenu}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <img
                 style={{
                   objectFit: "cover",
                   borderRadius: "100%",
-                  width: "40px",
-                  height: "40px",
+                  width: "30px",
+                  height: "30px",
                   cursor: "pointer",
                 }}
                 src={loginUser?.photo || ""}
