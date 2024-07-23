@@ -16,22 +16,27 @@ function HorizontalResizableDiv({ columnId, onResize }) {
 
                 const mouseMoved = event.clientX - startX;
                 const newWidth = startWidth + mouseMoved;
-
+                if(newWidth < 200) {
+                    newWidth = 200
+                }
                 domElement.style.width = `${newWidth}px`;
             }
         };
 
         const handleMouseUp = (event) => {
             // const domElements = document.getElementsByClassName(field);
+            ref.current.classList.remove("resizeLineShow")
             const domElement = document.getElementById(columnId);
             setResizing(false);
             const mouseMoved = event.clientX - startX;
             const newParentWidth = parentStartWidth + mouseMoved;
+            if(newParentWidth < 200) {
+                newParentWidth = 200
+            }
             domElement.style.width = `${newParentWidth}px`;
 
             document.body.style.userSelect = "unset"
             // domElement.classList.remove("hideChildrens")
-            ref.current.classList.remove("resizeLineShow")
             onResize(`${newParentWidth}px`)
         };
 
