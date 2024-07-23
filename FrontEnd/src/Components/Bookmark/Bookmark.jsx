@@ -253,6 +253,7 @@ function LinkComponent({ item, setLinks, editable }) {
           justifyContent: "space-between",
           gap: "10px",
           width: "100%",
+          position:"relative"
         }}
       >
         <Box
@@ -260,7 +261,8 @@ function LinkComponent({ item, setLinks, editable }) {
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            width: "80%"
+            // width: "80%"
+            overflow:"hidden"
           }}
         >
           <img
@@ -271,7 +273,7 @@ function LinkComponent({ item, setLinks, editable }) {
           />
           {
             readOnly ?
-              <Typography width={"calc( 100% - 10px)"} sx={{ textWrap: "nowrap", overflow: "hidden" }}>
+              <Typography  sx={{ textWrap: "nowrap", overflow: "hidden" }}>
                 {/* {(item.name || siteData.name || item.link || "").length > 15
                   ? `${(item.name || siteData.name || "").slice(0, 15)}...`
                   : item.name || siteData.name || ""} */}
@@ -288,7 +290,7 @@ function LinkComponent({ item, setLinks, editable }) {
 
 
 
-        <Box display={"flex"} bgcolor={"white"}>
+        <Box display={"flex"} bgcolor={"white"}  position={"absolute"} right={0}>
           {editable && <>
             <IconButton
               onClick={(e) => {

@@ -66,22 +66,23 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
     const [readOnly, setReadOnly] = useState(true);
     const ref = useRef(null);
 
-
     return (
-      <Box display={"flex"} flex={1} justifyContent={"space-between"}>
+      <Box display={"flex"} width={"100%"}>
         <Tooltip title={value.length > 14 ? value : ""} arrow>
           <Typography
+            overflow={"hidden"}
             onDoubleClick={() => setReadOnly(false)}
             contentEditable={!readOnly}
             style={{ textDecoration: completed ? "line-through" : "none" }}
             whiteSpace={"wrap"}
-            maxWidth={"70%"}
+            width={"100%"}
+            // maxWidth={"70%"}
             sx={{
               textWrap: "nowrap",
               outline: "none",
               cursor: readOnly ? "drag" : "text",
               overflow: "hidden",
-              flexShrink:0
+              flexShrink: 0
             }}
             flex={1}
             ref={ref}
@@ -92,7 +93,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
           </Typography>
         </Tooltip>
 
-        <Box display={"flex"} flexShrink={0}>
+        <Box display={"flex"} flexShrink={0} position={"absolute"} right={0} bgcolor={"white"}>
           <IconButton
             onClick={() => {
               if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
@@ -223,14 +224,14 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
       provided={provided}
       item={item}
     >
-      <Box minHeight={"50px"} p={"10px"} width={"100%"}>
-        <Box display={"flex"} gap={"10px"} alignItems={"center"}>
+      <Box minHeight={"50px"} p={"10px"} width={"100%"} flexShrink={0}>
+        <Box display={"flex"} gap={"10px"} alignItems={"center"} flexShrink={0}>
           <Box
             flex={1}
             height={"30px"}
             bgcolor={"rgba(240,240,240)"}
             borderRadius={"30px"}
-            position={"relative"}
+            position={"relative"} flexShrink={0}
           >
             <Typography
               style={{ mixBlendMode: "difference" }}
@@ -240,7 +241,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
               color={"#65772a"}
               display={"flex"}
               justifyContent={"center"}
-              alignItems={"center"}
+              alignItems={"center"} flexShrink={0}
             >
               {completePercentage.toFixed(2)}%
             </Typography>
@@ -250,7 +251,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
               height={"100%"}
               borderRadius={"30px"}
               width={`${completePercentage}%`}
-              bgcolor={"#B4D33B"}
+              bgcolor={"#B4D33B"} flexShrink={0}
             ></Box>
           </Box>
         </Box>
@@ -261,7 +262,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
                 <Box
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
+                  sx={{ display: "flex", flexDirection: "column", gap: "5px", width: "100%" }}
                 >
                   {tasks.map((item, index) => (
                     <Draggable
@@ -277,7 +278,8 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
                           display={"flex"}
                           alignItems={"center"}
                           // justifyContent={"space-between"}
-                          maxWidth={"100%"}
+                          position={"relative"}
+                          width={"100%"}
                         >
                           <Box
                             // width={"20%"}
@@ -342,24 +344,27 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
                               )}
                             </IconButton>
                           </Box>
-                          <EditableNote
-                            onChange={(newValue) => {
-                              if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
-                              setTasks((prev) => {
-                                let temp = [...prev];
-                                for (let i = 0; i < temp.length; i++) {
-                                  if (temp[i]._id === item._id) {
-                                    temp[i].task = newValue;
-                                    break;
+                          <Box width={"80%"} overflow={"hidden"}>
+                            <EditableNote
+                              onChange={(newValue) => {
+                                if (!(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")) return toast.error("You dont have edit rights !")
+                                setTasks((prev) => {
+                                  let temp = [...prev];
+                                  for (let i = 0; i < temp.length; i++) {
+                                    if (temp[i]._id === item._id) {
+                                      temp[i].task = newValue;
+                                      break;
+                                    }
                                   }
-                                }
-                                return temp;
-                              });
-                            }}
-                            item={item}
-                            completed={item.completed}
-                            value={item.task}
-                          />
+                                  return temp;
+                                });
+                              }}
+                              item={item}
+                              completed={item.completed}
+                              value={item.task}
+                            />
+                          </Box>
+
                         </Box>
                       )}
                     </Draggable>
