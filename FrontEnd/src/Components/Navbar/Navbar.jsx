@@ -264,7 +264,7 @@ const Navbar = ({
               onClick={handleOpenShareModal}
             >
               <img
-                style={{ width: "22px", height: "22px" }}
+                style={{ width: "20px", height: "22px" }}
                 src={share}
                 alt="share"
               />
@@ -282,8 +282,8 @@ const Navbar = ({
                 style={{
                   objectFit: "cover",
                   borderRadius: "100%",
-                  width: "30px",
-                  height: "30px",
+                  width: "22px",
+                  height: "22px",
                   cursor: "pointer",
                 }}
                 src={loginUser?.photo || ""}

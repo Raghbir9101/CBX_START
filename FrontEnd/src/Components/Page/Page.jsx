@@ -241,11 +241,11 @@ function Page() {
           />
           <Box
             minHeight={"100vh"}
-            p={"10px"}
             width={"100%"}
             gap={"40px"}
             display={"flex"}
             flexDirection={"column"}
+            sx={{ p: "0px 10px 10px 10px" }}
           >
             <DragDropContext onDragEnd={onDragEnd}>
               <Box
@@ -260,7 +260,7 @@ function Page() {
                   <Droppable
                     className="columns"
                     droppableId={`${boxIndex}`}
-                    key={boxIndex+pageID}
+                    key={boxIndex + pageID}
                   >
                     {(provided) => (
                       <Box

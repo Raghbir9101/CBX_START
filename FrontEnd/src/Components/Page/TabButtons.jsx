@@ -112,9 +112,9 @@ const TabButtons = ({
           justifyContent: "center",
           alignItems: "center",
           gap: "25px",
-          p: "20px",
           flexWrap: "wrap",
           position: "relative",
+          p: "10px 0px 0px 0px",
         }}
       >
         <Button
@@ -131,10 +131,11 @@ const TabButtons = ({
           }}
           startIcon={
             <IconButton
+              size="small"
               className={filters["Note"] ? "isActiveIcons" : "iconBtns"}
-              sx={{ p: "4px", mr: 1 }}
+              sx={{ mr: "2px" }}
             >
-              <TextSnippetOutlinedIcon sx={{ width: "16px", height: "16px" }} />
+              <TextSnippetOutlinedIcon sx={{ width: "14px", height: "14px" }} />
             </IconButton>
           }
         >
@@ -156,11 +157,12 @@ const TabButtons = ({
             className={filters["Todo"] ? "isActive" : "headingBtns"}
             startIcon={
               <IconButton
+                size="small"
                 className={filters["Todo"] ? "isActiveIcons" : "iconBtns"}
-                sx={{ p: "4px", mr: 1 }}
+                sx={{ mr: "2px" }}
               >
                 <FormatListBulletedOutlinedIcon
-                  sx={{ width: "16px", height: "16px" }}
+                  sx={{ width: "14px", height: "14px" }}
                 />
               </IconButton>
             }
@@ -183,10 +185,11 @@ const TabButtons = ({
           className={filters["Bookmark"] ? "isActive" : "headingBtns"}
           startIcon={
             <IconButton
+              size="small"
               className={filters["Bookmark"] ? "isActiveIcons" : "iconBtns"}
-              sx={{ p: "4px", mr: 1 }}
+              sx={{ mr: "2px" }}
             >
-              <LinkOffOutlinedIcon sx={{ width: "16px", height: "16px" }} />
+              <LinkOffOutlinedIcon sx={{ width: "14px", height: "14px" }} />
             </IconButton>
           }
         >
@@ -206,6 +209,7 @@ const TabButtons = ({
         >
           <Tooltip title="Collapse All" arrow>
             <IconButton
+              size="small"
               onClick={collapseAllItems}
               sx={{
                 boxShadow: 1,
@@ -219,6 +223,8 @@ const TabButtons = ({
             >
               <ArrowDownwardIcon
                 sx={{
+                  width: "16px",
+                  height: "16px",
                   color: "#4d8733",
                   transform: `rotate( ${!collapseAll ? "180deg" : "0deg"} )`,
                   transition: ".3s all",
@@ -228,6 +234,7 @@ const TabButtons = ({
           </Tooltip>
           <Tooltip title="Reset" arrow>
             <IconButton
+              size="small"
               onClick={handleReset}
               sx={{
                 boxShadow: 1,
@@ -238,12 +245,15 @@ const TabButtons = ({
                 },
               }}
             >
-              <RestartAltIcon sx={{ color: "#4d8733" }} />
+              <RestartAltIcon
+                sx={{ color: "#4d8733", width: "16px", height: "16px" }}
+              />
             </IconButton>
           </Tooltip>
           {!searchVisible && (
             <Tooltip title="Google Search" arrow>
               <IconButton
+                size="small"
                 onClick={handleSearchClick}
                 sx={{
                   background: "#fff",
@@ -255,7 +265,7 @@ const TabButtons = ({
                 }}
               >
                 <img
-                  style={{ width: "25px", height: "25px" }}
+                  style={{ width: "16px", height: "16px" }}
                   src={gImg}
                   alt="search"
                 />
@@ -272,6 +282,7 @@ const TabButtons = ({
             alignItems: "center",
             width: "100%",
             position: "relative",
+            pt: "10px",
           }}
           ref={searchInputRef}
         >
