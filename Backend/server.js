@@ -93,15 +93,15 @@ async function extractWebsiteData(url) {
         try {
             let browkenLinkCheck = await fetch(favicon)
             if (!browkenLinkCheck.ok || favicon == "") {
-                favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=30px`
+                favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=50px`
             }
         } catch (error) {
-            favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=30px`
+            favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=50px`
         }
         return { name: title, favicon, description };
     } catch (error) {
         console.error('Error extracting website data:', error.message);
-        return ({ name: url, favicon: `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=30px`, description: url });
+        return ({ name: url, favicon: `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=50px`, description: url });
     }
 }
 
