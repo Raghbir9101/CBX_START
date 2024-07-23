@@ -112,7 +112,7 @@ const TabButtons = ({
           justifyContent: "center",
           alignItems: "center",
           gap: "25px",
-          p: 4,
+          p: "20px",
           flexWrap: "wrap",
           position: "relative",
         }}

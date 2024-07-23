@@ -208,7 +208,7 @@ function Page() {
 
   return (
     <>
-      <Box paddingBottom={"100px"} bgcolor={"#f4f4f4"}>
+      <Box  bgcolor={"#f4f4f4"}>
         <Navbar
           search={search}
           setSearch={setSearch}
@@ -241,7 +241,7 @@ function Page() {
                 // justifyContent={"space-evenly"}
                 pr={"20px"}
                 gap={"20px"}
-                sx={{ overflowX: "auto" }}
+                sx={{ overflowX: "auto", scrollbarWidth:"thin" }}
               >
                 {filteredPageData.map((box, boxIndex) => (
                   <Droppable className="columns" droppableId={`${boxIndex}`} key={boxIndex}>
@@ -258,6 +258,7 @@ function Page() {
                         //       ? "33.33%"
                         //       : "50%"
                         // }
+                        paddingBottom={"100px"}
                         width={ box?.width ? box.width : 
                           pageData.length == 5
                             ? "19%"
