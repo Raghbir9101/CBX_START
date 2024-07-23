@@ -177,78 +177,6 @@ const Navbar = ({
             />
           </Box>
         )}
-        {/* <Box display={"flex"} gap={"10px"}> 
-          {token && (
-            <Sbutton startIcon={<MenuIcon sx={{ color: "black" }} />}>
-              <Typography>Pages</Typography>
-            </Sbutton>
-          )}
-
-          {token &&
-            pages.map((item) => {
-              return (
-                <Sbutton
-                  onClick={() => {
-                    nav("/page/" + item._id);
-                  }}
-                >
-                  <Typography>{item.pageName || ""}</Typography>
-                </Sbutton>
-              );
-            })}
-
-          {token && (
-            <Sbutton title={"Add new Page"} onClick={handleOpenModal}>
-              <AddIcon />
-            </Sbutton>
-          )}
-        </Box> */}
-        {/* <Box display={"flex"} gap={"10px"}>
-          {token && (
-            <Sbutton
-              onClick={() => {
-                handleLogout();
-                nav("/login");
-              }}
-            >
-              <Typography>Logout</Typography>
-            </Sbutton>
-          )}
-          {!token && (
-            <Sbutton onClick={() => nav("/login")}>
-              <Typography>Login</Typography>
-            </Sbutton>
-          )}
-          {token && (
-            <Sbutton>
-              <Typography>Share</Typography>
-            </Sbutton>
-          )}
-          {token && (
-            <Sbutton>
-              <AddIcon />
-            </Sbutton>
-          )}
-          {token && (
-            <Sbutton onClick={handleEditOpenModal}>
-              <SettingsIcon />
-            </Sbutton>
-          )}
-          <Sbutton sx={{ borderRadius: "50%", padding: 0 }}>
-            <Box
-              borderRadius={"50%"}
-              height={"32px"}
-              width={"32px"}
-              overflow={"hidden"}
-            >
-              <img
-                draggable={false}
-                style={{ width: "100%", height: "100%" }}
-                src="https://lh3.googleusercontent.com/a/ACg8ocJT0qY5tWE0jbHJMnBF7ZcLWffYEqmfX665vNor9zabZNCUIek=s96-c"
-              />
-            </Box>
-          </Sbutton>
-        </Box> */}
 
         <Box width={"33%"}>
           <div className="group">
@@ -258,8 +186,6 @@ const Navbar = ({
               src="https://c.animaapp.com/YKPFj7gL/img/image-8@2x.png"
             />
           </div>
-          {/* <img src={logo} alt="Logo" loading="lazy" /> */}
-          {/* <Typography className="toolName">CBX START</Typography> */}
         </Box>
 
         {token && (
@@ -285,11 +211,13 @@ const Navbar = ({
               gap: "30px",
             }}
           >
-            <Box sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
               <Button
                 className="addBtn"
                 sx={{
@@ -316,11 +244,14 @@ const Navbar = ({
               </Button>
             </Box>
 
-            <Box 
+            <Box
               onClick={() => setSearchVisible(!searchVisible)}
-              sx={{ cursor: "pointer",display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center", }}
+              sx={{
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
             >
               <img
                 // style={{ width: "28px", height: "28px" }}
@@ -329,9 +260,15 @@ const Navbar = ({
               />
             </Box>
 
-            <Box sx={{ cursor: "pointer",display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center", }} onClick={handleOpenShareModal}>
+            <Box
+              sx={{
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+              onClick={handleOpenShareModal}
+            >
               <img
                 style={{ width: "28px", height: "28px" }}
                 src={share}
@@ -339,9 +276,14 @@ const Navbar = ({
               />
             </Box>
 
-            <Box sx={{display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",}} onClick={handleClickMenu}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+              onClick={handleClickMenu}
+            >
               <img
                 style={{
                   objectFit: "cover",

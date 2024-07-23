@@ -33,7 +33,7 @@ const DeleteModal = ({
         open={open}
         onClose={handleClose}
         aria-labelledby="create-page-modal-title"
-        aria-describedby="create-page-modal-description"
+        aria-describedby="create-page-modal-description"  sx={{ overflowY: "auto" }}
       >
         <Box sx={modalStyle}>
           <Box sx={{ textAlign: "center" }}>

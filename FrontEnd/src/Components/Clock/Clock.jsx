@@ -2,8 +2,17 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import AnalogClock from "analog-clock-react";
 import { ElementWrapper } from "../Page/Page";
+import CustomClock from "./CustomClock";
+import "./clock.css";
 
-const MyClock = ({ provided, item, handleDelete, onChange, data , pageMetaData }) => {
+const MyClock = ({
+  provided,
+  item,
+  handleDelete,
+  onChange,
+  data,
+  pageMetaData,
+}) => {
   const [collapsed, setCollapsed] = useState(data?.collapsed);
   const options = {
     width: "100%",
@@ -11,6 +20,7 @@ const MyClock = ({ provided, item, handleDelete, onChange, data , pageMetaData }
     // borderColor: "#2e2e2e",
     borderColor: "#BAC3CF",
     baseColor: "#f0f0f0",
+    // baseColor: "transparent",
     centerColor: "#ffffff",
     centerBorderColor: "#000000",
 
@@ -26,9 +36,15 @@ const MyClock = ({ provided, item, handleDelete, onChange, data , pageMetaData }
     onChange({ collapsed });
   }, [collapsed]);
 
-
   return (
-    <ElementWrapper  editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}   collapsed={data?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item}>
+    <ElementWrapper
+      editable={pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR"}
+      collapsed={data?.collapsed}
+      setCollapsed={setCollapsed}
+      handleDelete={handleDelete}
+      provided={provided}
+      item={item}
+    >
       <div
         style={{
           width: "100%",
@@ -37,6 +53,7 @@ const MyClock = ({ provided, item, handleDelete, onChange, data , pageMetaData }
         }}
       >
         <div
+          // className="clock-background"
           style={{
             width: "100%",
             paddingTop: "100%",
@@ -44,6 +61,7 @@ const MyClock = ({ provided, item, handleDelete, onChange, data , pageMetaData }
             top: "25px",
           }}
         >
+          {/* <CustomClock /> */}
           <div
             style={{
               position: "absolute",

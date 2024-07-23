@@ -69,8 +69,9 @@ const SharePageModal = ({
         onClose={handleClose}
         aria-labelledby="create-page-modal-title"
         aria-describedby="create-page-modal-description"
+        sx={{ overflowY: "auto" }}
       >
-        <Box sx={modalStyle}>
+        <Box sx={modalStyle} >
           <Typography
             sx={{
               color: "#333333",
