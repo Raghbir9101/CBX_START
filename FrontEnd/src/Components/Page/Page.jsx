@@ -260,7 +260,7 @@ function Page() {
                   <Droppable
                     className="columns"
                     droppableId={`${boxIndex}`}
-                    key={boxIndex}
+                    key={boxIndex+pageID}
                   >
                     {(provided) => (
                       <Box
