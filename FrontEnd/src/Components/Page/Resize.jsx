@@ -14,7 +14,7 @@ function HorizontalResizableDiv({ columnId, onResize }) {
         const domElement = document.getElementById(columnId);
 
         const mouseMoved = event.clientX - startX;
-        const newWidth = startWidth + mouseMoved;
+        let newWidth = startWidth + mouseMoved;
         if (newWidth < 200) {
           newWidth = 200;
         }
@@ -28,7 +28,7 @@ function HorizontalResizableDiv({ columnId, onResize }) {
       const domElement = document.getElementById(columnId);
       setResizing(false);
       const mouseMoved = event.clientX - startX;
-      const newParentWidth = parentStartWidth + mouseMoved;
+      let newParentWidth = parentStartWidth + mouseMoved;
       if (newParentWidth < 200) {
         newParentWidth = 200;
       }
