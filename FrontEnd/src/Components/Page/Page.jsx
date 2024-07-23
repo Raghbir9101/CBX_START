@@ -47,6 +47,18 @@ const modalStyle = {
   borderRadius: "18px",
 };
 
+const deleteModalStyle = {
+  position: "absolute",
+  top: "300px",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "18px",
+};
+
 function findByID(arr = [], id) {
   for (let i of arr) {
     if (i._id == id) {
@@ -73,11 +85,12 @@ function Page() {
   const [filters, setFilters] = useState({});
   const [passwordModal, setPasswordModal] = useState(false);
   const [collapseAll, setCollapseAll] = useState(true);
+  const [open, setOpen] = useState(false);
 
   function collapseAllItems() {
     let tempCollapse = !collapseAll;
 
-    setPageData(p => {
+    setPageData((p) => {
       let temp = [...p];
 
       for (let i = 0; i < temp.length; i++) {
@@ -87,9 +100,9 @@ function Page() {
         }
         temp[i].items = items;
       }
-      return temp
-    })
-    setCollapseAll(p => !p)
+      return temp;
+    });
+    setCollapseAll((p) => !p);
   }
 
   const onDragEnd = (result) => {
@@ -149,7 +162,7 @@ function Page() {
 
   useEffect(() => {
     if (!loginUser || !token || pageID == "undefined" || !pageID) return;
-    if (!pageData || (pageData || []).length == 0) return
+    if (!pageData || (pageData || []).length == 0) return;
     let tempPageData = findByID(pages, pageID);
     if (loginUser) {
       if (tempPageData.role != "EDITOR" && tempPageData.role != "OWNER") return;
@@ -163,7 +176,7 @@ function Page() {
       controllerRef.current = controller;
 
       HTTP.put(`pages/${pageID}`, { data: pageData })
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -208,7 +221,7 @@ function Page() {
 
   return (
     <>
-      <Box  bgcolor={"#f4f4f4"}>
+      <Box bgcolor={"#f4f4f4"}>
         <Navbar
           search={search}
           setSearch={setSearch}
@@ -241,10 +254,14 @@ function Page() {
                 // justifyContent={"space-evenly"}
                 pr={"20px"}
                 gap={"20px"}
-                sx={{ overflowX: "auto", scrollbarWidth:"thin" }}
+                sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
               >
                 {filteredPageData.map((box, boxIndex) => (
-                  <Droppable className="columns" droppableId={`${boxIndex}`} key={boxIndex}>
+                  <Droppable
+                    className="columns"
+                    droppableId={`${boxIndex}`}
+                    key={boxIndex}
+                  >
                     {(provided) => (
                       <Box
                         className="columns"
@@ -259,12 +276,14 @@ function Page() {
                         //       : "50%"
                         // }
                         paddingBottom={"100px"}
-                        width={ box?.width ? box.width : 
-                          pageData.length == 5
+                        width={
+                          box?.width
+                            ? box.width
+                            : pageData.length == 5
                             ? "19%"
                             : pageData.length == 3
-                              ? "33.33%"
-                              : "50%"
+                            ? "33.33%"
+                            : "50%"
                         }
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -577,13 +596,16 @@ function Page() {
                           );
                         })}
                         {/* {provided.placeholder} */}
-                        <HorizontalResizableDiv columnId={boxIndex} onResize={(width) => {
-                          setPageData(p=>{
-                            let temp = [...p];
-                            temp[boxIndex].width = width;
-                            return temp
-                          })
-                        }} />
+                        <HorizontalResizableDiv
+                          columnId={boxIndex}
+                          onResize={(width) => {
+                            setPageData((p) => {
+                              let temp = [...p];
+                              temp[boxIndex].width = width;
+                              return temp;
+                            });
+                          }}
+                        />
                         {/* <Box height={"100%"} border={"2px solid gray"} position={"absolute"} right={"-10px"} sx={{cursor:"col-resize"}} >
 
                         </Box> */}
@@ -714,14 +736,24 @@ export function ElementWrapper({
   handleTitleChange,
   collapsed,
   setCollapsed,
-  editable
+  editable,
 }) {
   // const [open, setOpen] = useState(true);
   const contentRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const handleOpenDeleteModal = () => {
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (collapsed && contentRef.current) {
-      contentRef.current.style.minHeight = `${contentRef.current.scrollHeight || 400}px`;
+      contentRef.current.style.minHeight = `${
+        contentRef.current.scrollHeight || 400
+      }px`;
     } else {
       contentRef.current.style.minHeight = `${0}px`;
     }
@@ -737,7 +769,6 @@ export function ElementWrapper({
       overflow={"hidden"}
       bgcolor={"white"}
       p={1}
-
     >
       <Box
         {...provided.dragHandleProps}
@@ -792,26 +823,32 @@ export function ElementWrapper({
           right={0}
           bgcolor={"white"}
         >
-          {editable && <> <IconButton size="small" onClick={() => setCollapsed((p) => !p)}>
-            <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
-          </IconButton>
-            {/* <IconButton size="small" onClick={() => setOpen((p) => !p)}>
+          {editable && (
+            <>
+              {" "}
+              <IconButton size="small" onClick={() => setCollapsed((p) => !p)}>
+                <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
+              </IconButton>
+              {/* <IconButton size="small" onClick={() => setOpen((p) => !p)}>
             <KeyboardArrowDownIcon sx={{ fontSize: "16px" }} />
           </IconButton> */}
-            {!!ActionButtons && <ActionButtons />}
-            <Tooltip title="Delete" arrow>
-              <IconButton
-                size="small"
-                onClick={() => {
-                  handleDelete();
-                }}
-              >
-                <DeleteOutlineOutlinedIcon
-                  sx={{ width: "18px", height: "18px" }}
-                />
-                {/* <Delete sx={{ width: "16px", height: "16px" }} /> */}
-              </IconButton>
-            </Tooltip></>}
+              {!!ActionButtons && <ActionButtons />}
+              <Tooltip title="Delete" arrow>
+                <IconButton
+                  size="small"
+                  // onClick={() => {
+                  //   handleDelete();
+                  // }}
+                  onClick={handleOpenDeleteModal}
+                >
+                  <DeleteOutlineOutlinedIcon
+                    sx={{ width: "18px", height: "18px" }}
+                  />
+                  {/* <Delete sx={{ width: "16px", height: "16px" }} /> */}
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
         </Box>
       </Box>
       {/* {open && (
@@ -836,6 +873,50 @@ export function ElementWrapper({
         {/* {open && children} */}
         {collapsed && children}
       </Box>
+      {/* Delete Conformation modal */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="create-page-modal-title"
+        aria-describedby="create-page-modal-description"
+      >
+        <Box sx={deleteModalStyle}>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography sx={{ fontSize: "18px " }}>
+              Are you sure you want to delete{" "}
+            </Typography>
+            <Typography sx={{ fontSize: "18px " }}>this widget?</Typography>
+          </Box>
+
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "50px",
+                mt: 3,
+              }}
+            >
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                className="cancelBtn"
+              >
+                No
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                className="createPageBtn"
+                onClick={() => handleDelete()}
+              >
+                Yes
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 }
