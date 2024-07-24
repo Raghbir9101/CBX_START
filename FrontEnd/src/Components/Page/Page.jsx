@@ -34,6 +34,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import GoogleCalendar from "../GoogleCalendar/GoogleCalendar";
 import axios from "axios";
 import HorizontalResizableDiv from "./Resize";
+import WorldClock from "../WorldClock/WorldClock";
 
 const modalStyle = {
   position: "absolute",
@@ -176,7 +177,7 @@ function Page() {
       controllerRef.current = controller;
 
       HTTP.put(`pages/${pageID}`, { data: pageData })
-        .then((response) => {})
+        .then((response) => { })
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -240,7 +241,7 @@ function Page() {
             setSearch={setSearch}
           />
           <Box
-            minHeight={"100vh"}
+
             width={"100%"}
             gap={"40px"}
             display={"flex"}
@@ -250,10 +251,11 @@ function Page() {
             <DragDropContext onDragEnd={onDragEnd}>
               <Box
                 display={"flex"}
-                minHeight={"50vh"}
+                // minHeight={"50vh"}
                 // justifyContent={"space-evenly"}
                 pr={"20px"}
-                gap={"20px"}
+                gap={"30px"}
+                minHeight={"100vh"}
                 sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
               >
                 {filteredPageData.map((box, boxIndex) => (
@@ -280,10 +282,10 @@ function Page() {
                           box?.width
                             ? box.width
                             : pageData.length == 5
-                            ? "19%"
-                            : pageData.length == 3
-                            ? "33.33%"
-                            : "50%"
+                              ? "19%"
+                              : pageData.length == 3
+                                ? "33.33%"
+                                : "50%"
                         }
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -317,6 +319,7 @@ function Page() {
                                   {/* <Calculator/> */}
                                   {/* <ElementWrapper item={item} provided={provided}> */}
                                   {(() => {
+
                                     if (item.type == "Calculator") {
                                       return (
                                         <Calculator
@@ -588,6 +591,39 @@ function Page() {
                                         />
                                       );
                                     }
+                                    else if (item.type == "World Clock") {
+                                      return <WorldClock
+                                        pageMetaData={pageMetaData}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            temp[boxIndex].items[
+                                              itemIndex
+                                            ].data = newData;
+                                            return temp;
+                                          });
+                                        }}
+                                        data={item.data}
+                                        handleDelete={() => {
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
+                                        }}
+                                        provided={provided}
+                                        item={item}
+
+                                      />
+                                    }
                                   })()}
                                   {/* </ElementWrapper> */}
                                 </Box>
@@ -751,9 +787,8 @@ export function ElementWrapper({
 
   useEffect(() => {
     if (collapsed && contentRef.current) {
-      contentRef.current.style.minHeight = `${
-        contentRef.current.scrollHeight || 400
-      }px`;
+      contentRef.current.style.minHeight = `${contentRef.current.scrollHeight || 400
+        }px`;
     } else {
       contentRef.current.style.minHeight = `${0}px`;
     }

@@ -134,6 +134,19 @@ const items = [
       },
     },
   },
+  {
+    icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
+    label: "World Clock",
+    name: "World Clock",
+    defaultObj: {
+      type: "World Clock",
+      data: {
+        name: "",
+        timeZone: "",
+        collapsed: true,
+      },
+    },
+  },
   // {
   //   icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
   //   label: "World Clock",
