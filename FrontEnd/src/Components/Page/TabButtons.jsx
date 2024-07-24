@@ -114,7 +114,7 @@ const TabButtons = ({
           gap: "25px",
           flexWrap: "wrap",
           position: "relative",
-          p: "10px 0px 0px 0px",
+          p: "10px 0px 10px 0px",
         }}
       >
         <Button
@@ -282,7 +282,7 @@ const TabButtons = ({
             alignItems: "center",
             width: "100%",
             position: "relative",
-            pt: "10px",
+            p: "10px 0px",
           }}
           ref={searchInputRef}
         >
