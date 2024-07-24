@@ -154,7 +154,7 @@
 /* TabButtons.jsx */
 .googleSearchInput {
   width: 600px;
-  height: 50px;
+  height: 40px;
   padding: 17px 24px 17px 40px;
   gap: 13px;
   border-radius: 12px;
@@ -172,12 +172,12 @@
 .gsearchIcon {
   position: absolute;
   left: 11px;
-  top: 13px;
+  top: 8px;
 }
 .closeIcon {
   position: absolute;
   right: 13px;
-  top: 13px;
+  top: 8px;
   cursor: pointer;
 }
 

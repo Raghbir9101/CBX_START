@@ -207,6 +207,7 @@ const Navbar = ({
               <Button
                 className="addBtn"
                 sx={{
+                  p: "3px",
                   color: popoverAnchorEl
                     ? "#4D8733 !important"
                     : "#fff !important",
@@ -221,13 +222,13 @@ const Navbar = ({
                     <img
                       src={pluss}
                       alt="add"
-                      style={{ width: "14px", height: "14px" }}
+                      style={{ width: "13px", height: "13px" }}
                     />
                   ) : (
                     <img
                       src={plus}
                       alt="add"
-                      style={{ width: "14px", height: "14px" }}
+                      style={{ width: "13px", height: "13px" }}
                     />
                   )
                 }
