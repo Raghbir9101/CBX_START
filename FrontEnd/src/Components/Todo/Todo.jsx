@@ -450,6 +450,11 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
             sx={{ width: "100%", mt: "10px" }}
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
+            onKeyUp={(e)=>{
+              if(e.key == "Enter") {
+                handleAddTask()
+              }
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

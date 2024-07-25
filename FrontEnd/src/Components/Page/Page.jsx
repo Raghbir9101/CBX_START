@@ -35,6 +35,7 @@ import GoogleCalendar from "../GoogleCalendar/GoogleCalendar";
 import axios from "axios";
 import HorizontalResizableDiv from "./Resize";
 import WorldClock from "../WorldClock/WorldClock";
+import NewsFeed from "../RssFeeds/RssFeeds";
 
 const modalStyle = {
   position: "absolute",
@@ -320,7 +321,6 @@ function Page() {
                                   {/* <Calculator/> */}
                                   {/* <ElementWrapper item={item} provided={provided}> */}
                                   {(() => {
-
                                     if (item.type == "Calculator") {
                                       return (
                                         <Calculator
@@ -674,6 +674,49 @@ function Page() {
                                     }
                                     else if (item.type == "World Clock") {
                                       return <WorldClock
+                                        pageMetaData={pageMetaData}
+                                        onChange={(newData) => {
+                                          setPageData((p) => {
+                                            let temp = [...p];
+                                            for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              if (temp[boxIndex].items[i].id == item.id) {
+                                                temp[boxIndex].items[i].data = newData;
+                                                return temp;
+                                              }
+                                            }
+                                            return temp;
+                                          });
+                                          // setPageData((p) => {
+                                          //   let temp = [...p];
+                                          //   temp[boxIndex].items[
+                                          //     itemIndex
+                                          //   ].data = newData;
+                                          //   return temp;
+                                          // });
+                                        }}
+                                        data={item.data}
+                                        handleDelete={() => {
+                                          if (
+                                            pageMetaData.role != "OWNER" &&
+                                            pageMetaData.role != "EDITOR"
+                                          )
+                                            return alert(
+                                              "You don't have rights to edit or delete"
+                                            );
+                                          let newData = deleteObject(
+                                            [...pageData],
+                                            boxIndex,
+                                            itemIndex
+                                          );
+                                          setPageData(newData);
+                                        }}
+                                        provided={provided}
+                                        item={item}
+
+                                      />
+                                    }
+                                    else if (item.type == "News Feed") {
+                                      return <NewsFeed
                                         pageMetaData={pageMetaData}
                                         onChange={(newData) => {
                                           setPageData((p) => {

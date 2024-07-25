@@ -201,6 +201,11 @@ function Bookmark({
             sx={{ width: "100%", mt: 2 }}
             value={newLink}
             onChange={(e) => setNewLink(e.target.value)}
+            onKeyUp={(e)=>{
+              if(e.key == "Enter") {
+                handleAddLink()
+              }
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -218,7 +223,7 @@ function Bookmark({
 }
 
 function LinkComponent({ item, setLinks, editable }) {
-  const [siteData, setSiteData] = useState({ ...item, favicon: item.favicon ? item.favicon : `https://s2.googleusercontent.com/s2/favicons?domain=${item.link}/&size=50px` });
+  const [siteData, setSiteData] = useState({ ...item, favicon: item.favicon ? item.favicon : `https://www.google.com/s2/favicons?sz=64&domain_url=${item.link}` });
   const [readOnly, setReadOnly] = useState(true);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);

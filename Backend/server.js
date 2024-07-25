@@ -93,15 +93,15 @@ async function extractWebsiteData(url) {
         try {
             let browkenLinkCheck = await fetch(favicon)
             if (!browkenLinkCheck.ok || favicon == "") {
-                favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=50px`
+                favicon = `https://www.google.com/s2/favicons?sz=64&domain_url=${url}`
             }
         } catch (error) {
-            favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=50px`
+            favicon = `https://www.google.com/s2/favicons?sz=64&domain_url=${url}`
         }
         return { name: title, favicon, description };
     } catch (error) {
         console.error('Error extracting website data:', error.message);
-        return ({ name: url, favicon: `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=50px`, description: url });
+        return ({ name: url, favicon: `https://www.google.com/s2/favicons?sz=64&domain_url=${url}`, description: url });
     }
 }
 
@@ -440,10 +440,19 @@ app.get('/auth/google/callback', async (req, res) => {
     }
 });
 
+import { parseStringPromise } from 'xml2js';
 
-
-
-
+app.get('/api/googlenews', async (req, res) => {
+    try {
+        const response = await axios.get('https://news.google.com/rss/search?q=technology');
+        const parsedData = await parseStringPromise(response.data);
+        const newsItems = parsedData.rss.channel[0].item;
+        res.json(newsItems);
+    } catch (error) {
+        console.error('Error fetching Google News:', error);
+        res.status(500).json({ error: 'Failed to fetch news' });
+    }
+});
 
 
 

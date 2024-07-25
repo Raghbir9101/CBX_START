@@ -74,7 +74,7 @@ function HorizontalResizableDiv({ columnId, onResize }) {
       ref={ref}
       className="resizeLine"
       height={"100%"}
-      borderRight={"2px solid #B4D33B"}
+      borderRight={"2px solid rgba(180, 211, 59, 0.2)"}
       bgcolor="transparent"
       position={"absolute"}
       right={"-15px"}

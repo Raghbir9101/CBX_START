@@ -149,6 +149,19 @@ const items = [
   },
   // {
   //   icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
+  //   label: "News Feed",
+  //   name: "News Feed",
+  //   defaultObj: {
+  //     type: "News Feed",
+  //     data: {
+  //       name: "",
+  //       timeZone: "",
+  //       collapsed: true,
+  //     },
+  //   },
+  // },
+  // {
+  //   icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
   //   label: "World Clock",
   // },
   // { icon: <CloudOutlinedIcon sx={{ color: "#4D8733" }} />, label: "Weather" },
