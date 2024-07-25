@@ -18,13 +18,10 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DuplicateModal from "./DuplicateModal";
 const modalStyle = {
-  position: "absolute",
-  top: "300px",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
   minWidth: 450,
   bgcolor: "background.paper",
   boxShadow: 24,
+  height: "fit-content",
   p: 4,
   borderRadius: "18px",
 };
@@ -77,7 +74,7 @@ const ShowAllPageModal = ({
         open={open}
         onClose={handleClose}
         aria-labelledby="create-page-modal-title"
-        aria-describedby="create-page-modal-description" sx={{ overflowY: "auto" }}
+        aria-describedby="create-page-modal-description" sx={{ overflowY: "auto", padding: "20px", display: "flex", justifyContent: "center" }}
       >
         <Box sx={modalStyle}>
           <Box>

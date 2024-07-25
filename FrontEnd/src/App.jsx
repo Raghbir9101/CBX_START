@@ -88,7 +88,11 @@ function App() {
         <Tooltip title="Admin Panel">
           <IconButton
             onClick={() => {
-              nav("/AdminPanel");
+              let splittedHref = window.location.href.split("/");
+              if(splittedHref[splittedHref.length-1] == "AdminPanel") {
+                nav("/page/" + pages[0]._id);
+              }
+              else nav("/AdminPanel");
             }}
             size="large"
             sx={{

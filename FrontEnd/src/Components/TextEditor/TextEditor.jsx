@@ -236,7 +236,7 @@ const FormattingOptions = ({ handleHTMLChange }) => {
                     >
                         <MenuItem value="1">1</MenuItem>
                         <MenuItem value="2">2</MenuItem>
-                        <MenuItem value="3">Normal</MenuItem>
+                        <MenuItem value="3">3</MenuItem>
                         <MenuItem value="4">4</MenuItem>
                         <MenuItem value="5">5</MenuItem>
                         <MenuItem value="6">6</MenuItem>
@@ -588,7 +588,7 @@ export default function TextEditor({ data, setData }) {
         }
     }
     return <Box padding={"10px"}>
-        <Box ref={ref}  onKeyUp={(e) => setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px", cursor:"text" }}>
+        <Box maxHeight={"50vh"} overflow={"auto"} ref={ref}  onKeyUp={(e) => setData(e.target.innerHTML || "")} spellCheck={"false"} dangerouslySetInnerHTML={{ __html: data }} className="textEditor" contentEditable="true" sx={{ bgcolor: "rgb(77 135 51 / 3%)", outline: "none", minHeight: "100px", cursor:"text" }}>
 
         </Box>
         <FormattingOptions handleHTMLChange={handleHTMLChange} />

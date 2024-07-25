@@ -23,13 +23,10 @@ import AddCollaboratorModal from "./AddCollaboratorModal";
 import toast from "react-hot-toast";
 
 const modalStyle = {
-  position: "absolute",
-  top: "300px",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: 500,
+  minWidth: 450,
   bgcolor: "background.paper",
   boxShadow: 24,
+  height: "fit-content",
   p: 4,
   borderRadius: "18px",
 };
@@ -121,7 +118,7 @@ const CreatePageModal = ({ open, handleClose, handleCreatePage }) => {
         open={open}
         onClose={handleClose}
         aria-labelledby="create-page-modal-title"
-        aria-describedby="create-page-modal-description"  sx={{ overflowY: "auto" }}
+        aria-describedby="create-page-modal-description"  sx={{ overflowY: "auto", padding: "20px", display: "flex", justifyContent: "center" }}
       >
         <Box sx={modalStyle}>
           <Typography className="createPageHeading">Create a Page</Typography>

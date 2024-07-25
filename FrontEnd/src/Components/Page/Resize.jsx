@@ -84,7 +84,6 @@ function HorizontalResizableDiv({ columnId, onResize }) {
       draggable={false}
       onMouseMove={(e) => {
         const box = e.currentTarget.getBoundingClientRect();
-        const offsetX = e.clientX - box.left;
         const offsetY = e.clientY - box.top;
         btnRef.current.style.top = `${offsetY - btnRef.current.offsetHeight / 2}px`
       }}

@@ -220,6 +220,7 @@ function Page() {
     setFilteredPageData(tempFilteredObj);
   }, [pageData, filters, search]);
 
+
   return (
     <>
       <Box bgcolor={"#f4f4f4"}>
@@ -342,11 +343,21 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           data={item.data}
                                           provided={provided}
@@ -360,11 +371,21 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           handleDelete={() => {
                                             if (
@@ -393,11 +414,22 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           handleDelete={() => {
                                             if (
@@ -423,14 +455,25 @@ function Page() {
                                       return (
                                         <Todo
                                           pageMetaData={pageMetaData}
+
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           handleDelete={() => {
                                             if (
@@ -459,11 +502,21 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           handleDelete={() => {
                                             if (
@@ -510,11 +563,21 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           url={item.data.url}
                                           data={item.data}
@@ -545,30 +608,48 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           url={item.data.url}
                                           data={item.data}
                                         />
                                       );
-                                    } else if (
-                                      item.type == "Currency Converter"
-                                    ) {
+                                    } else if (item.type == "Currency Converter") {
                                       return (
                                         <CurrencyConverter
                                           pageMetaData={pageMetaData}
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              temp[boxIndex].items[
-                                                itemIndex
-                                              ].data = newData;
+                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                                if (temp[boxIndex].items[i].id == item.id) {
+                                                  temp[boxIndex].items[i].data = newData;
+                                                  return temp;
+                                                }
+                                              }
                                               return temp;
                                             });
+                                            // setPageData((p) => {
+                                            //   let temp = [...p];
+                                            //   temp[boxIndex].items[
+                                            //     itemIndex
+                                            //   ].data = newData;
+                                            //   return temp;
+                                            // });
                                           }}
                                           data={item.data}
                                           handleDelete={() => {
@@ -597,11 +678,21 @@ function Page() {
                                         onChange={(newData) => {
                                           setPageData((p) => {
                                             let temp = [...p];
-                                            temp[boxIndex].items[
-                                              itemIndex
-                                            ].data = newData;
+                                            for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              if (temp[boxIndex].items[i].id == item.id) {
+                                                temp[boxIndex].items[i].data = newData;
+                                                return temp;
+                                              }
+                                            }
                                             return temp;
                                           });
+                                          // setPageData((p) => {
+                                          //   let temp = [...p];
+                                          //   temp[boxIndex].items[
+                                          //     itemIndex
+                                          //   ].data = newData;
+                                          //   return temp;
+                                          // });
                                         }}
                                         data={item.data}
                                         handleDelete={() => {
@@ -627,11 +718,13 @@ function Page() {
                                   })()}
                                   {/* </ElementWrapper> */}
                                 </Box>
+                                
                               )}
+                              
                             </Draggable>
                           );
                         })}
-                        {/* {provided.placeholder} */}
+                        {provided.placeholder}
                         <HorizontalResizableDiv
                           columnId={boxIndex}
                           onResize={(width) => {
