@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DefaultPFP from "../../Icons/Default_pfp.jpg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { Context } from "../Context/Context";
 import CreatePageModal from "../Page/CreateNewPage";
 import EditPageModal from "../Page/EditNewPage";
@@ -87,7 +87,9 @@ const Navbar = ({
   const handleCreatePage = async (pageData) => {
     let { data: res } = await HTTP.post(`addNewPage`, pageData);
     if (res.error) return alert(res.error || "Internal Server Error!");
+    
     setPages((p) => [...p, { ...res, role: "OWNER" }]);
+    nav("/page/"+ res._id)
   };
 
   const handleEditPage = async (pageData) => {
@@ -166,13 +168,13 @@ const Navbar = ({
         )}
 
         <Box width={"33%"}>
-          <div className="group">
+          <NavLink to={"/"} className="group">
             <img
               className="image"
               alt="Image"
               src="https://c.animaapp.com/YKPFj7gL/img/image-8@2x.png"
             />
-          </div>
+          </NavLink>
         </Box>
 
         {token && (
