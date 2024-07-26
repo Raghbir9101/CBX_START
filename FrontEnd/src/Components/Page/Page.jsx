@@ -248,7 +248,7 @@ function Page() {
             display={"flex"}
             flexDirection={"column"}
             sx={{ p: "0px 10px 10px 10px", overflowX: "auto" }}
-            // sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
+          // sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
           >
             <DragDropContext onDragEnd={onDragEnd}>
               <Box
@@ -258,7 +258,7 @@ function Page() {
                 pr={"20px"}
                 gap={"30px"}
                 minHeight={"100vh"}
-                
+
               >
                 {filteredPageData.map((box, boxIndex) => (
                   <Droppable
@@ -300,7 +300,7 @@ function Page() {
                         {box.items.map((item, itemIndex) => {
                           return (
                             <Draggable
-                              key={item?.id || itemIndex}
+                              key={(item?.id+pageID) || itemIndex}
                               draggableId={
                                 item?.id || `${boxIndex}-${itemIndex}`
                               }
@@ -318,9 +318,9 @@ function Page() {
                                   justifyContent={"center"}
                                   sx={{ margin: "10px 0", cursor: "move" }}
                                 >
-                                  {/* <Calculator/> */}
-                                  {/* <ElementWrapper item={item} provided={provided}> */}
+
                                   {(() => {
+                                    
                                     if (item.type == "Calculator") {
                                       return (
                                         <Calculator
@@ -761,9 +761,9 @@ function Page() {
                                   })()}
                                   {/* </ElementWrapper> */}
                                 </Box>
-                                
+
                               )}
-                              
+
                             </Draggable>
                           );
                         })}
