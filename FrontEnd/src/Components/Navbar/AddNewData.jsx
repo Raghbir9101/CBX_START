@@ -33,12 +33,12 @@ function addObjectToShortestArray(data, newObject) {
 const items = [
   {
     icon: <TextSnippetOutlinedIcon sx={{ color: "#4D8733" }} />,
-    label: "Note",
+    label: "Notes",
     name: "Note",
     defaultObj: {
       type: "Note",
       data: {
-        name: "Note",
+        name: "Notes",
         html: "",
         collapsed: true,
       },
@@ -243,7 +243,7 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
                   ...{
                     type: "Note",
                     data: {
-                      name: "Note",
+                      name: "Notes",
                       html: "",
                       collapsed: true,
                     },
@@ -278,7 +278,7 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
                 fontSize: "14px",
               }}
             >
-              Note
+              Notes
             </Typography>
           </Box>
 

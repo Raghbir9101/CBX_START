@@ -72,21 +72,21 @@ function HorizontalResizableDiv({ columnId, onResize }) {
     <Box
       ref={ref}
       className="resizeLine"
-      height={"100%"}
+      height={"90%"}
       borderRight={"2px solid rgba(180, 211, 59, 0.2)"}
       bgcolor="transparent"
       position={"absolute"}
       right={"-15px"}
-      sx={{ cursor: "col-resize", width: "20px", mt: "30px" }}
+      top={"50%"}
+      sx={{ cursor: "col-resize", width: "20px", transform: `translate(0%, -50%)`,}}
       onDrag={(e) => e.preventDefault()}
       onMouseDown={handleMouseDown}
       draggable={false}
       onMouseMove={(e) => {
         const box = e.currentTarget.getBoundingClientRect();
         const offsetY = e.clientY - box.top;
-        btnRef.current.style.top = `${
-          offsetY - btnRef.current.offsetHeight / 2
-        }px`;
+        btnRef.current.style.top = `${offsetY - btnRef.current.offsetHeight / 2
+          }px`;
       }}
     >
       <Box

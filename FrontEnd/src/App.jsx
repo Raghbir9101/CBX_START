@@ -67,7 +67,8 @@ function App() {
             setPages(res.body.pages || []);
           }
 
-          sessionStorage.setItem("token", res.token);
+          localStorage.setItem("token", res.token);
+          // sessionStorage.setItem("token", res.token);
           setIsLoading(false);
           for (let i of res?.body?.pages) {
             if (i._id == splittedHref) {

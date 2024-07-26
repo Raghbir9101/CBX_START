@@ -243,12 +243,12 @@ function Page() {
             setSearch={setSearch}
           />
           <Box
-
             width={"100%"}
             gap={"40px"}
             display={"flex"}
             flexDirection={"column"}
-            sx={{ p: "0px 10px 10px 10px" }}
+            sx={{ p: "0px 10px 10px 10px", overflowX: "auto" }}
+            // sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
           >
             <DragDropContext onDragEnd={onDragEnd}>
               <Box
@@ -258,7 +258,7 @@ function Page() {
                 pr={"20px"}
                 gap={"30px"}
                 minHeight={"100vh"}
-                sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
+                
               >
                 {filteredPageData.map((box, boxIndex) => (
                   <Droppable
@@ -279,7 +279,7 @@ function Page() {
                         //       ? "33.33%"
                         //       : "50%"
                         // }
-                        paddingBottom={"100px"}
+                        // paddingBottom={"100px"}
                         width={
                           box?.width
                             ? box.width

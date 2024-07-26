@@ -91,10 +91,10 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
 
     return (
         <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")} collapsed={parentData?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
-            <Box padding={"10px"} maxHeight={!editing ? "60vh" : "fit-content"} sx={{ overflowY: !editing ? "scroll" : "hidden" }}>
+            <Box className="scroll" padding={"10px"} maxHeight={!editing ? "60vh" : "fit-content"} sx={{ overflow: !editing ? "scroll" : "hidden", display:"flex" }}>
                 {editing && texteditor}
 
-                {!editing && <Box className="textEditor" sx={{ cursor: "default", wordWrap: "break-word", overflowWrap: "break-word",overflowX:"hidden" }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
+                {!editing && <Box className="textEditor" sx={{ cursor: "default", wordWrap: "break-word", overflowWrap: "break-word", flex:1 }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
             </Box>
         </ElementWrapper>
     )

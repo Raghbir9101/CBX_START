@@ -17,7 +17,7 @@ let apiLink = `${getURL(currentURL)}`;
 
 
 export default function ContextProvider({ children }) {
-    const [token, setToken] = useState(sessionStorage.getItem("token") || null);
+    const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [loginUser, setLoginUser] = useState(null);
     const [pages, setPages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,8 @@ export default function ContextProvider({ children }) {
     const handleLogout = () => {
         setLoginUser(null)
         setToken(null)
-        sessionStorage.setItem("token", "")
+        localStorage.setItem("token", "")
+        // sessionStorage.setItem("token", "")
     }
     return (
         <Context.Provider value={{
