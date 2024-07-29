@@ -48,7 +48,7 @@ function GoogleCalendar({ url, provided, item, handleDelete, onChange, data, pag
                         stroke-linecap="round"
                         stroke-linejoin="round"
                     />
-                </svg> : <Save sx={{ fontSize: "18px" }} />}
+                </svg> : <Save sx={{ fontSize: "18px", color: (item.data.name != title || embedURL != url) ? "red" : "none" }} />}
             </IconButton>
         </>
     }

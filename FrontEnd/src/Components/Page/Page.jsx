@@ -36,6 +36,8 @@ import axios from "axios";
 import HorizontalResizableDiv from "./Resize";
 import WorldClock from "../WorldClock/WorldClock";
 import NewsFeed from "../RssFeeds/RssFeeds";
+import { Skeleton } from "antd";
+import toast from "react-hot-toast";
 
 const modalStyle = {
   position: "absolute",
@@ -70,6 +72,108 @@ function findByID(arr = [], id) {
   return null;
 }
 
+let loadingState = [
+  {
+    items: [
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+    ]
+  },
+  {
+    items: [
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+    ]
+  },
+  {
+    items: [
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+    ]
+  },
+  {
+    items: [
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+    ]
+  },
+  {
+    items: [
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+      {
+        type: "Loading",
+      },
+    ]
+  },
+]
+
+
+
+
+
 function Page() {
   const { loginUser, token } = useContext(Context);
   const { pageID } = useParams();
@@ -87,7 +191,7 @@ function Page() {
   const [filters, setFilters] = useState({});
   const [passwordModal, setPasswordModal] = useState(false);
   const [collapseAll, setCollapseAll] = useState(true);
-  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   function collapseAllItems() {
     let tempCollapse = !collapseAll;
@@ -146,14 +250,17 @@ function Page() {
     if (pageData.length > 0 && loginUser == null) {
       return;
     }
+    setIsLoading(true)
     HTTP.get(`getPageData/${pageID}`).then(async (res) => {
       if (res.data.error) {
         if (res.data.errorCode == "ENTER_PASSWORD") {
           return setPasswordModal(true);
         }
-
-        return alert(res.data.error);
+        setIsLoading(false)
+        return toast.error(res.data.error || "Internal Server Error!");
+        // return alert(res.data.error);
       }
+      setIsLoading(false)
       setPageMetaData(res.data);
       setFilteredPageData(res.data.data);
       setPageData(res.data.data);
@@ -196,19 +303,60 @@ function Page() {
   }, [pageData]);
 
   function filterData(data, filterObject, search) {
+    if (pageData.length == 0) return []
     let notTabFiltering = Object.keys(filterObject).length == 0;
     if (notTabFiltering && search == "") return data;
     // Create a new array to hold the filtered data
     const filteredData = data.map((page) => {
+
+      let filteredItems = page.items.filter((item) => {
+        if (!(notTabFiltering ? true : filterObject[item.type] === 1)) return false;
+
+        if ((item.type || "").toLowerCase().includes(search)) return true;
+        if ((item?.data?.name || "").toLowerCase().includes(search)) return true;
+
+        if (item.type == "Note") {
+          return (item?.data.html || "").toLowerCase().includes(search)
+        }
+        else if (item.type == "Bookmark") {
+          let flag = false;
+          for (let i of (item.data.URLs || [])) {
+            if ((i.link).toLowerCase().includes(search) || (i.name).toLowerCase().includes(search)) {
+              flag = true;
+              break
+            }
+          }
+          return flag
+        }
+        else if (item.type == "Todo") {
+          let flag = false;
+          for (let i of (item.data.tasks || [])) {
+            if ((i.task).toLowerCase().includes(search)) {
+              flag = true;
+              break
+            }
+          }
+          return flag
+        }
+        else if (item.type == "World Clock") {
+          let timeZone = (item.data.timeZone || "").toLowerCase() || "asia/kolkata";
+          return timeZone.includes(search);
+        }
+
+        else if (item.type == "Embed") {
+          return (item.data.url).toLowerCase().includes(search)
+        }
+      })
       // Create a new page object with the same structure but empty items arrays
       return {
         ...page,
-        items: page.items.filter((item) => {
-          return (
-            (notTabFiltering ? true : filterObject[item.type] === 1) &&
-            (item?.data?.name || "").toLowerCase().includes(search)
-          );
-        }),
+        items: filteredItems
+        // items: page.items.filter((item) => {
+        //   return (
+        //     (notTabFiltering ? true : filterObject[item.type] === 1) &&
+        //     (item?.data?.name || "").toLowerCase().includes(search)
+        //   );
+        // }),
       };
     });
 
@@ -216,10 +364,18 @@ function Page() {
     return filteredData;
   }
 
+
   useEffect(() => {
     let tempFilteredObj = filterData([...pageData], filters, search);
     setFilteredPageData(tempFilteredObj);
   }, [pageData, filters, search]);
+
+  useEffect(() => {
+    return () => {
+      setPageData([])
+    }
+  }, [pageID])
+
 
 
   return (
@@ -260,7 +416,7 @@ function Page() {
                 minHeight={"100vh"}
 
               >
-                {filteredPageData.map((box, boxIndex) => (
+                {(isLoading ? loadingState : filteredPageData).map((box, boxIndex) => (
                   <Droppable
                     className="columns"
                     droppableId={`${boxIndex}`}
@@ -281,7 +437,7 @@ function Page() {
                         // }
                         // paddingBottom={"100px"}
                         width={
-                          box?.width
+                          isLoading ? "calc( 20% - 20px )" : box?.width
                             ? box.width
                             : pageData.length == 5
                               ? "19%"
@@ -300,7 +456,7 @@ function Page() {
                         {box.items.map((item, itemIndex) => {
                           return (
                             <Draggable
-                              key={(item?.id+pageID) || itemIndex}
+                              key={isLoading ? itemIndex : ((item?.id + pageID) || itemIndex)}
                               draggableId={
                                 item?.id || `${boxIndex}-${itemIndex}`
                               }
@@ -320,7 +476,9 @@ function Page() {
                                 >
 
                                   {(() => {
-                                    
+                                    if (item.type == "Loading") {
+                                      return <Skeleton variant="rectangular" width={"100%"} height="250px" />
+                                    }
                                     if (item.type == "Calculator") {
                                       return (
                                         <Calculator
@@ -343,7 +501,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -371,7 +529,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -414,7 +572,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -459,7 +617,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -502,7 +660,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -563,7 +721,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -608,7 +766,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -635,7 +793,7 @@ function Page() {
                                           onChange={(newData) => {
                                             setPageData((p) => {
                                               let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                                 if (temp[boxIndex].items[i].id == item.id) {
                                                   temp[boxIndex].items[i].data = newData;
                                                   return temp;
@@ -678,7 +836,7 @@ function Page() {
                                         onChange={(newData) => {
                                           setPageData((p) => {
                                             let temp = [...p];
-                                            for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                            for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                               if (temp[boxIndex].items[i].id == item.id) {
                                                 temp[boxIndex].items[i].data = newData;
                                                 return temp;
@@ -721,7 +879,7 @@ function Page() {
                                         onChange={(newData) => {
                                           setPageData((p) => {
                                             let temp = [...p];
-                                            for (let i = 0; i < temp[boxIndex].items.length; i++) {
+                                            for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
                                               if (temp[boxIndex].items[i].id == item.id) {
                                                 temp[boxIndex].items[i].data = newData;
                                                 return temp;
@@ -863,11 +1021,14 @@ function Page() {
                   `getPageData/${pageID}?password=${pass}`
                 );
                 if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
-                  return alert(tempPage.error);
+                  return toast.error(tempPage.error || "Internal Server Error!")
+                  // return alert(tempPage.error);
                 }
                 setPageMetaData(tempPage);
                 setFilteredPageData(tempPage.data);
                 setPageData(tempPage.data);
+                setIsLoading(false)
+                setPass("")
                 return setPasswordModal(false);
               }}
             >

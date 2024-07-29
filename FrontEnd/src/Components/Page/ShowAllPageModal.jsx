@@ -138,6 +138,7 @@ const ShowAllPageModal = ({
                     }}
                     onClick={() => {
                       nav("/page/" + item._id);
+                      handleClose()
                     }}
                   >
                     <Box

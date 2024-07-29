@@ -43,7 +43,7 @@ const App = ({ provided, item, handleDelete, onChange, data, pageMetaData }) => 
   }, [collapsed]);
 
   return (
-    <ElementWrapper   editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}   handleDelete={handleDelete} provided={provided} item={item} collapsed={data?.collapsed} setCollapsed={setCollapsed}>
+    <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")}   handleDelete={handleDelete} provided={provided} item={item} collapsed={data?.collapsed} setCollapsed={setCollapsed}>
       <div className="calculator">
         <div className="display">{input || "0"}</div>
         <div className="buttons">
