@@ -34,7 +34,6 @@ function App() {
           return;
         }
         HTTP.get("getUserData").then(({ data: res }) => {
-
           setLoginUser(res);
           setPages(res.pages || []);
           if (splittedHref[3] == "page") {
@@ -83,6 +82,26 @@ function App() {
     }
   }, []);
 
+  const loadGoogleTranslateScript = () => {
+    const script = document.createElement("script");
+    script.src =
+      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    script.type = "text/javascript";
+    script.async = true;
+    document.body.appendChild(script);
+
+    window.googleTranslateElementInit = () => {
+      new window.google.translate.TranslateElement(
+        { pageLanguage: "en", autoDisplay: false },
+        "google_translate_element"
+      );
+    };
+  };
+
+  useEffect(() => {
+    loadGoogleTranslateScript();
+  }, []);
+
   return (
     <Box>
       {loginUser?.isAdmin && (
@@ -90,10 +109,9 @@ function App() {
           <IconButton
             onClick={() => {
               let splittedHref = window.location.href.split("/");
-              if(splittedHref[splittedHref.length-1] == "AdminPanel") {
+              if (splittedHref[splittedHref.length - 1] == "AdminPanel") {
                 nav("/page/" + pages[0]._id);
-              }
-              else nav("/AdminPanel");
+              } else nav("/AdminPanel");
             }}
             size="large"
             sx={{

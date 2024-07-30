@@ -6,6 +6,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Nunito", sans-serif;
+  top: 0 !important;
 }
 
 button {
@@ -90,7 +91,7 @@ li {
   background-color: #cbe4ff !important;
 }
 .card {
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card:before {
   content: "";
@@ -122,4 +123,54 @@ li {
   transform: translateX(100%);
 }
 
+/* Style the select dropdown */
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+}
 
+#google_translate_element select {
+  padding: 11px 0px 11px 10px;
+  border-radius: 10px !important;
+  color: #fff !important;
+  background-color: #4d8733;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.28px !important;
+  outline: none;
+  cursor: pointer;
+  /* -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjEwIiB3aWR0aD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGw1IDUgNS01eiIvPjwvc3ZnPg==")
+    no-repeat right 5px center; */
+}
+
+#google_translate_element {
+  margin-top: 5px;
+}
+
+/* Remove the 'Powered by Google Translate' text */
+.goog-logo-link {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0px !important;
+}
+
+/* Hide the 'Google Translate' text */
+.goog-te-gadget span {
+  display: none !important;
+}
+.goog-te-gadget .goog-te-combo {
+  margin-top: 0 !important;
+}
+
+@media screen and (max-width: 568px) {
+  #google_translate_element select {
+    padding: 5px 5px !important;
+    font-size: 12px !important;
+    border-radius: 5px !important;
+  }
+}

@@ -1,0 +1,33 @@
+@media screen and (max-width: 768px) {
+  .footerContainer {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .logo-box {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .footerItemBox {
+    display: grid !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 20px !important;
+    margin-top: 20px;
+  }
+  .needHelpBox {
+    text-align: center !important;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .faq-heading {
+    font-size: 32px !important;
+  }
+  .sub-Text {
+    font-size: 16px !important;
+  }
+}

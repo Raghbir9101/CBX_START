@@ -1,0 +1,79 @@
+.faqTitle {
+  font-style: normal;
+  font-weight: 500 !important;
+  letter-spacing: 0.18px !important;
+  color: #2e2d2d !important;
+}
+
+.faq-title {
+  font-style: normal;
+  font-weight: 500 !important;
+  letter-spacing: 0.18px !important;
+  color: #2e2d2d !important;
+}
+
+.faq-heading {
+  color: #4d8733 !important;
+  font-style: normal;
+  font-weight: 500 !important;
+  line-height: normal;
+}
+
+.faqText {
+  display: none;
+}
+
+@media screen and (max-width: 992px) {
+  .logoIcon {
+    width: 400px !important;
+  }
+}
+
+@media screen and (max-width: 868px) {
+  .faqText {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .faqText-heading {
+    font-weight: 500 !important;
+    color: #4d8733 !important;
+  }
+  .faqMainContainer {
+    display: grid !important;
+    justify-content: center !important;
+  }
+  .faqHeadinBox {
+    display: none !important;
+  }
+  .faqSecHeading {
+    width: 100% !important;
+  }
+  .faqContainer {
+    width: 100% !important;
+  }
+  .logoIconBox {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .faqText-heading {
+    font-size: 2rem !important;
+  }
+  .faq-heading {
+    font-size: 32px !important;
+  }
+  .faqTitle {
+    font-size: 1rem !important;
+  }
+  .faq-title {
+    font-size: 1rem !important;
+  }
+  .faqDescText {
+    font-size: 15px !important;
+  }
+  .accordion {
+    padding: 10px !important;
+  }
+}
