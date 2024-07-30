@@ -97,7 +97,7 @@ const SharePageModal = ({
           </Box> */}
           <Box sx={{ mt: 2, mb: 2, position: "relative" }}>
             <input
-              type="email"
+              type="text"
               placeholder="Search or invite people by e-mail"
               className="passwordInput"
               value={window.location.href}
