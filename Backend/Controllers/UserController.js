@@ -10,8 +10,8 @@ let instance = new CrudApi("/users", UsersModel, UsersRouter);
 UsersRouter.get("/getUsersAdmin", async (req, res) => {
     if (req.user.isAdmin == false) throw new Error(`You dont have access !`)
     try {
-        const users = await UsersModel.find({}, { refreshToken: 0, password: 0 }); // Fetch all users from the database
-        res.status(200).json(users); // Respond with JSON array of users
+        const users = await UsersModel.find({}, { refreshToken: 0, password: 0 }).lean(); // Fetch all users from the database
+        res.status(200).json(users.reverse()); // Respond with JSON array of users
     } catch (err) {
         res.status(500).json({ error: err.message }); // Handle any errors
     }

@@ -18,13 +18,10 @@
 
 .feature-left-box {
   display: flex;
-  /* align-items: center; */
   gap: 40px;
 }
 
 .feature-card-box {
-  /* width: 372px; */
-  /* height: 455px; */
   width: 300px;
   border-radius: 23px !important;
   background: #fff !important;
@@ -39,7 +36,6 @@
   font-style: normal;
   font-weight: 500 !important;
   line-height: normal;
-  /* letter-spacing: 0.655px; */
 }
 .feature-card-sub-heading {
   color: #000 !important;
@@ -52,8 +48,6 @@
   width: 70px;
   height: 70px;
 }
-
-/* --------- -------------------------- ------------ */
 
 .feature-right-box {
   display: flex;
