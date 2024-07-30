@@ -137,7 +137,7 @@ function Embed({ url, provided, item, handleDelete, onChange, data, pageMetaData
   const [title, setTitle] = useState(item.data.name || "");
   const [collapsed, setCollapsed] = useState(data?.collapsed);
 
-  
+
   function ActionButtons() {
     return <>
       <IconButton onClick={() => {
@@ -165,7 +165,7 @@ function Embed({ url, provided, item, handleDelete, onChange, data, pageMetaData
             stroke-linecap="round"
             stroke-linejoin="round"
           />
-        </svg> : <Save sx={{ fontSize: "18px" }} />}
+        </svg> : <Save sx={{ fontSize: "18px", color: (item.data.name != title || embedURL != url) ? "red" : "none" }} />}
       </IconButton>
       {/* <IconButton size="small">
         <svg
@@ -217,7 +217,7 @@ function Embed({ url, provided, item, handleDelete, onChange, data, pageMetaData
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       ></iframe> :
-         <Box width="100%" height="100%" display="flex" alignItems="center" flexDirection="column" p="20px" gap="10px">
+        <Box width="100%" height="100%" display="flex" alignItems="center" flexDirection="column" p="20px" gap="10px">
           <Box>
             <Typography color="gray" fontSize="12px">
               <b>1.</b> Please copy your Embed URL and paste it in the below Text Field..

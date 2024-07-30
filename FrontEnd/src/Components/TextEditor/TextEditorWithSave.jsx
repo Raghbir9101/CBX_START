@@ -9,10 +9,8 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
     const [editing, setEditing] = useState(false);
     const [title, setTitle] = useState(item.data.name || "");
     const [collapsed, setCollapsed] = useState(parentData?.collapsed);
-    // useEffect(() => {
-    //     if (editing) return;
-    //     onChange({ ...parentData, html: data })
-    // }, [editing])
+
+    
     function ActionButtons() {
         return <>
             <IconButton onClick={() => {
@@ -40,7 +38,7 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
                         stroke-linecap="round"
                         stroke-linejoin="round"
                     />
-                </svg> : <Save sx={{ fontSize: "18px" }} />}
+                </svg> : <Save sx={{ fontSize: "18px", color: (item.data.name != title || parentData.html != data) ? "red" : "none" }} />}
             </IconButton>
             {/* <IconButton size="small">
                 <svg
@@ -91,10 +89,10 @@ function TextEditorWithSave({ data: parentData, onChange, provided, item, handle
 
     return (
         <ElementWrapper editable={(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR")} collapsed={parentData?.collapsed} setCollapsed={setCollapsed} handleDelete={handleDelete} provided={provided} item={item} ActionButtons={ActionButtons} handleTitleChange={(val) => setTitle(val)} editing={editing} >
-            <Box className="scroll" padding={"10px"} maxHeight={!editing ? "60vh" : "fit-content"} sx={{ overflow: !editing ? "scroll" : "hidden", display:"flex" }}>
+            <Box className="scroll" padding={"10px"} maxHeight={!editing ? "60vh" : "fit-content"} sx={{ overflow: !editing ? "scroll" : "hidden", display: "flex" }}>
                 {editing && texteditor}
 
-                {!editing && <Box className="textEditor" sx={{ cursor: "default", wordWrap: "break-word", overflowWrap: "break-word", flex:1 }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
+                {!editing && <Box className="textEditor" sx={{ cursor: "default", wordWrap: "break-word", overflowWrap: "break-word", flex: 1 }} dangerouslySetInnerHTML={{ __html: data }}></Box>}
             </Box>
         </ElementWrapper>
     )

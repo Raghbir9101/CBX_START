@@ -108,7 +108,7 @@ function Bookmark({
               />
             </svg>
           ) : (
-            <Save sx={{ fontSize: "18px" }} />
+            <Save sx={{ fontSize: "18px", color:(item.data.name != title) ?  "red" : "none" }} />
           )}
         </IconButton>
         {/* <IconButton size="small">
