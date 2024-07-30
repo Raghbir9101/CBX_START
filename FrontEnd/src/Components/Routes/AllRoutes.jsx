@@ -16,7 +16,7 @@ function AllRoutes() {
     <Box>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/signIn" element={<HomePage />} />
+        {/* <Route path="/signIn" element={<HomePage />} /> */}
         <Route
           path="/login"
           element={

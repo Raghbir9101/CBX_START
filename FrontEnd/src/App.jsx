@@ -4,10 +4,11 @@ import AllRoutes from "./Components/Routes/AllRoutes";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { Context } from "./Components/Context/Context";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import HTTP from "./HTTP";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import toast from "react-hot-toast";
+import { useLocale } from "antd/es/locale";
 function App() {
   const {
     token,
@@ -22,6 +23,8 @@ function App() {
   } = useContext(Context);
 
   const nav = useNavigate();
+
+  const location = useLocation();
 
   useEffect(() => {
     try {
@@ -99,8 +102,9 @@ function App() {
   };
 
   useEffect(() => {
+    if (location.pathname != "/") return
     loadGoogleTranslateScript();
-  }, []);
+  }, [location.pathname]);
 
   return (
     <Box>

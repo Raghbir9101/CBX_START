@@ -39,6 +39,7 @@ const HeroSection = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
+        draggable={false}
       >
         <Box className="contantBox">
           <Box className="HeadingBox">
@@ -53,7 +54,7 @@ const HeroSection = () => {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
               <Link
-                to="/signIn"
+                to="/login"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <Button variant="contained" className="loginButton">
@@ -85,7 +86,7 @@ const HeroSection = () => {
                 }}
               >
                 <Link
-                  to="/signIn"
+                  to="/login"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <MenuItem
@@ -145,7 +146,7 @@ const HeroSection = () => {
                 Simplify, Organize, and Connect with CBX Start
               </Typography>
               <Link
-                to="/signIn"
+                to="/login"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <Button
@@ -174,8 +175,9 @@ const HeroSection = () => {
                 <img
                   src={image}
                   alt="Image"
-                  loading="lazy"
+                  // loading="lazy"
                   style={{ width: "100%", height: "100%" }}
+                  draggable={false}
                 />
               </Box>
             </motion.div>

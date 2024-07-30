@@ -211,7 +211,7 @@ const FeatureSection = () => {
             </Typography>
             <Box mt={"50px"}>
               <Link
-                to="/signIn"
+                to="/login"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <Button
