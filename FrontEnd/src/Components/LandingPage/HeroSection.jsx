@@ -76,7 +76,7 @@ const HeroSection = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleCloseMenu}
                 sx={{
-                  mt: "60px",
+                  // mt: "60px",
                   "& .MuiPaper-root": {
                     borderRadius: "19px",
                     padding: "10px 10px",
