@@ -14,6 +14,7 @@ const modalStyle = {
   height: "fit-content",
   p: 4,
   borderRadius: "18px",
+  outline: "none",
 };
 
 const SharePageModal = ({
@@ -66,9 +67,14 @@ const SharePageModal = ({
         onClose={handleClose}
         aria-labelledby="create-page-modal-title"
         aria-describedby="create-page-modal-description"
-        sx={{ overflowY: "auto", padding: "20px", display: "flex", justifyContent: "center" }}
+        sx={{
+          overflowY: "auto",
+          padding: "20px",
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
-        <Box sx={modalStyle} >
+        <Box sx={modalStyle}>
           <Typography
             sx={{
               color: "#333333",

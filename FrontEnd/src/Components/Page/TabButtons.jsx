@@ -13,6 +13,24 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import axios from "axios";
 import HTTP from "../../HTTP";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import AddIcon from "@mui/icons-material/Add";
+import { v4 } from "uuid";
+
+const addObjectToShortestArray = (data, newObject) => {
+  let shortestArray = data[0].items;
+  let shortestArrayIndex = 0;
+
+  data.forEach((dataItem, dataIndex) => {
+    if (dataItem.items.length < shortestArray.length) {
+      shortestArray = dataItem.items;
+      shortestArrayIndex = dataIndex;
+    }
+  });
+
+  data[shortestArrayIndex].items.push(newObject);
+  return data;
+};
+
 // const clearedPageData = [
 //   {
 //     items: [<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />, <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />],
@@ -45,6 +63,7 @@ const TabButtons = ({
   const [googleSearch, setGoogleSearch] = useState("");
   const [googleSearchSuggestions, setGoogleSearchSuggestions] = useState([]);
   const searchInputRef = useRef(null);
+  const [hoveredButton, setHoveredButton] = useState(null);
 
   const handleSearchClick = () => {
     setSearchVisible(!searchVisible);
@@ -104,6 +123,51 @@ const TabButtons = ({
     };
   }, [googleSearch]);
 
+  const addNewItem = (type) => {
+    let newItem;
+    switch (type) {
+      case "Note":
+        newItem = {
+          id: v4(),
+          type: "Note",
+          data: {
+            name: "Notes",
+            html: "",
+            collapsed: true,
+          },
+        };
+        break;
+      case "Todo":
+        newItem = {
+          id: v4(),
+          type: "Todo",
+          data: {
+            name: "Todo List",
+            items: [],
+            collapsed: true,
+          },
+        };
+        break;
+      case "Link":
+        newItem = {
+          id: v4(),
+          type: "Bookmark",
+          data: {
+            name: "My Links",
+            URLs: [],
+            collapsed: true,
+          },
+        };
+        break;
+      default:
+        return;
+    }
+    setPageData((prevPageData) =>
+      addObjectToShortestArray([...prevPageData], newItem)
+    );
+    setHoveredButton(null);
+  };
+
   return (
     <Box>
       <Box
@@ -118,6 +182,8 @@ const TabButtons = ({
         }}
       >
         <Button
+          onMouseEnter={() => setHoveredButton("Note")}
+          // onMouseLeave={() => setHoveredButton(null)}
           onClick={() => {
             toggleFilter("Note");
           }}
@@ -142,8 +208,28 @@ const TabButtons = ({
           Notes
         </Button>
 
+        {hoveredButton === "Note" && (
+          <IconButton
+            onClick={() => addNewItem("Note")}
+            sx={{
+              border: "1px solid #4D8733",
+              p: "2px",
+              background: "#fff",
+              color: "#4D8733",
+              "&:hover": {
+                background: "#4D8733",
+                color: "#fff",
+              },
+            }}
+          >
+            <AddIcon sx={{ width: "16px", height: "16px" }} />
+          </IconButton>
+        )}
+
         <Link>
           <Button
+            onMouseEnter={() => setHoveredButton("Todo")}
+            // onMouseLeave={() => setHoveredButton(null)}
             onClick={() => {
               toggleFilter("Todo");
             }}
@@ -171,7 +257,27 @@ const TabButtons = ({
           </Button>
         </Link>
 
+        {hoveredButton === "Todo" && (
+          <IconButton
+            onClick={() => addNewItem("Todo")}
+            sx={{
+              border: "1px solid #4D8733",
+              p: "2px",
+              background: "#fff",
+              color: "#4D8733",
+              "&:hover": {
+                background: "#4D8733",
+                color: "#fff",
+              },
+            }}
+          >
+            <AddIcon sx={{ width: "16px", height: "16px" }} />
+          </IconButton>
+        )}
+
         <Button
+          onMouseEnter={() => setHoveredButton("Link")}
+          // onMouseLeave={() => setHoveredButton(null)}
           onClick={() => {
             toggleFilter("Bookmark");
           }}
@@ -195,6 +301,24 @@ const TabButtons = ({
         >
           Links
         </Button>
+
+        {hoveredButton === "Link" && (
+          <IconButton
+            onClick={() => addNewItem("Link")}
+            sx={{
+              border: "1px solid #4D8733",
+              p: "2px",
+              background: "#fff",
+              color: "#4D8733",
+              "&:hover": {
+                background: "#4D8733",
+                color: "#fff",
+              },
+            }}
+          >
+            <AddIcon sx={{ width: "16px", height: "16px" }} />
+          </IconButton>
+        )}
 
         {/* Search Icon */}
         <Box
@@ -355,17 +479,3 @@ const TabButtons = ({
 };
 
 export default TabButtons;
-
-{
-  /* <Button
-          sx={{ boxShadow: 1 }}
-          className="headingBtns"
-          startIcon={
-            <IconButton className="iconBtns" sx={{ p: "4px", mr: 1 }}>
-              <ChecklistOutlinedIcon sx={{ width: "16px", height: "16px" }} />
-            </IconButton>
-          }
-        >
-          Task List
-        </Button> */
-}
