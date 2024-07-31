@@ -1,36 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import moment from 'moment-timezone';
-import { Autocomplete, TextField } from '@mui/material';
-import { ElementWrapper } from '../Page/Page';
+import React, { useEffect, useState } from "react";
+import moment from "moment-timezone";
+import { Autocomplete, TextField } from "@mui/material";
+import { ElementWrapper } from "../Page/Page";
 
 const WorldClock = ({
-    data,
-    onChange,
-    provided,
-    item,
-    handleDelete,
-    pageMetaData,
+  data,
+  onChange,
+  provided,
+  item,
+  handleDelete,
+  pageMetaData,
 }) => {
-    const [selectedTimezone, setSelectedTimezone] = useState(data.timeZone || 'Asia/Kolkata'); // State to hold selected timezone
-    const [currentTime, setCurrentTime] = useState(''); // State to hold current time
-    const [collapsed, setCollapsed] = useState(data?.collapsed);
-    const [editing, setEditing] = useState(false);
-    const [title, setTitle] = useState(item.data.name || "");
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    data.timeZone || "Asia/Kolkata"
+  ); // State to hold selected timezone
+  const [currentTime, setCurrentTime] = useState(""); // State to hold current time
+  const [collapsed, setCollapsed] = useState(data?.collapsed);
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState(item.data.name || "");
 
-    // List of all timezones
-    const timezones = moment.tz.names();
+  // List of all timezones
+  const timezones = moment.tz.names();
 
-    useEffect(() => {
-        if (!selectedTimezone) return;
-        let intervalID = setInterval(() => {
-            const time = moment().tz(selectedTimezone).format('YYYY-MM-DD HH:mm:ss');
-            setCurrentTime(new Date(time));
-        }, 500);
+  useEffect(() => {
+    if (!selectedTimezone) return;
+    let intervalID = setInterval(() => {
+      const time = moment().tz(selectedTimezone).format("YYYY-MM-DD HH:mm:ss");
+      setCurrentTime(new Date(time));
+    }, 500);
 
-        return () => {
-            clearInterval(intervalID);
-        };
-    }, [selectedTimezone]);
+    return () => {
+      clearInterval(intervalID);
+    };
+  }, [selectedTimezone]);
 
     const handleTimezoneChange = (event, value) => {
         if (value) {

@@ -49,7 +49,7 @@ export const clientsData = [
     profession: "Full Stack Developer at WebWorks",
     review:
       "Start is a game changer for productivity. From jotting down quick ideas to planning detailed projects, it handles everything effortlessly. It's now an essential part of my daily routine.",
-    logo: "https://t4.ftcdn.net/jpg/06/40/07/03/240_F_640070383_9LJ3eTRSvOiwKyrmBYgcjhSlckDnNcxl.jpg",
+    logo: "https://t3.ftcdn.net/jpg/06/99/19/54/240_F_699195440_LDdsHnqjZGiE8w2gUNCQTSavnNKsmbyM.jpg",
   },
   {
     id: 3,
@@ -85,6 +85,7 @@ export const clientsData = [
     profession: "Team Lead at Innovatech",
     review:
       "Start has enhanced collaboration within our team. The shared workspaces and real-time updates keep everyone on the same page. It's an excellent tool for any team.",
-    logo: "https://t4.ftcdn.net/jpg/06/40/07/43/240_F_640074303_li7Wu7JmTeS3uCgzFTsaIVRpEnuha3Yj.jpg",
+    // logo: "https://t4.ftcdn.net/jpg/06/53/65/05/240_F_653650577_XkwBMCvM0D9goMd0a9bgJfMeEHDvkSZs.jpg",
+    logo: "https://t4.ftcdn.net/jpg/06/87/63/45/240_F_687634538_Jnva2hT8865r8LEBrlK7XzAywwn0tgP5.jpg",
   },
 ];

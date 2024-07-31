@@ -247,7 +247,8 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
                       html: "",
                       collapsed: true,
                     },
-                  }, id: v4()
+                  },
+                  id: v4(),
                 });
               });
             }}
@@ -293,7 +294,8 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
                       tasks: [],
                       collapsed: true,
                     },
-                  }, id: v4()
+                  },
+                  id: v4(),
                 });
               });
             }}
@@ -340,7 +342,8 @@ const AddNewData = ({ open, anchorEl, handlePopoverClose, setPageData }) => {
                       URLs: [],
                       collapsed: true,
                     },
-                  }, id: v4()
+                  },
+                  id: v4(),
                 });
               });
             }}

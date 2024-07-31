@@ -102,7 +102,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (location.pathname != "/") return
+    if (location.pathname != "/") return;
     loadGoogleTranslateScript();
   }, [location.pathname]);
 
