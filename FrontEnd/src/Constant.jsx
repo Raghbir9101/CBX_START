@@ -35,29 +35,56 @@ export const faqs = [
 export const clientsData = [
   {
     id: 1,
-    name: "Arjun Joshi",
-    highlighText: "Help us improve our productivity",
-    profession: "Senior Designer at Design Studio",
+    name: "Ravi Kumar",
+    highlighText: "Boosted our team's efficiency",
+    profession: "Product Manager at Tech Solutions",
     review:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not.",
-    logo: "https://media.istockphoto.com/id/1277971635/photo/portrait-of-a-smiling-man-of-indian-ethnicity.jpg?s=612x612&w=0&k=20&c=CnPwvagPlklsAjejUNkuKv_QXtaXPYFQ64AQYb-IAjA=",
+      "Start has significantly boosted our team's efficiency. The interface is intuitive, and the features are perfectly tailored for our workflow. Highly recommended!",
+    logo: "https://t3.ftcdn.net/jpg/06/58/64/44/240_F_658644412_UBinZEwzOcBCrDvBlGKlmJtNVPhCswaW.jpg",
   },
   {
     id: 2,
-    name: "Amit J.",
-    highlighText: "jotting down quick ideas or planning detailed",
-    profession: "Full stack developer",
+    name: "Rahul Jain",
+    highlighText: "A game changer for productivity",
+    profession: "Full Stack Developer at WebWorks",
     review:
-      "Perfect for my daily needs. Whether it's jotting down quick ideas or planning detailed projects, this app handles it all effortlessly.",
-    logo: "https://media.istockphoto.com/id/1334828664/photo/indian-architect.jpg?s=612x612&w=0&k=20&c=W7fOG_JIbP6WEcSMR3lOjUjSRLEFXHdtkOkUUz0ztT0=",
+      "Start is a game changer for productivity. From jotting down quick ideas to planning detailed projects, it handles everything effortlessly. It's now an essential part of my daily routine.",
+    logo: "https://t4.ftcdn.net/jpg/06/40/07/03/240_F_640070383_9LJ3eTRSvOiwKyrmBYgcjhSlckDnNcxl.jpg",
   },
   {
     id: 3,
-    name: "Sneha M.",
-    highlighText: "Perfect for my daily needs.",
-    profession: "frontend developer",
+    name: "Sneha Rao",
+    highlighText: "An indispensable tool",
+    profession: "Frontend Developer at Creative Minds",
     review:
-      "I can't imagine my life without this app now. It's so easy to use, and the design is clean and clutter-free. It helps me stay organized and productive.",
-    logo: "https://media.istockphoto.com/id/1483473258/photo/smiling-young-woman-professional-in-formal-wear-with-arms-crossed-and-looking-at-camera.jpg?s=612x612&w=0&k=20&c=GONEgP4Dcxbj66r3KcA6LpoZGWcOEaiUGEcXjOuBybE=",
+      "Start has become an indispensable tool for me. It's user-friendly, the design is clean and clutter-free, and it helps me stay organized and productive every day.",
+    logo: "https://t4.ftcdn.net/jpg/05/73/43/47/240_F_573434786_u5oTtQo07UomjUEkpx8OP57jwDW8nZDL.jpg",
+  },
+  {
+    id: 4,
+    name: "Kuldeep Singh",
+    highlighText: "Keeps me on track",
+    profession: "UI/UX Designer at Design Hub",
+    review:
+      "I can't imagine my workday without Start. It keeps me on track with its easy-to-use features and beautiful interface. It's a must-have for anyone looking to enhance their productivity.",
+    logo: "https://t4.ftcdn.net/jpg/02/32/51/07/240_F_232510716_aGRRDQYrZyRfnixULQBz9Msictrotm4J.jpg",
+  },
+  {
+    id: 5,
+    name: "Priya Mehta",
+    highlighText: "Streamlined our project management",
+    profession: "Project Coordinator at BuildIt",
+    review:
+      "Start has streamlined our project management process. The customization options and seamless integration with our existing tools make it an invaluable asset to our team.",
+    logo: "https://t3.ftcdn.net/jpg/06/70/00/42/240_F_670004228_4EFH6zZn8kjVhc5q7FyXuAHn3PtSwpwy.jpg",
+  },
+  {
+    id: 6,
+    name: "Anjali Desai",
+    highlighText: "Enhanced collaboration",
+    profession: "Team Lead at Innovatech",
+    review:
+      "Start has enhanced collaboration within our team. The shared workspaces and real-time updates keep everyone on the same page. It's an excellent tool for any team.",
+    logo: "https://t4.ftcdn.net/jpg/06/40/07/43/240_F_640074303_li7Wu7JmTeS3uCgzFTsaIVRpEnuha3Yj.jpg",
   },
 ];

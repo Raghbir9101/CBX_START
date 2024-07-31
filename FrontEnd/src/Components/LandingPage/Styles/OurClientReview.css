@@ -19,10 +19,10 @@
 .review-dotImg {
   width: 70px;
   height: 70px;
-  position: relative;
-  right: -36px;
+  position: absolute;
+  right: -26px;
   top: -36px !important;
-  z-index: 999 !important;
+  z-index: 999;
 }
 /* --------------------------- */
 
@@ -107,7 +107,7 @@
   width: 442px;
   height: 283px;
   flex-shrink: 0;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .review-name {

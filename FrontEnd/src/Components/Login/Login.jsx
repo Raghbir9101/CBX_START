@@ -47,16 +47,17 @@ const App = () => {
   return (
     <>
       <Box
+        className="loginMainContainer"
         sx={{
           minHeight: "100vh",
           width: "100%",
           display: "flex",
           justifyContent: "space-around",
-          backgroundImage: `url(${bgImg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          position:"relative"
+          // backgroundImage: `url(${bgImg})`,
+          // backgroundSize: "cover",
+          // backgroundPosition: "center",
+          // backgroundRepeat: "no-repeat",
+          position: "relative",
         }}
       >
         <Box
@@ -82,51 +83,51 @@ const App = () => {
           >
             Please login to your account.
           </Typography>
-          <Box sx={{ position: "absolute", right: "20px", mt: "40px", top:0 }}>
-          <Link to="/">
-            <Button
-              sx={{
-                borderRadius: "10.789px",
-                border: "2.158px solid #4D8733",
-                color: " #4D8733",
-                fontSize: "14.386px",
-                fontWeight: 600,
-                padding: "5px 20px ",
-                
-                "&:hover": {
+          <Box sx={{ position: "absolute", right: "20px", mt: "40px", top: 0 }}>
+            <Link to="/">
+              <Button
+                sx={{
+                  borderRadius: "10.789px",
                   border: "2.158px solid #4D8733",
-                },
-              }}
-              variant="outlined"
-              startIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  viewBox="0 0 25 25"
-                  fill="none"
-                >
-                  <path
-                    d="M12.5438 19.5L5.54382 12.5L12.5438 5.5"
-                    stroke="#4D8733"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M19.5438 12.5H5.54382"
-                    stroke="#4D8733"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              }
-            >
-              Back
-            </Button>
-          </Link>
-        </Box>
+                  color: " #4D8733",
+                  fontSize: "14.386px",
+                  fontWeight: 600,
+                  padding: "5px 20px ",
+
+                  "&:hover": {
+                    border: "2.158px solid #4D8733",
+                  },
+                }}
+                variant="outlined"
+                startIcon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 25 25"
+                    fill="none"
+                  >
+                    <path
+                      d="M12.5438 19.5L5.54382 12.5L12.5438 5.5"
+                      stroke="#4D8733"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M19.5438 12.5H5.54382"
+                      stroke="#4D8733"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                }
+              >
+                Back
+              </Button>
+            </Link>
+          </Box>
           <Box sx={{ mt: 2 }}>
             <Button
               onClick={() =>

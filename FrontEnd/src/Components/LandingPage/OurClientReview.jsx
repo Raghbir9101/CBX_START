@@ -82,7 +82,6 @@ const OurClientReview = () => {
                       {/* <img
                           src={dotImg}
                           alt="Icon"
-                          loading="lazy"
                           className="review-dotImg"
                         />
                       </Box> */}

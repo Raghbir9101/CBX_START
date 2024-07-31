@@ -61,7 +61,7 @@ const FaqSection = () => {
               Q
             </Typography>
             <Typography className="faq-heading" fontSize={"75px"}>
-              S
+              s
             </Typography>
           </motion.div>
           <motion.div

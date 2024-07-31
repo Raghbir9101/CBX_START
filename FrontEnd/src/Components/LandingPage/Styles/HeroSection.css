@@ -1,5 +1,9 @@
 .heroMainContainer {
   width: 100% !important;
+  background-image: url("../../../Icons/heroBg.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   /* height: 650px; */
   margin-bottom: 20px;
 }

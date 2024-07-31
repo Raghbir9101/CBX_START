@@ -33,12 +33,12 @@ const HeroSection = () => {
       <Box
         className="heroMainContainer"
         ref={ref}
-        sx={{
-          backgroundImage: `url(${bgSvg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+        // sx={{
+        //   backgroundImage: `url(${bgSvg})`,
+        //   backgroundSize: "cover",
+        //   backgroundPosition: "center",
+        //   backgroundRepeat: "no-repeat",
+        // }}
         draggable={false}
       >
         <Box className="contantBox">
