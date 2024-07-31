@@ -118,32 +118,32 @@ const HeroSection = () => {
               transition={{ duration: 0.9 }}
             >
               <Typography className="hero-heading" sx={{ fontSize: "40px" }}>
-                Your Personalized
+                Your Digital Head
               </Typography>
               <Typography className="hero-heading" sx={{ fontSize: "40px" }}>
-                Web Hub
+                Quarters
               </Typography>
               <Typography className="hero-heading1" sx={{ fontSize: "40px" }}>
-                Your Personalized Web Hub
+                Your Digital Head Quarters
               </Typography>
 
               <Typography
                 className="hero-sub-heading"
                 sx={{ fontSize: "20px" }}
               >
-                Simplify, Organize, and Connect
+                All Your Work, Organized
               </Typography>
               <Typography
                 className="hero-sub-heading"
                 sx={{ fontSize: "20px" }}
               >
-                with CBX Start
+                in One Place
               </Typography>
               <Typography
                 className="hero-sub-heading1"
                 sx={{ fontSize: "20px" }}
               >
-                Simplify, Organize, and Connect with CBX Start
+                All Your Work, Organized in One Place
               </Typography>
               <Link
                 to="/login"
@@ -161,7 +161,7 @@ const HeroSection = () => {
                     },
                   }}
                 >
-                  Get Started
+                  Get Organized
                 </Button>
               </Link>
             </motion.div>

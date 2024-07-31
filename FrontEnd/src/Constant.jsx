@@ -1,34 +1,51 @@
 export const faqs = [
   {
     id: 1,
-    title: "Can I sync my notes across different devices?",
+    title: "What is start.ceoitbox.com?",
     description:
-      "It's easy! Just sign up for an account, choose a template or customize your own, add your links, and you're ready to share!",
+      "start.ceoitbox.com is your personal productivity command center. It's a platform designed to help you organize links, take notes, manage tasks, and streamline your workflow.  Think of it as your digital HQ where everything you need is just a click away.",
   },
 
   {
     id: 2,
-    title: "How secure are my notes?",
+    title: "How does start.ceoitbox.com work?",
     description:
-      "We prioritize your privacy and security. All notes are encrypted and securely stored, ensuring your information is safe.",
+      "It's simple! You can create custom pages to organize your links, add notes and tags for easy searching, utilize integrated productivity tools like to-do lists and calendars, and access your workspace from any device.",
   },
   {
     id: 3,
-    title: "Can I share my notes with others?",
+    title: "Is my data secure?",
     description:
-      "You can manage your links easily through your account dashboard.",
+      "We take data security seriously.  All your information is encrypted and stored securely to protect your privacy.",
   },
   {
     id: 4,
-    title: "Is there a way to organize my notes effectively?",
-    description:
-      "Yes! Choose from our templates or customize your page with your own colors, images, and fonts.",
+    title: "Can I access start.ceoitbox.com on mobile devices?",
+    description: "We will come up with a mobile version soon.",
   },
   {
     id: 5,
-    title: "Can I track how many people click on my links? ",
+    title: "Can I share my pages with others?",
     description:
-      "Yes, our premium plan provides analytics so you can track clicks and see which links are most popular.",
+      "Yes! You can share specific pages or your entire workspace with colleagues, friends, or clients.  You can control access levels, allowing others to view, edit, or contribute to your pages.",
+  },
+  {
+    id: 6,
+    title: "How do I use the note-taking feature?",
+    description:
+      "Just click on the New Note button, and you can start typing.  You can format your notes, add links, images, and checklists to keep your thoughts organized.  Plus, you can link your notes to relevant pages or tasks.",
+  },
+  {
+    id: 7,
+    title: "What are the task management options?",
+    description:
+      "start.ceoitbox.com offers a robust task management system. You can create tasks, set due dates, assign priorities, and track your progress.",
+  },
+  {
+    id: 8,
+    title: "What is the world clock feature?",
+    description:
+      "The world clock feature allows you to see the current time in multiple locations around the world. This is perfect for teams working across different time zones or for anyone who needs to stay aware of global time differences.",
   },
 ];
 

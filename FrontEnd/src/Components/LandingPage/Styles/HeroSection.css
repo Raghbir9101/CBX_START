@@ -6,6 +6,7 @@
   background-repeat: no-repeat;
   /* height: 650px; */
   margin-bottom: 20px;
+  min-height: 100vh;
 }
 
 .contantBox {
@@ -125,6 +126,12 @@
 
 .menuIconBox {
   display: none;
+}
+
+@media screen and (max-width: 992px) {
+  .heroMainContainer {
+    min-height: auto !important;
+  }
 }
 
 @media screen and (max-width: 668px) {

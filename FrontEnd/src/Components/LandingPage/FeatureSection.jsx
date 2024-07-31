@@ -48,15 +48,15 @@ const FeatureSection = () => {
                   className="feature-card-heading"
                   sx={{ fontSize: "22px" }}
                 >
-                  Bookmarks
+                  Personalized Link Organization
                 </Typography>
                 <Typography
                   className="feature-card-sub-heading"
                   fontSize={"16px"}
                 >
-                  Easily save, import, and organize your bookmarks with
-                  intuitive filtering options. Keep your favorite sites
-                  accessible and neatly categorized.
+                  Go beyond basic bookmarks. Create custom pages to categorize
+                  links for projects, clients, or interests. Add notes, tags,
+                  and visuals to make them easy to find and use.
                 </Typography>
               </Box>
 
@@ -81,15 +81,15 @@ const FeatureSection = () => {
                   className="feature-card-heading"
                   sx={{ fontSize: "22px" }}
                 >
-                  Embed Content
+                  Integrated Productivity Tools
                 </Typography>
                 <Typography
                   className="feature-card-sub-heading"
                   fontSize={"16px"}
                 >
-                  Easily save, import, and organize your bookmarks with
-                  intuitive filtering options. Keep your favorite sites
-                  accessible and neatly categorized.
+                  Combine link management with a suite of productivity features.
+                  Take notes, create to-do lists, set deadlines, track progress,
+                  and stay organized without switching between apps.
                 </Typography>
               </Box>
             </Box>
@@ -126,15 +126,18 @@ const FeatureSection = () => {
                   className="feature-card-heading"
                   sx={{ fontSize: "22px" }}
                 >
-                  RSS Feeds
+                  Global Accessibility
                 </Typography>
                 <Typography
                   className="feature-card-sub-heading"
                   fontSize={"16px"}
                 >
-                  Easily save, import, and organize your bookmarks with
-                  intuitive filtering options. Keep your favorite sites
-                  accessible and neatly categorized.
+                  Stay connected and on top of your work from anywhere in the
+                  world. Access your links, notes, and tasks seamlessly from
+                  your desktop, tablet, or mobile device.{" "}
+                  <span style={{ visibility: "hidden" }}>
+                    your desktop, tablet, or mobile device device.
+                  </span>
                 </Typography>
               </Box>
               <Box
@@ -158,15 +161,15 @@ const FeatureSection = () => {
                   className="feature-card-heading"
                   sx={{ fontSize: "22px" }}
                 >
-                  Tasks
+                  Customizable Workspace
                 </Typography>
                 <Typography
                   className="feature-card-sub-heading"
                   fontSize={"16px"}
                 >
-                  Easily save, import, and organize your bookmarks with
-                  intuitive filtering options. Keep your favorite sites
-                  accessible and neatly categorized.
+                  Make start.ceoitbox.com your own. Choose themes, layouts, and
+                  widgets that match your style and workflow. Tailor the
+                  platform to fit your unique needs and preferences.
                 </Typography>
               </Box>
             </Box>
@@ -180,23 +183,23 @@ const FeatureSection = () => {
             transition={{ duration: 0.9 }}
           >
             <Typography className="feature-heading" fontSize={"40px"}>
-              Discover the{" "}
+              Streamline
             </Typography>
             <Typography className="feature-heading" fontSize={"40px"}>
-              Comprehensive
+              Your Day The Ultimate
             </Typography>
             <Typography className="feature-heading" fontSize={"40px"}>
-              Features of Our Website
+              Link, Note & Task Hub
             </Typography>
             <Typography
               className="feature-sub-heading"
               fontSize={"16px"}
               mt={1}
             >
-              Elevate Your Online Experience with Unmatched
+              Bookmark links, take notes, manage tasks, and more – all
             </Typography>
             <Typography className="feature-sub-heading" fontSize={"16px"}>
-              Organization and Customization
+              in one beautifully designed space.
             </Typography>
             <Typography className="feature-heading1" fontSize={"40px"}>
               Discover the Comprehensive Features of Our Website
@@ -206,8 +209,8 @@ const FeatureSection = () => {
               fontSize={"16px"}
               mt={1}
             >
-              Elevate Your Online Experience with Unmatched Organization and
-              Customization
+              Bookmark links, take notes, manage tasks, and more – all in one
+              beautifully designed space.
             </Typography>
             <Box mt={"50px"}>
               <Link
