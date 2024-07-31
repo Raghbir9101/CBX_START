@@ -43,6 +43,13 @@ const WorldClock = ({
         }
     };
 
+
+    
+  useEffect(() => {
+    onChange({ collapsed });
+  }, [collapsed]);
+
+  
     return (
         <ElementWrapper
             editable={pageMetaData.role === 'OWNER' || pageMetaData.role === 'EDITOR'}
