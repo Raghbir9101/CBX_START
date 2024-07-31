@@ -203,13 +203,16 @@ const TabButtons = ({
                 className={filters["Note"] ? "isActiveIcons" : "iconBtns"}
                 sx={{ mr: "2px" }}
               >
-                <TextSnippetOutlinedIcon sx={{ width: "14px", height: "14px" }} />
+                <TextSnippetOutlinedIcon
+                  sx={{ width: "14px", height: "14px" }}
+                />
               </IconButton>
             }
           >
             Notes
           </Button>
-          <IconButton className="hoverShow"
+          <IconButton
+            className="hoverShow"
             onClick={() => addNewItem("Note")}
             sx={{
               border: "1px solid #4D8733",
@@ -258,7 +261,8 @@ const TabButtons = ({
             </Button>
           </Link>
 
-          <IconButton className="hoverShow"
+          <IconButton
+            className="hoverShow"
             onClick={() => addNewItem("Todo")}
             sx={{
               border: "1px solid #4D8733",
@@ -304,7 +308,8 @@ const TabButtons = ({
           </Button>
 
           <span>
-            <IconButton className="hoverShow"
+            <IconButton
+              className="hoverShow"
               onClick={() => addNewItem("Link")}
               sx={{
                 border: "1px solid #4D8733",
@@ -316,15 +321,12 @@ const TabButtons = ({
                   background: "#4D8733",
                   color: "#fff",
                 },
-
               }}
             >
               <AddIcon sx={{ width: "16px", height: "16px" }} />
             </IconButton>
           </span>
         </Box>
-
-
 
         {/* Search Icon */}
         <Box

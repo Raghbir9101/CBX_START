@@ -171,7 +171,7 @@ const HeroSection = () => {
               animate={inView ? { y: 0, opacity: 1 } : { y: 500, opacity: 0 }}
               transition={{ duration: 0.9 }}
             >
-              <Box sx={{ width: "80%" }}>
+              <Box sx={{ width: "100%" }}>
                 <img
                   src={image}
                   alt="Image"

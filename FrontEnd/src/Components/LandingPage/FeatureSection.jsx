@@ -221,14 +221,14 @@ const FeatureSection = () => {
                   variant="contained"
                   className="feature-signin-btn "
                   sx={{
-                    p: "10px 60px",
+                    p: "10px 40px",
                     fontSize: "20px",
                     "&:hover": {
                       boxShadow: 5,
                     },
                   }}
                 >
-                  Sign In
+                  Get Organized
                 </Button>
               </Link>
             </Box>
