@@ -319,8 +319,8 @@ function Page() {
           let flag = false;
           for (let i of item.data.URLs || []) {
             if (
-              i.link.toLowerCase().includes(search) ||
-              i.name.toLowerCase().includes(search)
+              (i.link || "").toLowerCase().includes(search) ||
+              (i.name || "").toLowerCase().includes(search)
             ) {
               flag = true;
               break;
@@ -330,7 +330,7 @@ function Page() {
         } else if (item.type == "Todo") {
           let flag = false;
           for (let i of item.data.tasks || []) {
-            if (i.task.toLowerCase().includes(search)) {
+            if ((i.task || "").toLowerCase().includes(search)) {
               flag = true;
               break;
             }
@@ -341,7 +341,7 @@ function Page() {
             (item.data.timeZone || "").toLowerCase() || "asia/kolkata";
           return timeZone.includes(search);
         } else if (item.type == "Embed") {
-          return item.data.url.toLowerCase().includes(search);
+          return (item.data.url || "").toLowerCase().includes(search);
         }
       });
       // Create a new page object with the same structure but empty items arrays
