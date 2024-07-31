@@ -12,6 +12,7 @@ import backIcon from "../../Icons/back.svg";
 import dotImg from "../../Icons/dot.svg";
 import { motion } from "framer-motion";
 import useInView from "./useInView.jsx";
+import zIndex from "@mui/material/styles/zIndex.js";
 
 const OurClientReview = () => {
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -71,20 +72,21 @@ const OurClientReview = () => {
                         alignItems: "center",
                         gap: "80px",
                         flexWrap: "wrap",
+                        p: "20px 0px 0px 0px ",
                       }}
                     >
-                      {/* <Box sx={{ position: "relative" }}> */}
-                      <img
-                        src={url.logo}
-                        alt="Images"
-                        className="sliderImages"
-                      />
-                      {/* <img
+                      <Box sx={{ position: "relative" }}>
+                        <img
+                          src={url.logo}
+                          alt="Images"
+                          className="sliderImages"
+                        />
+                        <img
                           src={dotImg}
                           alt="Icon"
                           className="review-dotImg"
                         />
-                      </Box> */}
+                      </Box>
 
                       <motion.div
                         className="nameAndReviewTextBox"
