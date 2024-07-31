@@ -181,35 +181,35 @@ const TabButtons = ({
           p: "10px 0px 10px 0px",
         }}
       >
-        <Button
-          onMouseEnter={() => setHoveredButton("Note")}
-          // onMouseLeave={() => setHoveredButton(null)}
-          onClick={() => {
-            toggleFilter("Note");
-          }}
-          className={filters["Note"] ? "isActive" : "headingBtns"}
-          sx={{
-            boxShadow: 1,
-            "&:hover": {
-              boxShadow: 2,
-            },
-            // transform: filters.Note ? "scale(110%)" : "none",
-          }}
-          startIcon={
-            <IconButton
-              size="small"
-              className={filters["Note"] ? "isActiveIcons" : "iconBtns"}
-              sx={{ mr: "2px" }}
-            >
-              <TextSnippetOutlinedIcon sx={{ width: "14px", height: "14px" }} />
-            </IconButton>
-          }
-        >
-          Notes
-        </Button>
-
-        {hoveredButton === "Note" && (
-          <IconButton
+        <Box className="hoverShowparent">
+          <Button
+            onMouseEnter={() => setHoveredButton("Note")}
+            // onMouseLeave={() => setHoveredButton(null)}
+            onClick={() => {
+              toggleFilter("Note");
+            }}
+            className={filters["Note"] ? "isActive" : "headingBtns"}
+            sx={{
+              height: "fit-content",
+              boxShadow: 1,
+              "&:hover": {
+                boxShadow: 2,
+              },
+              // transform: filters.Note ? "scale(110%)" : "none",
+            }}
+            startIcon={
+              <IconButton
+                size="small"
+                className={filters["Note"] ? "isActiveIcons" : "iconBtns"}
+                sx={{ mr: "2px" }}
+              >
+                <TextSnippetOutlinedIcon sx={{ width: "14px", height: "14px" }} />
+              </IconButton>
+            }
+          >
+            Notes
+          </Button>
+          <IconButton className="hoverShow"
             onClick={() => addNewItem("Note")}
             sx={{
               border: "1px solid #4D8733",
@@ -224,41 +224,41 @@ const TabButtons = ({
           >
             <AddIcon sx={{ width: "16px", height: "16px" }} />
           </IconButton>
-        )}
+        </Box>
 
-        <Link>
-          <Button
-            onMouseEnter={() => setHoveredButton("Todo")}
-            // onMouseLeave={() => setHoveredButton(null)}
-            onClick={() => {
-              toggleFilter("Todo");
-            }}
-            sx={{
-              boxShadow: 1,
-              "&:hover": {
-                boxShadow: 2,
-              },
-              // transform: filters.Todo ? "scale(110%)" : "none",
-            }}
-            className={filters["Todo"] ? "isActive" : "headingBtns"}
-            startIcon={
-              <IconButton
-                size="small"
-                className={filters["Todo"] ? "isActiveIcons" : "iconBtns"}
-                sx={{ mr: "2px" }}
-              >
-                <FormatListBulletedOutlinedIcon
-                  sx={{ width: "14px", height: "14px" }}
-                />
-              </IconButton>
-            }
-          >
-            To do List
-          </Button>
-        </Link>
+        <Box className="hoverShowparent">
+          <Link>
+            <Button
+              onMouseEnter={() => setHoveredButton("Todo")}
+              // onMouseLeave={() => setHoveredButton(null)}
+              onClick={() => {
+                toggleFilter("Todo");
+              }}
+              sx={{
+                boxShadow: 1,
+                "&:hover": {
+                  boxShadow: 2,
+                },
+                // transform: filters.Todo ? "scale(110%)" : "none",
+              }}
+              className={filters["Todo"] ? "isActive" : "headingBtns"}
+              startIcon={
+                <IconButton
+                  size="small"
+                  className={filters["Todo"] ? "isActiveIcons" : "iconBtns"}
+                  sx={{ mr: "2px" }}
+                >
+                  <FormatListBulletedOutlinedIcon
+                    sx={{ width: "14px", height: "14px" }}
+                  />
+                </IconButton>
+              }
+            >
+              To do List
+            </Button>
+          </Link>
 
-        {hoveredButton === "Todo" && (
-          <IconButton
+          <IconButton className="hoverShow"
             onClick={() => addNewItem("Todo")}
             sx={{
               border: "1px solid #4D8733",
@@ -273,52 +273,58 @@ const TabButtons = ({
           >
             <AddIcon sx={{ width: "16px", height: "16px" }} />
           </IconButton>
-        )}
+        </Box>
 
-        <Button
-          onMouseEnter={() => setHoveredButton("Link")}
-          // onMouseLeave={() => setHoveredButton(null)}
-          onClick={() => {
-            toggleFilter("Bookmark");
-          }}
-          sx={{
-            boxShadow: 1,
-            "&:hover": {
-              boxShadow: 2,
-            },
-            // transform: filters.Bookmark ? "scale(110%)" : "none",
-          }}
-          className={filters["Bookmark"] ? "isActive" : "headingBtns"}
-          startIcon={
-            <IconButton
-              size="small"
-              className={filters["Bookmark"] ? "isActiveIcons" : "iconBtns"}
-              sx={{ mr: "2px" }}
-            >
-              <LinkOffOutlinedIcon sx={{ width: "14px", height: "14px" }} />
-            </IconButton>
-          }
-        >
-          Links
-        </Button>
-
-        {hoveredButton === "Link" && (
-          <IconButton
-            onClick={() => addNewItem("Link")}
-            sx={{
-              border: "1px solid #4D8733",
-              p: "2px",
-              background: "#fff",
-              color: "#4D8733",
-              "&:hover": {
-                background: "#4D8733",
-                color: "#fff",
-              },
+        <Box className="hoverShowparent">
+          <Button
+            onMouseEnter={() => setHoveredButton("Link")}
+            // onMouseLeave={() => setHoveredButton(null)}
+            onClick={() => {
+              toggleFilter("Bookmark");
             }}
+            sx={{
+              boxShadow: 1,
+              "&:hover": {
+                boxShadow: 2,
+              },
+              // transform: filters.Bookmark ? "scale(110%)" : "none",
+            }}
+            className={filters["Bookmark"] ? "isActive" : "headingBtns"}
+            startIcon={
+              <IconButton
+                size="small"
+                className={filters["Bookmark"] ? "isActiveIcons" : "iconBtns"}
+                sx={{ mr: "2px" }}
+              >
+                <LinkOffOutlinedIcon sx={{ width: "14px", height: "14px" }} />
+              </IconButton>
+            }
           >
-            <AddIcon sx={{ width: "16px", height: "16px" }} />
-          </IconButton>
-        )}
+            Links
+          </Button>
+
+          <span>
+            <IconButton className="hoverShow"
+              onClick={() => addNewItem("Link")}
+              sx={{
+                border: "1px solid #4D8733",
+                height: "10px",
+                p: "2px",
+                background: "#fff",
+                color: "#4D8733",
+                "&:hover": {
+                  background: "#4D8733",
+                  color: "#fff",
+                },
+
+              }}
+            >
+              <AddIcon sx={{ width: "16px", height: "16px" }} />
+            </IconButton>
+          </span>
+        </Box>
+
+
 
         {/* Search Icon */}
         <Box
