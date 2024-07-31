@@ -87,9 +87,9 @@ const Navbar = ({
   const handleCreatePage = async (pageData) => {
     let { data: res } = await HTTP.post(`addNewPage`, pageData);
     if (res.error) return alert(res.error || "Internal Server Error!");
-    
+
     setPages((p) => [...p, { ...res, role: "OWNER" }]);
-    nav("/page/"+ res._id)
+    nav("/page/" + res._id);
   };
 
   const handleEditPage = async (pageData) => {
@@ -172,7 +172,8 @@ const Navbar = ({
             <img
               className="image"
               alt="Image"
-              src="https://c.animaapp.com/YKPFj7gL/img/image-8@2x.png"
+              // src="https://c.animaapp.com/YKPFj7gL/img/image-8@2x.png"
+              src="https://ceoitbox.com/wp-content/uploads/2022/04/logo.png.webp"
             />
           </NavLink>
         </Box>

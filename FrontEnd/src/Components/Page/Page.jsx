@@ -49,6 +49,7 @@ const modalStyle = {
   boxShadow: 24,
   p: "25px 25px",
   borderRadius: "18px",
+  outline: "none",
 };
 
 const deleteModalStyle = {
@@ -90,7 +91,7 @@ let loadingState = [
       {
         type: "Loading",
       },
-    ]
+    ],
   },
   {
     items: [
@@ -109,7 +110,7 @@ let loadingState = [
       {
         type: "Loading",
       },
-    ]
+    ],
   },
   {
     items: [
@@ -128,7 +129,7 @@ let loadingState = [
       {
         type: "Loading",
       },
-    ]
+    ],
   },
   {
     items: [
@@ -147,7 +148,7 @@ let loadingState = [
       {
         type: "Loading",
       },
-    ]
+    ],
   },
   {
     items: [
@@ -166,13 +167,9 @@ let loadingState = [
       {
         type: "Loading",
       },
-    ]
+    ],
   },
-]
-
-
-
-
+];
 
 function Page() {
   const { loginUser, token } = useContext(Context);
@@ -250,17 +247,17 @@ function Page() {
     if (pageData.length > 0 && loginUser == null) {
       return;
     }
-    setIsLoading(true)
+    setIsLoading(true);
     HTTP.get(`getPageData/${pageID}`).then(async (res) => {
       if (res.data.error) {
         if (res.data.errorCode == "ENTER_PASSWORD") {
           return setPasswordModal(true);
         }
-        setIsLoading(false)
+        setIsLoading(false);
         return toast.error(res.data.error || "Internal Server Error!");
         // return alert(res.data.error);
       }
-      setIsLoading(false)
+      setIsLoading(false);
       setPageMetaData(res.data);
       setFilteredPageData(res.data.data);
       setPageData(res.data.data);
@@ -285,7 +282,7 @@ function Page() {
       controllerRef.current = controller;
 
       HTTP.put(`pages/${pageID}`, { data: pageData })
-        .then((response) => { })
+        .then((response) => {})
         .catch((error) => {
           if (axios.isCancel(error)) {
           } else {
@@ -303,54 +300,54 @@ function Page() {
   }, [pageData]);
 
   function filterData(data, filterObject, search) {
-    if (pageData.length == 0) return []
+    if (pageData.length == 0) return [];
     let notTabFiltering = Object.keys(filterObject).length == 0;
     if (notTabFiltering && search == "") return data;
     // Create a new array to hold the filtered data
     const filteredData = data.map((page) => {
-
       let filteredItems = page.items.filter((item) => {
-        if (!(notTabFiltering ? true : filterObject[item.type] === 1)) return false;
+        if (!(notTabFiltering ? true : filterObject[item.type] === 1))
+          return false;
 
         if ((item.type || "").toLowerCase().includes(search)) return true;
-        if ((item?.data?.name || "").toLowerCase().includes(search)) return true;
+        if ((item?.data?.name || "").toLowerCase().includes(search))
+          return true;
 
         if (item.type == "Note") {
-          return (item?.data.html || "").toLowerCase().includes(search)
-        }
-        else if (item.type == "Bookmark") {
+          return (item?.data.html || "").toLowerCase().includes(search);
+        } else if (item.type == "Bookmark") {
           let flag = false;
-          for (let i of (item.data.URLs || [])) {
-            if ((i.link).toLowerCase().includes(search) || (i.name).toLowerCase().includes(search)) {
+          for (let i of item.data.URLs || []) {
+            if (
+              i.link.toLowerCase().includes(search) ||
+              i.name.toLowerCase().includes(search)
+            ) {
               flag = true;
-              break
+              break;
             }
           }
-          return flag
-        }
-        else if (item.type == "Todo") {
+          return flag;
+        } else if (item.type == "Todo") {
           let flag = false;
-          for (let i of (item.data.tasks || [])) {
-            if ((i.task).toLowerCase().includes(search)) {
+          for (let i of item.data.tasks || []) {
+            if (i.task.toLowerCase().includes(search)) {
               flag = true;
-              break
+              break;
             }
           }
-          return flag
-        }
-        else if (item.type == "World Clock") {
-          let timeZone = (item.data.timeZone || "").toLowerCase() || "asia/kolkata";
+          return flag;
+        } else if (item.type == "World Clock") {
+          let timeZone =
+            (item.data.timeZone || "").toLowerCase() || "asia/kolkata";
           return timeZone.includes(search);
+        } else if (item.type == "Embed") {
+          return item.data.url.toLowerCase().includes(search);
         }
-
-        else if (item.type == "Embed") {
-          return (item.data.url).toLowerCase().includes(search)
-        }
-      })
+      });
       // Create a new page object with the same structure but empty items arrays
       return {
         ...page,
-        items: filteredItems
+        items: filteredItems,
         // items: page.items.filter((item) => {
         //   return (
         //     (notTabFiltering ? true : filterObject[item.type] === 1) &&
@@ -364,7 +361,6 @@ function Page() {
     return filteredData;
   }
 
-
   useEffect(() => {
     let tempFilteredObj = filterData([...pageData], filters, search);
     setFilteredPageData(tempFilteredObj);
@@ -372,11 +368,9 @@ function Page() {
 
   useEffect(() => {
     return () => {
-      setPageData([])
-    }
-  }, [pageID])
-
-
+      setPageData([]);
+    };
+  }, [pageID]);
 
   return (
     <>
@@ -404,7 +398,7 @@ function Page() {
             display={"flex"}
             flexDirection={"column"}
             sx={{ p: "0px 10px 10px 10px", overflowX: "auto" }}
-          // sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
+            // sx={{ overflowX: "auto", scrollbarWidth: "thin" }}
           >
             <DragDropContext onDragEnd={onDragEnd}>
               <Box
@@ -414,535 +408,648 @@ function Page() {
                 pr={"20px"}
                 gap={"30px"}
                 minHeight={"100vh"}
-
               >
-                {(isLoading ? loadingState : filteredPageData).map((box, boxIndex) => (
-                  <Droppable
-                    className="columns"
-                    droppableId={`${boxIndex}`}
-                    key={boxIndex + pageID}
-                  >
-                    {(provided) => (
-                      <Box
-                        className="columns"
-                        flexShrink={0}
-                        id={`${boxIndex}`}
-                        position={"relative"}
-                        // maxWidth={
-                        //   pageData.length == 5
-                        //     ? "19%"
-                        //     : pageData.length == 3
-                        //       ? "33.33%"
-                        //       : "50%"
-                        // }
-                        // paddingBottom={"100px"}
-                        width={
-                          isLoading ? "calc( 20% - 20px )" : box?.width
-                            ? box.width
-                            : pageData.length == 5
+                {(isLoading ? loadingState : filteredPageData).map(
+                  (box, boxIndex) => (
+                    <Droppable
+                      className="columns"
+                      droppableId={`${boxIndex}`}
+                      key={boxIndex + pageID}
+                    >
+                      {(provided) => (
+                        <Box
+                          className="columns"
+                          flexShrink={0}
+                          id={`${boxIndex}`}
+                          position={"relative"}
+                          // maxWidth={
+                          //   pageData.length == 5
+                          //     ? "19%"
+                          //     : pageData.length == 3
+                          //       ? "33.33%"
+                          //       : "50%"
+                          // }
+                          // paddingBottom={"100px"}
+                          width={
+                            isLoading
+                              ? "calc( 20% - 20px )"
+                              : box?.width
+                              ? box.width
+                              : pageData.length == 5
                               ? "19%"
                               : pageData.length == 3
-                                ? "33.33%"
-                                : "50%"
-                        }
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        // bgcolor={"#0000001f"}
-                        minHeight={"50vh"}
-                        display={"flex"}
-                        flexDirection={"column"}
-                        gap={"20px"}
-                      >
-                        {box.items.map((item, itemIndex) => {
-                          return (
-                            <Draggable
-                              key={isLoading ? itemIndex : ((item?.id + pageID) || itemIndex)}
-                              draggableId={
-                                item?.id || `${boxIndex}-${itemIndex}`
-                              }
-                              index={itemIndex}
-                            >
-                              {(provided) => (
-                                <Box
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  // {...provided.dragHandleProps}
-                                  // bgcolor={"white"}
-                                  // minHeight={"100px"}
-                                  display={"flex"}
-                                  alignItems={"center"}
-                                  justifyContent={"center"}
-                                  sx={{ margin: "10px 0", cursor: "move" }}
-                                >
-
-                                  {(() => {
-                                    if (item.type == "Loading") {
-                                      return <Skeleton variant="rectangular" width={"100%"} height="250px" />
-                                    }
-                                    if (item.type == "Calculator") {
-                                      return (
-                                        <Calculator
-                                          pageMetaData={pageMetaData}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
+                              ? "33.33%"
+                              : "50%"
+                          }
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          // bgcolor={"#0000001f"}
+                          minHeight={"50vh"}
+                          display={"flex"}
+                          flexDirection={"column"}
+                          gap={"20px"}
+                        >
+                          {box.items.map((item, itemIndex) => {
+                            return (
+                              <Draggable
+                                key={
+                                  isLoading
+                                    ? itemIndex
+                                    : item?.id + pageID || itemIndex
+                                }
+                                draggableId={
+                                  item?.id || `${boxIndex}-${itemIndex}`
+                                }
+                                index={itemIndex}
+                              >
+                                {(provided) => (
+                                  <Box
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    // {...provided.dragHandleProps}
+                                    // bgcolor={"white"}
+                                    // minHeight={"100px"}
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent={"center"}
+                                    sx={{ margin: "10px 0", cursor: "move" }}
+                                  >
+                                    {(() => {
+                                      if (item.type == "Loading") {
+                                        return (
+                                          <Skeleton
+                                            variant="rectangular"
+                                            width={"100%"}
+                                            height="250px"
+                                          />
+                                        );
+                                      }
+                                      if (item.type == "Calculator") {
+                                        return (
+                                          <Calculator
+                                            pageMetaData={pageMetaData}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
                                               );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
+                                              setPageData(newData);
+                                            }}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
                                                 }
-                                              }
-                                              return temp;
-                                            });
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          data={item.data}
-                                          provided={provided}
-                                          item={item}
-                                        />
-                                      );
-                                    } else if (item.type == "Note") {
-                                      return (
-                                        <TextEditorWithSave
-                                          pageMetaData={pageMetaData}
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
-                                                }
-                                              }
-                                              return temp;
-                                            });
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
-                                              );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          provided={provided}
-                                          item={item}
-                                          data={item.data}
-                                        />
-                                      );
-                                    } else if (item.type == "Clock") {
-                                      return (
-                                        <Clock
-                                          pageMetaData={pageMetaData}
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
-                                                }
-                                              }
-                                              return temp;
-                                            });
-
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
-                                              );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          data={item.data}
-                                          provided={provided}
-                                          item={item}
-                                        />
-                                      );
-                                    } else if (item.type == "Todo") {
-                                      return (
-                                        <Todo
-                                          pageMetaData={pageMetaData}
-
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
-                                                }
-                                              }
-                                              return temp;
-                                            });
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
-                                              );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          provided={provided}
-                                          item={item}
-                                          data={item.data}
-                                        />
-                                      );
-                                    } else if (item.type == "Bookmark") {
-                                      return (
-                                        <Bookmark
-                                          pageMetaData={pageMetaData}
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
-                                                }
-                                              }
-                                              return temp;
-                                            });
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
-                                              );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          provided={provided}
-                                          item={item}
-                                          data={item.data}
-                                        />
-                                      );
-                                    } else if (item.type == "Embed") {
-                                      return (
-                                        <Embed
-                                          pageMetaData={pageMetaData}
-                                          setPageData={setPageData}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
-                                              );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          provided={provided}
-                                          item={item}
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
-                                                }
-                                              }
-                                              return temp;
-                                            });
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          url={item.data.url}
-                                          data={item.data}
-                                        />
-                                      );
-                                    } else if (item.type == "Google Calendar") {
-                                      return (
-                                        <GoogleCalendar
-                                          pageMetaData={pageMetaData}
-                                          setPageData={setPageData}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
-                                              );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          provided={provided}
-                                          item={item}
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
-                                                }
-                                              }
-                                              return temp;
-                                            });
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          url={item.data.url}
-                                          data={item.data}
-                                        />
-                                      );
-                                    } else if (item.type == "Currency Converter") {
-                                      return (
-                                        <CurrencyConverter
-                                          pageMetaData={pageMetaData}
-                                          onChange={(newData) => {
-                                            setPageData((p) => {
-                                              let temp = [...p];
-                                              for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                                if (temp[boxIndex].items[i].id == item.id) {
-                                                  temp[boxIndex].items[i].data = newData;
-                                                  return temp;
-                                                }
-                                              }
-                                              return temp;
-                                            });
-                                            // setPageData((p) => {
-                                            //   let temp = [...p];
-                                            //   temp[boxIndex].items[
-                                            //     itemIndex
-                                            //   ].data = newData;
-                                            //   return temp;
-                                            // });
-                                          }}
-                                          data={item.data}
-                                          handleDelete={() => {
-                                            if (
-                                              pageMetaData.role != "OWNER" &&
-                                              pageMetaData.role != "EDITOR"
-                                            )
-                                              return alert(
-                                                "You don't have rights to edit or delete"
-                                              );
-                                            let newData = deleteObject(
-                                              [...pageData],
-                                              boxIndex,
-                                              itemIndex
-                                            );
-                                            setPageData(newData);
-                                          }}
-                                          provided={provided}
-                                          item={item}
-                                        />
-                                      );
-                                    }
-                                    else if (item.type == "World Clock") {
-                                      return <WorldClock
-                                        pageMetaData={pageMetaData}
-                                        onChange={(newData) => {
-                                          setPageData((p) => {
-                                            let temp = [...p];
-                                            for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                              if (temp[boxIndex].items[i].id == item.id) {
-                                                temp[boxIndex].items[i].data = newData;
                                                 return temp;
-                                              }
-                                            }
-                                            return temp;
-                                          });
-                                          // setPageData((p) => {
-                                          //   let temp = [...p];
-                                          //   temp[boxIndex].items[
-                                          //     itemIndex
-                                          //   ].data = newData;
-                                          //   return temp;
-                                          // });
-                                        }}
-                                        data={item.data}
-                                        handleDelete={() => {
-                                          if (
-                                            pageMetaData.role != "OWNER" &&
-                                            pageMetaData.role != "EDITOR"
-                                          )
-                                            return alert(
-                                              "You don't have rights to edit or delete"
-                                            );
-                                          let newData = deleteObject(
-                                            [...pageData],
-                                            boxIndex,
-                                            itemIndex
-                                          );
-                                          setPageData(newData);
-                                        }}
-                                        provided={provided}
-                                        item={item}
-
-                                      />
-                                    }
-                                    else if (item.type == "News Feed") {
-                                      return <NewsFeed
-                                        pageMetaData={pageMetaData}
-                                        onChange={(newData) => {
-                                          setPageData((p) => {
-                                            let temp = [...p];
-                                            for (let i = 0; i < temp[boxIndex]?.items.length; i++) {
-                                              if (temp[boxIndex].items[i].id == item.id) {
-                                                temp[boxIndex].items[i].data = newData;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            data={item.data}
+                                            provided={provided}
+                                            item={item}
+                                          />
+                                        );
+                                      } else if (item.type == "Note") {
+                                        return (
+                                          <TextEditorWithSave
+                                            pageMetaData={pageMetaData}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
                                                 return temp;
-                                              }
-                                            }
-                                            return temp;
-                                          });
-                                          // setPageData((p) => {
-                                          //   let temp = [...p];
-                                          //   temp[boxIndex].items[
-                                          //     itemIndex
-                                          //   ].data = newData;
-                                          //   return temp;
-                                          // });
-                                        }}
-                                        data={item.data}
-                                        handleDelete={() => {
-                                          if (
-                                            pageMetaData.role != "OWNER" &&
-                                            pageMetaData.role != "EDITOR"
-                                          )
-                                            return alert(
-                                              "You don't have rights to edit or delete"
-                                            );
-                                          let newData = deleteObject(
-                                            [...pageData],
-                                            boxIndex,
-                                            itemIndex
-                                          );
-                                          setPageData(newData);
-                                        }}
-                                        provided={provided}
-                                        item={item}
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                            data={item.data}
+                                          />
+                                        );
+                                      } else if (item.type == "Clock") {
+                                        return (
+                                          <Clock
+                                            pageMetaData={pageMetaData}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
 
-                                      />
-                                    }
-                                  })()}
-                                  {/* </ElementWrapper> */}
-                                </Box>
-
-                              )}
-
-                            </Draggable>
-                          );
-                        })}
-                        {provided.placeholder}
-                        <HorizontalResizableDiv
-                          columnId={boxIndex}
-                          onResize={(width) => {
-                            setPageData((p) => {
-                              let temp = [...p];
-                              temp[boxIndex].width = width;
-                              return temp;
-                            });
-                          }}
-                        />
-                        {/* <Box height={"100%"} border={"2px solid gray"} position={"absolute"} right={"-10px"} sx={{cursor:"col-resize"}} >
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            data={item.data}
+                                            provided={provided}
+                                            item={item}
+                                          />
+                                        );
+                                      } else if (item.type == "Todo") {
+                                        return (
+                                          <Todo
+                                            pageMetaData={pageMetaData}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                            data={item.data}
+                                          />
+                                        );
+                                      } else if (item.type == "Bookmark") {
+                                        return (
+                                          <Bookmark
+                                            pageMetaData={pageMetaData}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                            data={item.data}
+                                          />
+                                        );
+                                      } else if (item.type == "Embed") {
+                                        return (
+                                          <Embed
+                                            pageMetaData={pageMetaData}
+                                            setPageData={setPageData}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            url={item.data.url}
+                                            data={item.data}
+                                          />
+                                        );
+                                      } else if (
+                                        item.type == "Google Calendar"
+                                      ) {
+                                        return (
+                                          <GoogleCalendar
+                                            pageMetaData={pageMetaData}
+                                            setPageData={setPageData}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            url={item.data.url}
+                                            data={item.data}
+                                          />
+                                        );
+                                      } else if (
+                                        item.type == "Currency Converter"
+                                      ) {
+                                        return (
+                                          <CurrencyConverter
+                                            pageMetaData={pageMetaData}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            data={item.data}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                          />
+                                        );
+                                      } else if (item.type == "World Clock") {
+                                        return (
+                                          <WorldClock
+                                            pageMetaData={pageMetaData}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            data={item.data}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                          />
+                                        );
+                                      } else if (item.type == "News Feed") {
+                                        return (
+                                          <NewsFeed
+                                            pageMetaData={pageMetaData}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            data={item.data}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            provided={provided}
+                                            item={item}
+                                          />
+                                        );
+                                      }
+                                    })()}
+                                    {/* </ElementWrapper> */}
+                                  </Box>
+                                )}
+                              </Draggable>
+                            );
+                          })}
+                          {provided.placeholder}
+                          <HorizontalResizableDiv
+                            columnId={boxIndex}
+                            onResize={(width) => {
+                              setPageData((p) => {
+                                let temp = [...p];
+                                temp[boxIndex].width = width;
+                                return temp;
+                              });
+                            }}
+                          />
+                          {/* <Box height={"100%"} border={"2px solid gray"} position={"absolute"} right={"-10px"} sx={{cursor:"col-resize"}} >
 
                         </Box> */}
-                      </Box>
-                    )}
-                  </Droppable>
-                ))}
+                        </Box>
+                      )}
+                    </Droppable>
+                  )
+                )}
               </Box>
             </DragDropContext>
           </Box>
@@ -1021,14 +1128,16 @@ function Page() {
                   `getPageData/${pageID}?password=${pass}`
                 );
                 if (tempPage.error && tempPage.error != "ENTER_PASSWORD") {
-                  return toast.error(tempPage.error || "Internal Server Error!")
+                  return toast.error(
+                    tempPage.error || "Internal Server Error!"
+                  );
                   // return alert(tempPage.error);
                 }
                 setPageMetaData(tempPage);
                 setFilteredPageData(tempPage.data);
                 setPageData(tempPage.data);
-                setIsLoading(false)
-                setPass("")
+                setIsLoading(false);
+                setPass("");
                 return setPasswordModal(false);
               }}
             >
@@ -1084,8 +1193,9 @@ export function ElementWrapper({
 
   useEffect(() => {
     if (collapsed && contentRef.current) {
-      contentRef.current.style.minHeight = `${contentRef.current.scrollHeight || 400
-        }px`;
+      contentRef.current.style.minHeight = `${
+        contentRef.current.scrollHeight || 400
+      }px`;
     } else {
       contentRef.current.style.minHeight = `${0}px`;
     }
