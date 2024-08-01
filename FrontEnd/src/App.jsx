@@ -105,6 +105,33 @@ function App() {
     if (location.pathname != "/") return;
     loadGoogleTranslateScript();
   }, [location.pathname]);
+  useEffect(() => {
+    let intervalID = setInterval(() => {
+      const doc = document.getElementById(":1.container");
+
+      if (doc) {
+        // doc.onload = () => {
+        try {
+          const iframeDocument = doc.contentDocument || doc.contentWindow.document;
+          const restoreButton = iframeDocument.getElementById(":1.restore");
+          restoreButton.classList.add("restoreBtn")
+          // restoreButton.textContent = "Reset"
+          const googleTranslateElement = document.getElementById("google_translate_element");
+          const select = document.querySelector(".goog-te-combo");
+          if (select) {
+            googleTranslateElement.appendChild(restoreButton);
+            clearInterval(intervalID)
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    }, 1000)
+    return () =>{ 
+      clearInterval(intervalID)
+    }
+    // }
+  }, []); // Empty dependency array to run useEffect only once on mount
 
   return (
     <Box>

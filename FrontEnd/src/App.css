@@ -79,6 +79,7 @@ li {
 .disableScroll {
   overflow: hidden !important;
 }
+
 /* 
 .card:hover {
   transform: rotateY(10deg) rotateX(10deg) scale(1.05);
@@ -88,12 +89,15 @@ li {
 #hightlight {
   background-color: #cbe4ff !important;
 }
+
 #hightlight .cells {
   background-color: #cbe4ff !important;
 }
+
 .card {
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
+
 .card:before {
   content: "";
   position: absolute;
@@ -169,6 +173,7 @@ li {
 .goog-te-gadget span {
   display: none !important;
 }
+
 .goog-te-gadget .goog-te-combo {
   margin-top: 0 !important;
 }
@@ -179,4 +184,11 @@ li {
     font-size: 12px !important;
     border-radius: 5px !important;
   }
+}
+
+
+#google_translate_element {
+  display: flex;
+  /* align-items: center; */
+  gap: 10px;
 }
