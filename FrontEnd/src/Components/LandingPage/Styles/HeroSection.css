@@ -171,3 +171,10 @@
     display: flex !important;
   }
 }
+
+@media screen and (max-width: 468px) {
+  .hero-company-logo {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}

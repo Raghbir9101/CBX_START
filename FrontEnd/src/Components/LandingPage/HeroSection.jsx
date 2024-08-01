@@ -49,6 +49,7 @@ const HeroSection = () => {
                 src="https://ceoitbox.com/wp-content/uploads/2022/04/logo.png.webp"
                 alt="Logo"
                 loading="lazy"
+                className="hero-company-logo"
               />
             </Box>
 
