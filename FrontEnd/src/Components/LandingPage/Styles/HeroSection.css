@@ -6,7 +6,7 @@
   background-repeat: no-repeat;
   /* height: 650px; */
   margin-bottom: 20px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .contantBox {
@@ -37,10 +37,12 @@
 }
 
 .hero-container {
-  /* border: 1px solid red !important; */
   display: flex;
-  justify-content: space-between;
   margin-top: 80px;
+  /* justify-content: center;
+  gap: 100px; */
+  /* align-items: center; */
+  justify-content: space-between;
 }
 
 /* .hero-leftBox {
