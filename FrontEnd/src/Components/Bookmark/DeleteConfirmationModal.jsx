@@ -11,6 +11,7 @@ const deleteModalStyle = {
   boxShadow: 24,
   p: 4,
   borderRadius: "18px",
+  outline: "none",
 };
 
 const DeleteConfirmationModal = ({ open, handleDelete, handleClose }) => {

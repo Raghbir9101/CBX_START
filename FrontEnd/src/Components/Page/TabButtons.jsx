@@ -323,7 +323,7 @@ const TabButtons = ({
                 },
               }}
             >
-              <AddIcon sx={{ width: "10px", height: "10px" }} />
+              <AddIcon sx={{ width: "16px", height: "16px" }} />
             </IconButton>
           </span>
         </Box>

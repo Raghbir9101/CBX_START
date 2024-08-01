@@ -15,6 +15,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { ElementWrapper } from "../Page/Page";
 import Save from "@mui/icons-material/Save";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import toast from "react-hot-toast";
 
 function isValidURL(url) {
   const regex = new RegExp(
@@ -42,7 +43,8 @@ function Bookmark({
 
   const handleAddLink = () => {
     let tempNewLink = formatURL(newLink);
-    if (!isValidURL(tempNewLink)) return alert("Please enter a valid url!");
+    if (!isValidURL(tempNewLink))
+      return toast.error("Please enter a valid url!");
     setLinks((p) => [
       ...p,
       {
@@ -108,7 +110,12 @@ function Bookmark({
               />
             </svg>
           ) : (
-            <Save sx={{ fontSize: "18px", color:(item.data.name != title) ?  "red" : "none" }} />
+            <Save
+              sx={{
+                fontSize: "18px",
+                color: item.data.name != title ? "red" : "none",
+              }}
+            />
           )}
         </IconButton>
         {/* <IconButton size="small">
@@ -201,9 +208,9 @@ function Bookmark({
             sx={{ width: "100%", mt: 2 }}
             value={newLink}
             onChange={(e) => setNewLink(e.target.value)}
-            onKeyUp={(e)=>{
-              if(e.key == "Enter") {
-                handleAddLink()
+            onKeyUp={(e) => {
+              if (e.key == "Enter") {
+                handleAddLink();
               }
             }}
             InputProps={{
@@ -223,7 +230,12 @@ function Bookmark({
 }
 
 function LinkComponent({ item, setLinks, editable }) {
-  const [siteData, setSiteData] = useState({ ...item, favicon: item.favicon ? item.favicon : `https://www.google.com/s2/favicons?sz=64&domain_url=${item.link}` });
+  const [siteData, setSiteData] = useState({
+    ...item,
+    favicon: item.favicon
+      ? item.favicon
+      : `https://www.google.com/s2/favicons?sz=64&domain_url=${item.link}`,
+  });
   const [readOnly, setReadOnly] = useState(true);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);

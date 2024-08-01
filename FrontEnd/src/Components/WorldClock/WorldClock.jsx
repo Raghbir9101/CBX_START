@@ -34,61 +34,60 @@ const WorldClock = ({
     };
   }, [selectedTimezone]);
 
-    const handleTimezoneChange = (event, value) => {
-        if (value) {
-            onChange({
-                timeZone: value, collapsed, title
-            })
-            setSelectedTimezone(value);
-            const time = moment().tz(value).format('YYYY-MM-DD HH:mm:ss');
-            setCurrentTime(new Date(time));
-        }
-    };
+  const handleTimezoneChange = (event, value) => {
+    if (value) {
+      onChange({
+        timeZone: value,
+        collapsed,
+        title,
+      });
+      setSelectedTimezone(value);
+      const time = moment().tz(value).format("YYYY-MM-DD HH:mm:ss");
+      setCurrentTime(new Date(time));
+    }
+  };
 
-
-    
   useEffect(() => {
     onChange({ collapsed });
   }, [collapsed]);
 
-  
-    return (
-        <ElementWrapper
-            editable={pageMetaData.role === 'OWNER' || pageMetaData.role === 'EDITOR'}
-            collapsed={data?.collapsed}
-            setCollapsed={setCollapsed}
-            handleTitleChange={(val) => setTitle(val)}
-            editing={editing}
-            handleDelete={handleDelete}
-            provided={provided}
-            item={item}
-        >
-            <div style={{ padding: '10px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <h4>Select Timezone</h4>
-                <Autocomplete
-                
-                    value={selectedTimezone}
-                    onChange={handleTimezoneChange}
-                    options={timezones}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            // label="Select a timezone..."
-                            variant="outlined"
-                            size="small"
-                        />
-                    )}
-                />
-                <div>
-                    {currentTime && (
-                        <h1 >
-                            {currentTime.toLocaleTimeString()}
-                        </h1>
-                    )}
-                </div>
-            </div>
-        </ElementWrapper>
-    );
+  return (
+    <ElementWrapper
+      editable={pageMetaData.role === "OWNER" || pageMetaData.role === "EDITOR"}
+      collapsed={data?.collapsed}
+      setCollapsed={setCollapsed}
+      handleTitleChange={(val) => setTitle(val)}
+      editing={editing}
+      handleDelete={handleDelete}
+      provided={provided}
+      item={item}
+    >
+      <div
+        style={{
+          padding: "10px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+        }}
+      >
+        <h4>Select Timezone</h4>
+        <Autocomplete
+          value={selectedTimezone}
+          onChange={handleTimezoneChange}
+          options={timezones}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              // label="Select a timezone..."
+              variant="outlined"
+              size="small"
+            />
+          )}
+        />
+        <div>{currentTime && <h1>{currentTime.toLocaleTimeString()}</h1>}</div>
+      </div>
+    </ElementWrapper>
+  );
 };
 
 export default WorldClock;

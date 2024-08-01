@@ -189,6 +189,7 @@
     width: 100% !important;
   }
 }
+
 .hoverShow {
   display: none !important;
   margin-left: 20px !important;
@@ -204,6 +205,6 @@
 }
 
 .hoverShowparent:hover .hoverShow {
-  display: initial !important;
+  display: inline-flex !important;
   height: fit-content !important;
 }

@@ -129,7 +129,12 @@ li {
   display: none !important;
 }
 
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc {
+  display: none !important;
+}
+
 #google_translate_element select {
+  overflow: hidden !important;
   padding: 11px 0px 11px 10px;
   border-radius: 10px !important;
   color: #fff !important;

@@ -15,6 +15,7 @@ const modalStyle = {
   boxShadow: 24,
   p: 4,
   borderRadius: "18px",
+  outline: "none",
 };
 
 const DeleteModal = ({
@@ -33,7 +34,8 @@ const DeleteModal = ({
         open={open}
         onClose={handleClose}
         aria-labelledby="create-page-modal-title"
-        aria-describedby="create-page-modal-description"  sx={{ overflowY: "auto" }}
+        aria-describedby="create-page-modal-description"
+        sx={{ overflowY: "auto" }}
       >
         <Box sx={modalStyle}>
           <Box sx={{ textAlign: "center" }}>
