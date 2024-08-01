@@ -1,12 +1,12 @@
 .heroMainContainer {
   width: 100% !important;
-  background-image: url("../../../Icons/heroBg.svg");
+  background-image: url("../../../Icons/heroBg1.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   /* height: 650px; */
   margin-bottom: 20px;
-  /* min-height: 100vh; */
+  min-height: 100vh;
 }
 
 .contantBox {
@@ -39,10 +39,12 @@
 .hero-container {
   display: flex;
   margin-top: 80px;
-  /* justify-content: center;
-  gap: 100px; */
-  /* align-items: center; */
   justify-content: space-between;
+  /* justify-content: center; */
+  gap: 150px;
+  /* align-items: center; */
+  /* justify-content: space-around;
+  gap: 80px; */
 }
 
 /* .hero-leftBox {
@@ -64,7 +66,7 @@
 
 .hero-sub-heading {
   color: #212121 !important;
-  font-weight: 400 !important;
+  font-weight: 550 !important;
 }
 
 .getStaredBtn {

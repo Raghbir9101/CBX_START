@@ -117,25 +117,25 @@ const HeroSection = () => {
               animate={inView ? { x: 0, opacity: 1 } : { x: -500, opacity: 0 }}
               transition={{ duration: 0.9 }}
             >
-              <Typography className="hero-heading" sx={{ fontSize: "40px" }}>
-                Your Digital Head
+              <Typography className="hero-heading" sx={{ fontSize: "44px" }}>
+                Your Digital Headquarters
               </Typography>
-              <Typography className="hero-heading" sx={{ fontSize: "40px" }}>
+              {/* <Typography className="hero-heading" sx={{ fontSize: "40px" }}>
                 Quarters
-              </Typography>
+              </Typography> */}
               <Typography className="hero-heading1" sx={{ fontSize: "40px" }}>
-                Your Digital Head Quarters
+                Your Digital Headquarters
               </Typography>
 
               <Typography
                 className="hero-sub-heading"
-                sx={{ fontSize: "20px" }}
+                sx={{ fontSize: "24px", mt: 2 }}
               >
                 All Your Work, Organized
               </Typography>
               <Typography
                 className="hero-sub-heading"
-                sx={{ fontSize: "20px" }}
+                sx={{ fontSize: "24px" }}
               >
                 in One Place
               </Typography>
@@ -154,7 +154,7 @@ const HeroSection = () => {
                   className="getStaredBtn"
                   sx={{
                     fontSize: "20px",
-                    mt: 6,
+                    mt: "80px",
                     p: "10px 45px",
                     "&:hover": {
                       boxShadow: 5,
