@@ -61,7 +61,7 @@ const Footer = () => {
                 }}
               >
                 <a
-                  href="https://www.instagram.com/ceoitbox/?hl=en"
+                  href="https://www.instagram.com/sanjeevjain_coach/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

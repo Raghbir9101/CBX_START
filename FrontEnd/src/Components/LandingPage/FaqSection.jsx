@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 import useInView from "./useInView.jsx";
 
 const FaqSection = () => {
-  const [expanded, setExpanded] = useState(faqs[0]?.id);
+  const [expanded, setExpanded] = useState();
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
