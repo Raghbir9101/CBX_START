@@ -22,6 +22,7 @@ import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 import AddPasswordModal from "./AddPasswordModal";
 import AddCollaboratorModal from "./AddCollaboratorModal";
 import toast from "react-hot-toast";
+import SharePageModal from "../Navbar/SharePageModal";
 
 const modalStyle = {
   minWidth: 450,
@@ -129,7 +130,13 @@ const EditPageModal = ({
         open={open}
         onClose={handleClose}
         aria-labelledby="create-page-modal-title"
-        aria-describedby="create-page-modal-description" sx={{ overflowY: "auto", padding: "20px", display: "flex", justifyContent: "center" }}
+        aria-describedby="create-page-modal-description"
+        sx={{
+          overflowY: "auto",
+          padding: "20px",
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
         <Box sx={modalStyle}>
           <Typography className="createPageHeading">Edit Page</Typography>
@@ -206,6 +213,26 @@ const EditPageModal = ({
                 </IconButton>
                 <IconButton onClick={handleOpenCollaboratorModal}>
                   <PersonAddAltOutlinedIcon color="#989696" />
+                </IconButton>
+                <IconButton>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 39 39"
+                    fill="none"
+                  >
+                    <path
+                      d="M17.3068 8.9873H10.522C8.57686 8.9873 7 10.5642 7 12.5093V29.1773C7 31.1225 8.57686 32.6993 10.522 32.6993H27.19C29.1352 32.6993 30.712 31.1225 30.712 29.1773V26.4739"
+                      stroke="#333333"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      d="M24.9934 11.9718H25.5268V7.40539C25.5268 7.25139 25.7105 7.17158 25.8231 7.27669L34.8628 15.7183C34.9372 15.7877 34.9373 15.9056 34.8631 15.9753L25.8234 24.4645C25.711 24.5701 25.5268 24.4904 25.5268 24.3361V19.4579L24.6843 19.3225C20.435 18.6395 16.1721 20.4632 13.7315 24.0082C13.5771 24.2325 13.2256 24.1154 13.2256 23.8431C13.2256 17.3439 18.4942 11.9718 24.9934 11.9718Z"
+                      stroke="#333333"
+                      stroke-width="1.5"
+                    />
+                  </svg>
                 </IconButton>
               </Box>
               <Box>
