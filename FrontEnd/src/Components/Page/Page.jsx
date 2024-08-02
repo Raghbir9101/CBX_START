@@ -38,6 +38,7 @@ import WorldClock from "../WorldClock/WorldClock";
 import NewsFeed from "../RssFeeds/RssFeeds";
 import { Skeleton } from "antd";
 import toast from "react-hot-toast";
+import WeatherApp from "../Weather/Weather";
 
 const modalStyle = {
   position: "absolute",
@@ -475,6 +476,58 @@ function Page() {
                                     sx={{ margin: "10px 0", cursor: "move" }}
                                   >
                                     {(() => {
+                                      // return (
+                                      //   <WeatherApp
+                                      //     pageMetaData={pageMetaData}
+                                      //     handleDelete={() => {
+                                      //       if (
+                                      //         pageMetaData.role != "OWNER" &&
+                                      //         pageMetaData.role != "EDITOR"
+                                      //       )
+                                      //         return alert(
+                                      //           "You don't have rights to edit or delete"
+                                      //         );
+                                      //       let newData = deleteObject(
+                                      //         [...pageData],
+                                      //         boxIndex,
+                                      //         itemIndex
+                                      //       );
+                                      //       setPageData(newData);
+                                      //     }}
+                                      //     onChange={(newData) => {
+                                      //       setPageData((p) => {
+                                      //         let temp = [...p];
+                                      //         for (
+                                      //           let i = 0;
+                                      //           i <
+                                      //           temp[boxIndex]?.items.length;
+                                      //           i++
+                                      //         ) {
+                                      //           if (
+                                      //             temp[boxIndex].items[i]
+                                      //               .id == item.id
+                                      //           ) {
+                                      //             temp[boxIndex].items[
+                                      //               i
+                                      //             ].data = newData;
+                                      //             return temp;
+                                      //           }
+                                      //         }
+                                      //         return temp;
+                                      //       });
+                                      //       // setPageData((p) => {
+                                      //       //   let temp = [...p];
+                                      //       //   temp[boxIndex].items[
+                                      //       //     itemIndex
+                                      //       //   ].data = newData;
+                                      //       //   return temp;
+                                      //       // });
+                                      //     }}
+                                      //     data={item.data}
+                                      //     provided={provided}
+                                      //     item={item}
+                                      //   />
+                                      // );
                                       if (item.type == "Loading") {
                                         return (
                                           <Skeleton
@@ -484,6 +537,60 @@ function Page() {
                                           />
                                         );
                                       }
+                                      if (item.type == "Weather") {
+                                        return (
+                                          <WeatherApp
+                                            pageMetaData={pageMetaData}
+                                            handleDelete={() => {
+                                              if (
+                                                pageMetaData.role != "OWNER" &&
+                                                pageMetaData.role != "EDITOR"
+                                              )
+                                                return alert(
+                                                  "You don't have rights to edit or delete"
+                                                );
+                                              let newData = deleteObject(
+                                                [...pageData],
+                                                boxIndex,
+                                                itemIndex
+                                              );
+                                              setPageData(newData);
+                                            }}
+                                            onChange={(newData) => {
+                                              setPageData((p) => {
+                                                let temp = [...p];
+                                                for (
+                                                  let i = 0;
+                                                  i <
+                                                  temp[boxIndex]?.items.length;
+                                                  i++
+                                                ) {
+                                                  if (
+                                                    temp[boxIndex].items[i]
+                                                      .id == item.id
+                                                  ) {
+                                                    temp[boxIndex].items[
+                                                      i
+                                                    ].data = newData;
+                                                    return temp;
+                                                  }
+                                                }
+                                                return temp;
+                                              });
+                                              // setPageData((p) => {
+                                              //   let temp = [...p];
+                                              //   temp[boxIndex].items[
+                                              //     itemIndex
+                                              //   ].data = newData;
+                                              //   return temp;
+                                              // });
+                                            }}
+                                            data={item.data}
+                                            provided={provided}
+                                            item={item}
+                                          />
+                                        );
+                                      } 
                                       if (item.type == "Calculator") {
                                         return (
                                           <Calculator
@@ -537,7 +644,9 @@ function Page() {
                                             item={item}
                                           />
                                         );
-                                      } else if (item.type == "Note") {
+                                      } 
+                                      
+                                      else if (item.type == "Note") {
                                         return (
                                           <TextEditorWithSave
                                             pageMetaData={pageMetaData}
