@@ -205,7 +205,18 @@ function Bookmark({
             size="small"
             placeholder="Add URL or web address"
             type="url"
-            sx={{ width: "100%", mt: 2 }}
+            sx={{
+              width: "100%",
+              mt: 2,
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#B4D33B",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#4D8733",
+                },
+              },
+            }}
             value={newLink}
             onChange={(e) => setNewLink(e.target.value)}
             onKeyUp={(e) => {
@@ -216,8 +227,12 @@ function Bookmark({
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleAddLink} size="small">
-                    <AddIcon />
+                  <IconButton
+                    onClick={handleAddLink}
+                    size="small"
+                    disabled={!newLink}
+                  >
+                    <AddIcon sx={{ color: newLink ? "#333333" : "#ccc" }} />
                   </IconButton>
                 </InputAdornment>
               ),

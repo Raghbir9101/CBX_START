@@ -251,7 +251,12 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
               />
             </svg>
           ) : (
-            <Save sx={{ fontSize: "18px", color:(item.data.name != title) ?  "red" : "none"  }} />
+            <Save
+              sx={{
+                fontSize: "18px",
+                color: item.data.name != title ? "red" : "none",
+              }}
+            />
           )}
         </IconButton>
       </>
@@ -447,19 +452,34 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
           <TextField
             size="small"
             placeholder="Add new Task"
-            sx={{ width: "100%", mt: "10px" }}
+            sx={{
+              width: "100%",
+              mt: "10px",
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#B4D33B",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#4D8733",
+                },
+              },
+            }}
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
-            onKeyUp={(e)=>{
-              if(e.key == "Enter") {
-                handleAddTask()
+            onKeyUp={(e) => {
+              if (e.key == "Enter") {
+                handleAddTask();
               }
             }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleAddTask} size="small">
-                    <AddIcon />
+                  <IconButton
+                    onClick={handleAddTask}
+                    size="small"
+                    disabled={!newTask}
+                  >
+                    <AddIcon sx={{ color: newTask ? "#333333" : "#ccc" }} />
                   </IconButton>
                 </InputAdornment>
               ),
