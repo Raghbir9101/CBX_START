@@ -29,6 +29,7 @@ import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HTTP from "../../HTTP";
 import toast from "react-hot-toast";
+import LogoutIcon from "@mui/icons-material/Logout";
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 
 const modalStyle = {
@@ -357,15 +358,28 @@ const Navbar = ({
           },
         }}
       >
-        <MenuItem>{loginUser?.userName || ""}</MenuItem>
-        <MenuItem>{loginUser?.email || ""}</MenuItem>
+        <MenuItem sx={{ fontSize: "15px", fontWeight: 500, color: "#808080" }}>
+          {loginUser?.userName || ""}
+        </MenuItem>
+        <MenuItem sx={{ fontSize: "15px", fontWeight: 500, color: "#808080" }}>
+          {loginUser?.email || ""}
+        </MenuItem>
         <MenuItem
           onClick={() => {
             handleLogout();
             toast.success("Logout successfully.");
             nav("/login");
           }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            fontSize: "15px",
+            color: "red",
+            fontWeight: 500,
+          }}
         >
+          <LogoutIcon sx={{ width: "18px", height: "18px", color: "red" }} />
           Logout
         </MenuItem>
       </Menu>
