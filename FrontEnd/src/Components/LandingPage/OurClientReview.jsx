@@ -110,9 +110,9 @@ const OurClientReview = () => {
                         >
                           {url.name}
                         </Typography>
-                        <Typography className="profession" fontSize={"16px"}>
+                        {/* <Typography className="profession" fontSize={"16px"}>
                           {url.profession}
-                        </Typography>
+                        </Typography> */}
                         {/* </div> */}
                       </motion.div>
                     </Box>
