@@ -477,6 +477,7 @@ function Todo({ data, onChange, provided, item, handleDelete, pageMetaData }) {
                   <IconButton
                     onClick={handleAddTask}
                     size="small"
+                    sx={{ p: "4px" }}
                     disabled={!newTask}
                   >
                     <AddIcon sx={{ color: newTask ? "#333333" : "#ccc" }} />

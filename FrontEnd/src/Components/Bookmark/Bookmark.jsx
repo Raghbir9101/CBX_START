@@ -229,6 +229,7 @@ function Bookmark({
                 <InputAdornment position="end">
                   <IconButton
                     onClick={handleAddLink}
+                    sx={{ p: "4px" }}
                     size="small"
                     disabled={!newLink}
                   >
