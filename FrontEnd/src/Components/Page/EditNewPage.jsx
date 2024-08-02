@@ -48,6 +48,7 @@ const EditPageModal = ({
   handleEditPage,
   selectedPage,
   setSelectedPage,
+  setIsShareModalOpen
 }) => {
   const { pageID } = useParams();
   const { loginUser, pages } = useContext(Context);
@@ -214,7 +215,9 @@ const EditPageModal = ({
                 <IconButton onClick={handleOpenCollaboratorModal}>
                   <PersonAddAltOutlinedIcon color="#989696" />
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={()=>{
+                  setIsShareModalOpen(true)
+                }}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

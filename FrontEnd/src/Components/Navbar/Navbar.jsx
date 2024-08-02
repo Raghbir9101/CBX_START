@@ -6,6 +6,7 @@ import {
   Menu,
   Typography,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
@@ -296,7 +297,9 @@ const Navbar = ({
               }}
               onClick={() => setShowTutorial(true)}
             >
-              <OndemandVideoIcon sx={{ color: "white", fontSize: "16px" }} />
+              <Tooltip title="Tutorial">
+                <OndemandVideoIcon sx={{ color: "white", fontSize: "16px" }} />
+              </Tooltip>
             </Box>
 
             <Modal
@@ -396,6 +399,7 @@ const Navbar = ({
       {/* Edit Page Modal */}
       {editModalOpen && (
         <EditPageModal
+          setIsShareModalOpen={setIsShareModalOpen}
           selectedPage={selectedPage}
           setSelectedPage={setSelectedPage}
           open={editModalOpen}
@@ -406,6 +410,7 @@ const Navbar = ({
 
       {/*Show all pages*/}
       <ShowAllPageModal
+
         selectedPage={selectedPage}
         setSelectedPage={setSelectedPage}
         open={isShowModalOpen}
