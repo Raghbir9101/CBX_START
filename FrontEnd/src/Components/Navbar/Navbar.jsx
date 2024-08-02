@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
-  IconButton,
+  Modal,
   Menu,
   Typography,
   MenuItem,
@@ -29,6 +29,18 @@ import SharePageModal from "./SharePageModal";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HTTP from "../../HTTP";
 import toast from "react-hot-toast";
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+
+const modalStyle = {
+  width: "90%",
+  boxShadow: 24,
+  height: "fit-content",
+  height: "95%",
+  p: 1,
+  background: "white",
+  borderRadius: "18px",
+  outline: "none",
+};
 
 const Navbar = ({
   setPageData,
@@ -50,6 +62,7 @@ const Navbar = ({
   const [searchVisible, setSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
   const [selectedPage, setSelectedPage] = useState(null);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -273,7 +286,40 @@ const Navbar = ({
                 alt="share"
               />
             </Box>
+            <Box
+              sx={{
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+              onClick={() => setShowTutorial(true)}
+            >
+              <OndemandVideoIcon sx={{ color: "white", fontSize: "16px" }} />
+            </Box>
 
+            <Modal
+              open={showTutorial}
+              onClose={() => {
+                setShowTutorial(false)
+              }}
+              aria-labelledby="create-page-modal-title"
+              aria-describedby="create-page-modal-description"
+              sx={{
+                overflowY: "auto",
+                padding: "20px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Box sx={modalStyle}>
+                <iframe
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  src="https://drive.google.com/file/d/1VJCV3q99vMLyE_cU6HudkCsAJIqTgAIm/preview" style={{ width: "100%", height: "100%", maxHeight: "90vh", maxWidth: "90vw" }} ></iframe>
+              </Box>
+            </Modal>
             <Box
               sx={{
                 display: "flex",
