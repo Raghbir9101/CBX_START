@@ -10,7 +10,7 @@ import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOu
 import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
 import CloudOutlinedIcon from "@mui/icons-material/CloudOutlined";
 import { v4 } from "uuid";
-
+import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 function addObjectToShortestArray(data, newObject) {
   // Initialize variables to keep track of the shortest array
   let shortestArray = data[0].items;
@@ -147,6 +147,19 @@ const items = [
       },
     },
   },
+  // {
+  //   icon: <ThunderstormIcon sx={{ color: "#4D8733" }} />,
+  //   label: "Weather",
+  //   name: "Weather",
+  //   defaultObj: {
+  //     type: "Weather",
+  //     data: {
+  //       name: "Weather",
+  //       city: "",
+  //       collapsed: true,
+  //     },
+  //   },
+  // },
   // {
   //   icon: <QueryBuilderOutlinedIcon sx={{ color: "#4D8733" }} />,
   //   label: "News Feed",
