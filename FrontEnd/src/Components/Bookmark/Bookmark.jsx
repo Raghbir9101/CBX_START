@@ -16,6 +16,7 @@ import { ElementWrapper } from "../Page/Page";
 import Save from "@mui/icons-material/Save";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import toast from "react-hot-toast";
+import UpdateLinkModal from "./UpdateLinkModal";
 
 function isValidURL(url) {
   const regex = new RegExp(
@@ -154,94 +155,96 @@ function Bookmark({
   }
 
   return (
-    <ElementWrapper
-      editable={pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR"}
-      collapsed={data?.collapsed}
-      setCollapsed={setCollapsed}
-      handleTitleChange={(val) => setTitle(val)}
-      ActionButtons={ActionButtons}
-      editing={editing}
-      handleDelete={handleDelete}
-      provided={provided}
-      item={item}
-    >
-      <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="links">
-            {(provided) => (
-              <Box {...provided.droppableProps} ref={provided.innerRef}>
-                {links.map((item, index) => (
-                  <Draggable
-                    key={item._id}
-                    draggableId={item._id}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <Box
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <LinkComponent
-                          editable={
-                            pageMetaData.role == "OWNER" ||
-                            pageMetaData.role == "EDITOR"
-                          }
-                          item={item}
-                          setLinks={setLinks}
-                        />
-                      </Box>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </Box>
-            )}
-          </Droppable>
-        </DragDropContext>
+    <>
+      <ElementWrapper
+        editable={pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR"}
+        collapsed={data?.collapsed}
+        setCollapsed={setCollapsed}
+        handleTitleChange={(val) => setTitle(val)}
+        ActionButtons={ActionButtons}
+        editing={editing}
+        handleDelete={handleDelete}
+        provided={provided}
+        item={item}
+      >
+        <Box minHeight={"10px"} p={"10px"} sx={{ cursor: "default" }}>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="links">
+              {(provided) => (
+                <Box {...provided.droppableProps} ref={provided.innerRef}>
+                  {links.map((item, index) => (
+                    <Draggable
+                      key={item._id}
+                      draggableId={item._id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Box
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <LinkComponent
+                            editable={
+                              pageMetaData.role == "OWNER" ||
+                              pageMetaData.role == "EDITOR"
+                            }
+                            item={item}
+                            setLinks={setLinks}
+                          />
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </Box>
+              )}
+            </Droppable>
+          </DragDropContext>
 
-        {(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR") && (
-          <TextField
-            size="small"
-            placeholder="Add URL or web address"
-            type="url"
-            sx={{
-              width: "100%",
-              mt: 2,
-              "& .MuiOutlinedInput-root": {
-                "&:hover fieldset": {
-                  borderColor: "#B4D33B",
+          {(pageMetaData.role == "OWNER" || pageMetaData.role == "EDITOR") && (
+            <TextField
+              size="small"
+              placeholder="Add URL or web address"
+              type="url"
+              sx={{
+                width: "100%",
+                mt: 2,
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#B4D33B",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#4D8733",
+                  },
                 },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#4D8733",
-                },
-              },
-            }}
-            value={newLink}
-            onChange={(e) => setNewLink(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key == "Enter") {
-                handleAddLink();
-              }
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleAddLink}
-                    sx={{ p: "4px" }}
-                    size="small"
-                    disabled={!newLink}
-                  >
-                    <AddIcon sx={{ color: newLink ? "#333333" : "#ccc" }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        )}
-      </Box>
-    </ElementWrapper>
+              }}
+              value={newLink}
+              onChange={(e) => setNewLink(e.target.value)}
+              onKeyUp={(e) => {
+                if (e.key == "Enter") {
+                  handleAddLink();
+                }
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleAddLink}
+                      sx={{ p: "4px" }}
+                      size="small"
+                      disabled={!newLink}
+                    >
+                      <AddIcon sx={{ color: newLink ? "#333333" : "#ccc" }} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        </Box>
+      </ElementWrapper>
+    </>
   );
 }
 
@@ -255,6 +258,14 @@ function LinkComponent({ item, setLinks, editable }) {
   const [readOnly, setReadOnly] = useState(true);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const [openEditModal, setOpenEditModal] = useState(false);
+
+  const handleOpenEditModal = (item) => {
+    setOpenEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+  };
 
   const handleOpenModal = (e) => {
     e.stopPropagation();
@@ -385,15 +396,16 @@ function LinkComponent({ item, setLinks, editable }) {
                 <IconButton
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (readOnly) {
-                      setReadOnly(false);
-                    } else {
-                      setReadOnly(true);
-                      if (ref.current) {
-                        handleChangeLinkName(ref.current.value);
-                        // onChange(ref.current.textContent);
-                      }
-                    }
+                    handleOpenEditModal();
+                    // if (readOnly) {
+                    //   setReadOnly(false);
+                    // } else {
+                    //   setReadOnly(true);
+
+                    //   if (ref.current) {
+                    //     handleChangeLinkName(ref.current.value);
+                    //   }
+                    // }
                   }}
                   size="small"
                 >
@@ -477,10 +489,19 @@ function LinkComponent({ item, setLinks, editable }) {
           </Box>
         </Box>
       </Link>
+      {/* Delete modal */}
       <DeleteConfirmationModal
         open={open}
         handleClose={handleClose}
         handleDelete={handleDelete}
+      />
+
+      {/* Edit Modal */}
+      <UpdateLinkModal
+        handleCloseEditModal={handleCloseEditModal}
+        openEditModal={openEditModal}
+        item={item}
+        setLinks={setLinks}
       />
     </>
     // </Box>
