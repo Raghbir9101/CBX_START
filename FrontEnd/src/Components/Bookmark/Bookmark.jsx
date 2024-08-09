@@ -17,6 +17,7 @@ import Save from "@mui/icons-material/Save";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import toast from "react-hot-toast";
 import UpdateLinkModal from "./UpdateLinkModal";
+import UpdateLinkPopover from "./UpdateLinkPopover";
 
 function isValidURL(url) {
   const regex = new RegExp(
@@ -248,6 +249,266 @@ function Bookmark({
   );
 }
 
+// function LinkComponent({ item, setLinks, editable }) {
+//   const [siteData, setSiteData] = useState({
+//     ...item,
+//     favicon: item.favicon
+//       ? item.favicon
+//       : `https://www.google.com/s2/favicons?sz=64&domain_url=${item.link}`,
+//   });
+//   const [readOnly, setReadOnly] = useState(true);
+//   const [open, setOpen] = useState(false);
+//   const ref = useRef(null);
+//   const [openEditModal, setOpenEditModal] = useState(false);
+
+//   const handleOpenEditModal = (item) => {
+//     setOpenEditModal(true);
+//   };
+//   const handleCloseEditModal = () => {
+//     setOpenEditModal(false);
+//   };
+
+//   const handleOpenModal = (e) => {
+//     e.stopPropagation();
+//     setOpen(!open);
+//   };
+
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
+
+//   const handleDelete = () => {
+//     // e.stopPropagation();
+
+//     setLinks((p) => {
+//       let temp = [...p];
+//       return temp.filter((i) => {
+//         return item._id != i._id;
+//       });
+//     });
+//   };
+//   const handleChangeLinkName = (newName) => {
+//     setLinks((p) => {
+//       let temp = [...p];
+//       for (let i = 0; i < temp.length; i++) {
+//         if (temp[i]._id == item._id) {
+//           temp[i].name = newName;
+//           return temp;
+//         }
+//       }
+//     });
+//   };
+
+//   useEffect(() => {
+//     if (item.favicon && item.name) return;
+//     HTTP.post("getSiteData", { url: item.link }).then((res) => {
+//       setLinks((p) => {
+//         let temp = [...p];
+//         for (let i = 0; i < temp.length; i++) {
+//           if (item._id == temp[i]._id) {
+//             temp[i] = {
+//               ...item,
+//               ...res.data,
+//             };
+//             return temp;
+//           }
+//         }
+//       });
+//       setSiteData(res.data);
+//     });
+//   }, [item.link]);
+
+//   return (
+//     // <Box sx={{ background: "#4D873305", borderRadius: "16px" }}>
+//     <>
+//       <Link
+//         sx={{ cursor: "pointer" }}
+//         // href={item.link}
+//         onClick={() => {
+//           if (!readOnly) return;
+//           window.open(item.link);
+//         }}
+//         target={"_blank"}
+//         title={`${siteData.name || ""},\n${siteData.description || ""}`}
+//         display={"flex"}
+//         alignItems={"center"}
+//       >
+//         <Box
+//           sx={{
+//             display: "flex",
+//             alignItems: "center",
+//             justifyContent: "space-between",
+//             gap: "10px",
+//             width: "100%",
+//             position: "relative",
+//           }}
+//         >
+//           <Box
+//             sx={{
+//               display: "flex",
+//               alignItems: "center",
+//               gap: "10px",
+//               // width: "80%"
+//               overflow: "hidden",
+//             }}
+//           >
+//             <img
+//               height={"15px"}
+//               width={"15px"}
+//               src={siteData.favicon}
+//               alt="favicon"
+//             />
+//             {readOnly ? (
+//               <Typography sx={{ textWrap: "nowrap", overflow: "hidden" }}>
+//                 {/* {(item.name || siteData.name || item.link || "").length > 15
+//                   ? `${(item.name || siteData.name || "").slice(0, 15)}...`
+//                   : item.name || siteData.name || ""} */}
+//                 {item.name || siteData.name || item.link || ""}
+//               </Typography>
+//             ) : (
+//               // <Typography  spellCheck="false" onClick={(e) => e.stopPropagation()} sx={{ cursor: "text", outline: "none", width:"100%", overflow:"hidden" }} ref={ref} contentEditable={!readOnly}>
+//               //   {item.name || siteData.name || ""}
+//               // </Typography>
+//               <input
+//                 style={{ all: "unset", cursor: "text", width: "100%" }}
+//                 defaultValue={item.name || siteData.name || ""}
+//                 spellCheck="false"
+//                 onClick={(e) => e.stopPropagation()}
+//                 sx={{
+//                   cursor: "text",
+//                   outline: "none",
+//                   width: "100%",
+//                   overflow: "hidden",
+//                 }}
+//                 ref={ref}
+//                 contentEditable={!readOnly}
+//               ></input>
+//             )}
+//           </Box>
+
+//           <Box
+//             display={"flex"}
+//             bgcolor={"white"}
+//             position={"absolute"}
+//             right={0}
+//           >
+//             {editable && (
+//               <>
+//                 <IconButton
+//                   onClick={(e) => {
+//                     e.stopPropagation();
+//                     handleOpenEditModal();
+//                     // if (readOnly) {
+//                     //   setReadOnly(false);
+//                     // } else {
+//                     //   setReadOnly(true);
+
+//                     //   if (ref.current) {
+//                     //     handleChangeLinkName(ref.current.value);
+//                     //   }
+//                     // }
+//                   }}
+//                   size="small"
+//                 >
+//                   {readOnly ? (
+//                     <svg
+//                       width="16"
+//                       height="17"
+//                       viewBox="0 0 19 19"
+//                       fill="none"
+//                       xmlns="http://www.w3.org/2000/svg"
+//                     >
+//                       <path
+//                         d="M16.9568 5.27285C17.3877 4.84215 17.6297 4.25795 17.6298 3.64877C17.6299 3.03959 17.3879 2.45533 16.9573 2.02452C16.5266 1.59371 15.9424 1.35164 15.3332 1.35156C14.724 1.35149 14.1398 1.59341 13.709 2.02411L2.83435 12.9013C2.64516 13.09 2.50525 13.3222 2.42693 13.5776L1.35055 17.1238C1.3295 17.1943 1.3279 17.2691 1.34595 17.3404C1.364 17.4117 1.40101 17.4768 1.45306 17.5288C1.5051 17.5807 1.57025 17.6176 1.64157 17.6356C1.7129 17.6535 1.78775 17.6518 1.85819 17.6306L5.40511 16.555C5.66029 16.4774 5.89251 16.3384 6.08141 16.1501L16.9568 5.27285Z"
+//                         stroke="#79797E"
+//                         stroke-width="1.01852"
+//                         stroke-linecap="round"
+//                         stroke-linejoin="round"
+//                       />
+//                       <path
+//                         d="M11.9243 3.79688L15.1836 7.05621"
+//                         stroke="#79797E"
+//                         stroke-width="1.01852"
+//                         stroke-linecap="round"
+//                         stroke-linejoin="round"
+//                       />
+//                     </svg>
+//                   ) : (
+//                     <Save sx={{ fontSize: "18px" }} />
+//                   )}
+//                 </IconButton>
+//                 <IconButton size="small" onClick={handleOpenModal}>
+//                   {/* <DeleteOutlineOutlinedIcon
+//             sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
+//           /> */}
+//                   <svg
+//                     width="16"
+//                     height="17"
+//                     viewBox="0 0 16 17"
+//                     fill="none"
+//                     xmlns="http://www.w3.org/2000/svg"
+//                   >
+//                     <path
+//                       d="M0.884277 3.70605H14.6343"
+//                       stroke="#616161"
+//                       strokeWidth="0.900086"
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                     />
+//                     <path
+//                       d="M13.1066 3.70605V14.4005C13.1066 15.1644 12.3427 15.9283 11.5788 15.9283H3.93989C3.176 15.9283 2.41211 15.1644 2.41211 14.4005V3.70605"
+//                       stroke="#616161"
+//                       strokeWidth="0.900086"
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                     />
+//                     <path
+//                       d="M4.70361 3.70595V2.17817C4.70361 1.41428 5.4675 0.650391 6.23139 0.650391H9.28695C10.0508 0.650391 10.8147 1.41428 10.8147 2.17817V3.70595"
+//                       stroke="#616161"
+//                       strokeWidth="0.900086"
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                     />
+//                     <path
+//                       d="M6.23145 7.52539V12.1087"
+//                       stroke="#616161"
+//                       strokeWidth="0.900086"
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                     />
+//                     <path
+//                       d="M9.28711 7.52539V12.1087"
+//                       stroke="#616161"
+//                       strokeWidth="0.900086"
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                     />
+//                   </svg>
+//                 </IconButton>
+//               </>
+//             )}
+//           </Box>
+//         </Box>
+//       </Link>
+//       {/* Delete modal */}
+//       <DeleteConfirmationModal
+//         open={open}
+//         handleClose={handleClose}
+//         handleDelete={handleDelete}
+//       />
+
+//       {/* Edit Modal */}
+//       <UpdateLinkModal
+//         handleCloseEditModal={handleCloseEditModal}
+//         openEditModal={openEditModal}
+//         item={item}
+//         setLinks={setLinks}
+//       />
+//     </>
+//     // </Box>
+//   );
+// }
+
 function LinkComponent({ item, setLinks, editable }) {
   const [siteData, setSiteData] = useState({
     ...item,
@@ -257,40 +518,39 @@ function LinkComponent({ item, setLinks, editable }) {
   });
   const [readOnly, setReadOnly] = useState(true);
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const ref = useRef(null);
-  const [openEditModal, setOpenEditModal] = useState(false);
-
-  const handleOpenEditModal = (item) => {
-    setOpenEditModal(true);
-  };
-  const handleCloseEditModal = () => {
-    setOpenEditModal(false);
-  };
-
-  const handleOpenModal = (e) => {
-    e.stopPropagation();
-    setOpen(!open);
-  };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    // e.stopPropagation();
+  const handleOpenPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenDeleteModal = (e) => {
+    e.stopPropagation();
+    setOpen(!open);
+  };
+
+  const handleDelete = () => {
     setLinks((p) => {
       let temp = [...p];
-      return temp.filter((i) => {
-        return item._id != i._id;
-      });
+      return temp.filter((i) => item._id !== i._id);
     });
+    toast.success("Link delete successfully.");
   };
+
   const handleChangeLinkName = (newName) => {
     setLinks((p) => {
       let temp = [...p];
       for (let i = 0; i < temp.length; i++) {
-        if (temp[i]._id == item._id) {
+        if (temp[i]._id === item._id) {
           temp[i].name = newName;
           return temp;
         }
@@ -304,7 +564,7 @@ function LinkComponent({ item, setLinks, editable }) {
       setLinks((p) => {
         let temp = [...p];
         for (let i = 0; i < temp.length; i++) {
-          if (item._id == temp[i]._id) {
+          if (item._id === temp[i]._id) {
             temp[i] = {
               ...item,
               ...res.data,
@@ -317,12 +577,12 @@ function LinkComponent({ item, setLinks, editable }) {
     });
   }, [item.link]);
 
+  const openEditPopover = Boolean(anchorEl);
+
   return (
-    // <Box sx={{ background: "#4D873305", borderRadius: "16px" }}>
     <>
       <Link
         sx={{ cursor: "pointer" }}
-        // href={item.link}
         onClick={() => {
           if (!readOnly) return;
           window.open(item.link);
@@ -347,7 +607,6 @@ function LinkComponent({ item, setLinks, editable }) {
               display: "flex",
               alignItems: "center",
               gap: "10px",
-              // width: "80%"
               overflow: "hidden",
             }}
           >
@@ -359,26 +618,14 @@ function LinkComponent({ item, setLinks, editable }) {
             />
             {readOnly ? (
               <Typography sx={{ textWrap: "nowrap", overflow: "hidden" }}>
-                {/* {(item.name || siteData.name || item.link || "").length > 15
-                  ? `${(item.name || siteData.name || "").slice(0, 15)}...`
-                  : item.name || siteData.name || ""} */}
                 {item.name || siteData.name || item.link || ""}
               </Typography>
             ) : (
-              // <Typography  spellCheck="false" onClick={(e) => e.stopPropagation()} sx={{ cursor: "text", outline: "none", width:"100%", overflow:"hidden" }} ref={ref} contentEditable={!readOnly}>
-              //   {item.name || siteData.name || ""}
-              // </Typography>
               <input
                 style={{ all: "unset", cursor: "text", width: "100%" }}
                 defaultValue={item.name || siteData.name || ""}
                 spellCheck="false"
                 onClick={(e) => e.stopPropagation()}
-                sx={{
-                  cursor: "text",
-                  outline: "none",
-                  width: "100%",
-                  overflow: "hidden",
-                }}
                 ref={ref}
                 contentEditable={!readOnly}
               ></input>
@@ -396,50 +643,34 @@ function LinkComponent({ item, setLinks, editable }) {
                 <IconButton
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleOpenEditModal();
-                    // if (readOnly) {
-                    //   setReadOnly(false);
-                    // } else {
-                    //   setReadOnly(true);
-
-                    //   if (ref.current) {
-                    //     handleChangeLinkName(ref.current.value);
-                    //   }
-                    // }
+                    handleOpenPopover(e); // Open the popover near the link
                   }}
                   size="small"
                 >
-                  {readOnly ? (
-                    <svg
-                      width="16"
-                      height="17"
-                      viewBox="0 0 19 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16.9568 5.27285C17.3877 4.84215 17.6297 4.25795 17.6298 3.64877C17.6299 3.03959 17.3879 2.45533 16.9573 2.02452C16.5266 1.59371 15.9424 1.35164 15.3332 1.35156C14.724 1.35149 14.1398 1.59341 13.709 2.02411L2.83435 12.9013C2.64516 13.09 2.50525 13.3222 2.42693 13.5776L1.35055 17.1238C1.3295 17.1943 1.3279 17.2691 1.34595 17.3404C1.364 17.4117 1.40101 17.4768 1.45306 17.5288C1.5051 17.5807 1.57025 17.6176 1.64157 17.6356C1.7129 17.6535 1.78775 17.6518 1.85819 17.6306L5.40511 16.555C5.66029 16.4774 5.89251 16.3384 6.08141 16.1501L16.9568 5.27285Z"
-                        stroke="#79797E"
-                        stroke-width="1.01852"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M11.9243 3.79688L15.1836 7.05621"
-                        stroke="#79797E"
-                        stroke-width="1.01852"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  ) : (
-                    <Save sx={{ fontSize: "18px" }} />
-                  )}
+                  <svg
+                    width="16"
+                    height="17"
+                    viewBox="0 0 19 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.9568 5.27285C17.3877 4.84215 17.6297 4.25795 17.6298 3.64877C17.6299 3.03959 17.3879 2.45533 16.9573 2.02452C16.5266 1.59371 15.9424 1.35164 15.3332 1.35156C14.724 1.35149 14.1398 1.59341 13.709 2.02411L2.83435 12.9013C2.64516 13.09 2.50525 13.3222 2.42693 13.5776L1.35055 17.1238C1.3295 17.1943 1.3279 17.2691 1.34595 17.3404C1.364 17.4117 1.40101 17.4768 1.45306 17.5288C1.5051 17.5807 1.57025 17.6176 1.64157 17.6356C1.7129 17.6535 1.78775 17.6518 1.85819 17.6306L5.40511 16.555C5.66029 16.4774 5.89251 16.3384 6.08141 16.1501L16.9568 5.27285Z"
+                      stroke="#79797E"
+                      strokeWidth="1.01852"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M11.9243 3.79688L15.1836 7.05621"
+                      stroke="#79797E"
+                      strokeWidth="1.01852"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </IconButton>
-                <IconButton size="small" onClick={handleOpenModal}>
-                  {/* <DeleteOutlineOutlinedIcon
-            sx={{ color: "#B5B5B5", width: "20px", height: "20px" }}
-          /> */}
+                <IconButton size="small" onClick={handleOpenDeleteModal}>
                   <svg
                     width="16"
                     height="17"
@@ -489,6 +720,7 @@ function LinkComponent({ item, setLinks, editable }) {
           </Box>
         </Box>
       </Link>
+
       {/* Delete modal */}
       <DeleteConfirmationModal
         open={open}
@@ -496,15 +728,15 @@ function LinkComponent({ item, setLinks, editable }) {
         handleDelete={handleDelete}
       />
 
-      {/* Edit Modal */}
-      <UpdateLinkModal
-        handleCloseEditModal={handleCloseEditModal}
-        openEditModal={openEditModal}
+      {/* Edit Popover */}
+      <UpdateLinkPopover
+        open={openEditPopover}
+        anchorEl={anchorEl}
+        handleClose={handleClosePopover}
         item={item}
         setLinks={setLinks}
       />
     </>
-    // </Box>
   );
 }
 

@@ -222,7 +222,7 @@ li {
 }
 
 .editLinkInput {
-  border: none;
+  border: 1px solid transparent;
   outline: none;
   border-radius: 5px;
   background: #f7f6f6;
@@ -230,6 +230,9 @@ li {
   height: 39px;
   margin-top: 5px;
   padding: 0px 10px;
+}
+.editLinkInput:hover {
+  border: 1px solid #ccc;
 }
 
 .editLinkInput::placeholder {
